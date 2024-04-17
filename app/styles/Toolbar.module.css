@@ -1,0 +1,81 @@
+.toolbar {
+  padding: 1rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 1s;
+  @media (max-width: 750px) {
+    flex: 1;
+    flex-direction: column;
+    margin-top: 1rem;
+    transition: all 1s;
+  }
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 4rem;
+  text-align: center;
+  background-color: white;
+
+  background-image: linear-gradient(45deg, #78f3d6, #424daf);
+
+  background-size: 100%;
+  background-repeat: repeat;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+  @media (max-width: 600px) {
+    font-size: 2.5rem;
+    transition: all 1s;
+  }
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+  @media (max-width: 750px) {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.button {
+  text-align: center;
+  border: none;
+  padding: 0.7em 1em;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  @media (max-width: 750px) {
+    padding: 0.8em 1.5em;
+    width: 100%;
+  }
+}
+
+.signIn {
+  background-color: #ba68c8;
+}
+
+.signUp {
+  background-color: #ff4081;
+}
+
+.signIn:hover {
+  background-color: #ab47bc;
+}
+
+.signUp:hover {
+  background-color: #f50057;
+}
+
+.guest {
+  color: #cc8b9e;
+}
+.guest:hover {
+  color: white;
+}
