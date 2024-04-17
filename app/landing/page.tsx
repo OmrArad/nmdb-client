@@ -8,6 +8,7 @@ export default function Landing() {
     "https://image.tmdb.org/t/p/original/ctMserH8g2SeOAnCw5gFjdQF8mo.jpg";
   return (
     <>
+      <Toolbar landing />
       <main className={styles.main}>
         <p className={styles.welcome}>
           <b>Welcome.</b>
