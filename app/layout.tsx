@@ -20,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className={styles.container}>{children}</div>
+        <div className={`${styles.container} h-full md:h-screen`}>
+          {children}
+        </div>
       </body>
     </html>
   );
