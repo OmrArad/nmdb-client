@@ -8,7 +8,7 @@ import RecommendationsSection from "../ui/home/RecommendationsSection";
 import TrendingMoviesSection from "../ui/home/trendingMoviesSection";
 import TrendingTvSection from "../ui/home/trendingTvSection";
 
-export default function Dashboard() {
+export default function Home() {
   return (
     <div className="flex md:flex-row flex-col">
       <main className="flex flex-1 flex-col h-full items-strech md:w-2/3">

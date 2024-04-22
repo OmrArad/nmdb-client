@@ -12,7 +12,7 @@ const TrendingMoviesSection = () => {
   return (
     <section className="flex flex-col w-full">
       <h2 className="text-2xl font-bold pt-5 px-5 text-grey-800 bg-white">
-        Trending Movies
+        Top Trending Movies
       </h2>
       <section
         className={`${styles.moviesList} flex flex-row w-full gap-4 overflow-auto items-center`}

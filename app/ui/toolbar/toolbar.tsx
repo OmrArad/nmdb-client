@@ -25,7 +25,7 @@ const links = [
   },
   {
     name: "Continue as a guest",
-    href: "/dashboard",
+    href: "/home",
     style: "guest",
   },
 ];
