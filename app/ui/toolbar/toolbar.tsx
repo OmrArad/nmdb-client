@@ -31,21 +31,17 @@ const links = [
 ];
 
 // export default function Toolbar({ links }: { links: Links[] }) {
-export default function Toolbar({ landing = false }: { landing: boolean }) {
+export default function Toolbar({ shouldHideNav = false }) {
   return (
-    <div
-      className={`${lusitana.className} ${
-        landing ? styles.landing : styles.toolbar
-      }`}
-    >
+    <div className={`${shouldHideNav ? styles.landing : styles.toolbar}`}>
       <Link href="/landing" className={styles.title}>
         NMDB
       </Link>
-      {!landing ? <TopNav /> : <></>}
+      {!shouldHideNav ? <TopNav /> : <></>}
       <div className={styles.buttons}>
         {links.map((link) => {
           const linkName = link.name;
-          return landing || link !== links[2] ? (
+          return shouldHideNav || link !== links[2] ? (
             <Link
               key={linkName}
               href={link.href}
