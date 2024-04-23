@@ -1,10 +1,14 @@
 import React from "react";
-import Movie from "../movies/movieCard";
+import MovieCard from "../movies/movieCard";
 import styles from "@/app/styles/Home.module.css";
+import moviesData from "@/app/data/movies.json";
 
 const TrendingMoviesSection = () => {
   const movieData = Array.from({ length: 11 }, () => ({
+    id: 1,
     title: "Movie title",
+    image:
+      "https://image.tmdb.org/t/p/original/cxevDYdeFkiixRShbObdwAHBZry.jpg",
     genre: "Action",
     rating: 9.8,
   }));
@@ -18,9 +22,11 @@ const TrendingMoviesSection = () => {
         className={`${styles.moviesList} flex flex-row w-full gap-4 overflow-auto items-center`}
       >
         {movieData.map((movie, index) => (
-          <Movie
+          <MovieCard
             key={index}
+            id={movie.id}
             title={movie.title}
+            image={movie.image}
             genre={movie.genre}
             rating={movie.rating}
           />
