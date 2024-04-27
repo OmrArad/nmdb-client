@@ -1,14 +1,6 @@
 import Link from "next/link";
 import styles from "@/app/styles/Toolbar.module.css";
-import NmdbLogo from "../nmdb-logo";
-import { Lusitana } from "next/font/google";
-import SideNav from "../dashboard/sidenav";
 import TopNav from "../dashboard/topnav";
-
-const lusitana = Lusitana({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-});
 
 interface Links {
   name: string;
@@ -25,7 +17,7 @@ const links = [
   },
   {
     name: "Continue as a guest",
-    href: "/dashboard",
+    href: "/home",
     style: "guest",
   },
 ];

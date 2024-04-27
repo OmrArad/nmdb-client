@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "Movie Title",
+    "image": "https://image.tmdb.org/t/p/original/cxevDYdeFkiixRShbObdwAHBZry.jpg",
+    "genre": "Action",
+    "rating": 9.8
+  },
+  {
+    "id": 2,
+    "title": "Movie2 Title",
+    "image": "https://image.tmdb.org/t/p/original/cxevDYdeFkiixRShbObdwAHBZry.jpg",
+    "genre": "Drama",
+    "rating": 8.8
+  }
+]
