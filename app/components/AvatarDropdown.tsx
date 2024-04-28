@@ -11,13 +11,12 @@ const AvatarDropdown = ({ onLogoutClick = () => {} }) => {
         View profile
       </Link>
       {/* Add other dropdown items */}
-      <Link
-        href="/logout"
+      <form
+        action={onLogoutClick}
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-        onClick={onLogoutClick}
       >
-        Logout
-      </Link>
+        <button>Logout</button>
+      </form>
     </div>
   );
 };
