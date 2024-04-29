@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "@/app/styles/Toolbar.module.css";
 import TopNav from "../dashboard/topnav";
-
+import { SignIn } from "@/app/components/login/signIn";
 interface Links {
   name: string;
   href: string;
@@ -38,6 +38,7 @@ export default function Toolbar({ shouldHideNav = false }) {
                 </Link>
               );
             })}
+            <SignIn className={`${styles.button} ${styles.signIn}`} />
           </div>
         </div>
       ) : (
