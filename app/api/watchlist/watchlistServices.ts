@@ -11,7 +11,7 @@ const apiClient = axios.create({
 });
 
 // Function to set the authorization token
-export const setAuthToken = (token: JWT) => {
+export const setAuthToken = (token?: string) => {
   if (token) {
     apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
