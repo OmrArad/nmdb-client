@@ -1,18 +1,17 @@
 import Image from "next/image";
 import { Session } from "next-auth";
+import { UserCircleIcon } from "@heroicons/react/24/outline";
 
 export default function UserAvatar({ session }: { session: Session | null }) {
-  if (!session?.user) return null;
+  if (!session?.user?.image) return <UserCircleIcon className="w-6" />;
 
   return (
-    <div>
-      <Image
-        src={session.user.image}
-        alt="User Avatar"
-        width={96}
-        height={96}
-        className="rounded-md min-w-10"
-      />
-    </div>
+    <Image
+      src={session.user.image}
+      alt="User Avatar"
+      width={96}
+      height={96}
+      className="rounded-md min-w-10"
+    />
   );
 }
