@@ -33,7 +33,9 @@ const WatchlistComponent = () => {
 
   return (
     <div>
-      <button onClick={handleCreateWatchlist}>Create New Watchlist</button>
+      <button className="text-white" onClick={handleCreateWatchlist}>
+        Create New Watchlist
+      </button>
       {(watchlists ?? []).map((watchlist) => (
         <div key={watchlist.id}>{watchlist.name}</div>
       ))}
