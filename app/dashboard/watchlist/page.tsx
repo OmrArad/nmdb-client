@@ -6,7 +6,7 @@ import {
   Watchlist,
 } from "@/app/api/watchlist/watchlistServices";
 
-const WatchlistComponent = ({ userId }: { userId: number }) => {
+export default function WatchlistComponent({ userId }: { userId: number }) {
   const [watchlists, setWatchlists] = useState<Watchlist[]>();
 
   useEffect(() => {
@@ -39,6 +39,4 @@ const WatchlistComponent = ({ userId }: { userId: number }) => {
       ))}
     </div>
   );
-};
-
-export default WatchlistComponent;
+}
