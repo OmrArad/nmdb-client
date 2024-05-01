@@ -1,5 +1,5 @@
 import React from "react";
-import { FeedData } from "./collapsibleFeed";
+import { FeedData } from "./CollapsibleFeed";
 
 const parseContent = (content: string) => {
   // Split the content by spaces while keeping the punctuation with the words
