@@ -6,7 +6,7 @@ import {
   Watchlist,
 } from "@/app/api/watchlist/watchlistServices";
 
-export default function WatchlistComponent({ userId }: { userId: number }) {
+const WatchlistComponent = () => {
   const [watchlists, setWatchlists] = useState<Watchlist[]>();
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function WatchlistComponent({ userId }: { userId: number }) {
 
   const loadWatchlists = async () => {
     try {
-      const data = await getUserWatchlists(userId);
+      const data = await getUserWatchlists(123);
       setWatchlists(data);
     } catch (error) {
       console.error("Failed to load watchlists:", error);
@@ -39,4 +39,6 @@ export default function WatchlistComponent({ userId }: { userId: number }) {
       ))}
     </div>
   );
-}
+};
+
+export default WatchlistComponent;
