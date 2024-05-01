@@ -1,5 +1,5 @@
 import React from "react";
-import { FeedData } from "./CollapsibleFeed";
+import { FeedData } from "./collapsibleFeed";
 
 const parseContent = (content: string) => {
   // Split the content by spaces while keeping the punctuation with the words
@@ -35,7 +35,7 @@ const Feed = ({
         isCollapsed ? "hidden" : ""
       }`}
     >
-      <aside className="w-80 z-0 bg-white rounded-lg h-full shadow-md p-4 flex flex-col space-y-4 ">
+      <aside className="w-80 z-0 bg-white rounded-lg shadow-md p-4 flex flex-col space-y-4 max-h-[111vh]">
         <h2 className="text-lg font-bold text-gray-800 border-b pb-2">
           The Movie and TV show feed!
         </h2>
