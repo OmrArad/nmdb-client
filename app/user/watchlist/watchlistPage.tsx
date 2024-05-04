@@ -4,11 +4,11 @@ const WatchlistItem = ({
   movie,
 }: {
   movie: {
-    image: string;
     title: string;
-    rating: number;
+    rating: string;
     date: string;
     description: string;
+    image: string;
   };
 }) => {
   return (
