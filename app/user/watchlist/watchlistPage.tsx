@@ -1,6 +1,16 @@
 import React from "react";
 
-const WatchlistItem = ({ movie }) => {
+const WatchlistItem = ({
+  movie,
+}: {
+  movie: {
+    image: string;
+    title: string;
+    rating: number;
+    date: string;
+    description: string;
+  };
+}) => {
   return (
     <div className="bg-gray-100 border border-gray-300 rounded-lg overflow-hidden shadow-lg mb-4">
       <div className="flex items-start p-4">
