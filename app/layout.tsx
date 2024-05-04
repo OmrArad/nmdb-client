@@ -21,7 +21,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className={`${styles.container} h-full md:h-screen`}>
-          {children}
+          <Toolbar />
+          <div className="flex h-full flex-col md:flex-row md:overflow-hidden">
+            <div className="flex-grow p-6 md:overflow-y-auto md:px-0 pb-0">
+              {children}
+            </div>
+          </div>
         </div>
       </body>
     </html>

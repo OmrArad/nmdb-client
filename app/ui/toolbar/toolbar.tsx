@@ -11,7 +11,7 @@ interface Links {
 const links = [
   {
     name: "Continue as a guest",
-    href: "/home",
+    href: "/",
     style: "guest",
   },
 ];
@@ -22,7 +22,7 @@ export default function Toolbar({ shouldHideNav = false }) {
     <>
       {shouldHideNav ? (
         <div className={styles.landing}>
-          <Link href="/landing" className={styles.title}>
+          <Link href="/" className={styles.title}>
             NMDB
           </Link>
           <div className={styles.buttons}>
@@ -43,7 +43,7 @@ export default function Toolbar({ shouldHideNav = false }) {
         </div>
       ) : (
         <div className={styles.toolbar}>
-          <Link href="/landing" className={styles.title}>
+          <Link href="/" className={styles.title}>
             NMDB
           </Link>
           <TopNav />

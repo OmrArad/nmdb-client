@@ -14,21 +14,20 @@ import clsx from "clsx";
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: "Home", href: "/home", icon: HomeIcon },
   {
     name: "Movies",
-    href: "/home/movies",
+    href: "/movies",
     icon: FilmIcon,
   },
   {
     name: "Tv-Shows",
-    href: "/home/tv-shows",
+    href: "/tv-shows",
     icon: TvIcon,
   },
-  { name: "Actors", href: "/home/actors", icon: UserGroupIcon },
+  { name: "Actors", href: "/actors", icon: UserGroupIcon },
   {
     name: "Feed",
-    href: "/home/feed",
+    href: "/feed",
     icon: ChatBubbleLeftRightIcon,
   },
 ];
