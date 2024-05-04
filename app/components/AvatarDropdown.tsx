@@ -10,6 +10,12 @@ const AvatarDropdown = ({ onLogoutClick = () => {} }) => {
       >
         View profile
       </Link>
+      <Link
+        href="/user/watchlist"
+        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+      >
+        Watchlist
+      </Link>
       {/* Add other dropdown items */}
       <form
         action={onLogoutClick}
