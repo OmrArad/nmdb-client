@@ -25,11 +25,6 @@ const links = [
     icon: TvIcon,
   },
   { name: "Actors", href: "/actors", icon: UserGroupIcon },
-  {
-    name: "Feed",
-    href: "/feed",
-    icon: ChatBubbleLeftRightIcon,
-  },
 ];
 
 export default function NavLinks() {

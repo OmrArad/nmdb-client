@@ -2,8 +2,6 @@ import SearchSection from "./ui/home/searchSection";
 import RecommendationsSection from "./ui/home/RecommendationsSection";
 import TrendingMoviesSection from "./ui/home/trendingMoviesSection";
 import TrendingTvSection from "./ui/home/trendingTvSection";
-import CollapsibleFeed from "./components/CollapsibleFeed";
-import Toolbar from "./ui/toolbar/toolbar";
 
 export default function Home() {
   return (
@@ -17,7 +15,6 @@ export default function Home() {
           <TrendingMoviesSection />
           <TrendingTvSection />
         </main>
-        <CollapsibleFeed />
       </div>
     </>
   );
