@@ -4,6 +4,7 @@ import AvatarDropdown from "../AvatarDropdown";
 import { Session } from "next-auth";
 import UserAvatar from "./userAvatar";
 import { setAuthToken } from "@/app/api/watchlist/watchlistServices";
+import { AdapterSession } from "next-auth/adapters";
 
 const Avatar = ({
   handleLogout,
@@ -18,8 +19,8 @@ const Avatar = ({
   };
 
   React.useEffect(() => {
-    setAuthToken(session?.user?.id);
-  }, [session?.user?.id]);
+    setAuthToken(session?.accessToken);
+  }, [session?.accessToken]);
 
   return (
     <>
