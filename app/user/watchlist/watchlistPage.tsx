@@ -12,7 +12,7 @@ const WatchlistItem = ({
   };
 }) => {
   return (
-    <div className="bg-gray-100 border border-gray-300 rounded-lg overflow-hidden shadow-lg mb-4">
+    <div className="bg-gray-100 border border-gray-300 rounded-xl overflow-hidden shadow-lg mb-4">
       <div className="flex items-start p-4">
         <img
           src={`/images/${movie.image}`}
@@ -70,8 +70,8 @@ const Watchlist = () => {
   ];
 
   return (
-    <div className="bg-gray-100 rounded-lg">
-      <h1 className="text-3xl font-bold container mx-auto px-4 py-3">
+    <div className="bg-gray-100 rounded-xl px-12">
+      <h1 className="text-2xl font-bold container mx-auto px-4 pt-12">
         My Watchlist
       </h1>
       <div className="container mx-auto px-4 py-6 md:h-[calc(100vh-254px)] overflow-scroll">

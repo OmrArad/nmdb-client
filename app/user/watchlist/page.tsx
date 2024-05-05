@@ -33,7 +33,7 @@ const WatchlistComponent = () => {
   };
 
   return (
-    <div className="container mx-auto my-8 p-4">
+    <div className="container mx-auto my-2 py-4 px-16">
       <WatchlistPage />
       <button className="text-white" onClick={handleCreateWatchlist}>
         Create New Watchlist
