@@ -11,7 +11,7 @@ export default function UserAvatar({ session }: { session: Session | null }) {
       alt="User Avatar"
       width={96}
       height={96}
-      className="rounded-md min-w-10"
+      className="rounded-full min-w-10"
     />
   );
 }

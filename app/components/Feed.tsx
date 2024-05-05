@@ -1,5 +1,12 @@
 import React from "react";
-import { FeedData } from "./CollapsibleFeed";
+import mockFeedData from "@/app/data/feed.json";
+
+export type FeedData = {
+  id: number;
+  user: string;
+  timestamp: string;
+  content: string;
+};
 
 const parseContent = (content: string) => {
   // Split the content by spaces while keeping the punctuation with the words
@@ -22,20 +29,11 @@ const parseContent = (content: string) => {
   });
 };
 
-const Feed = ({
-  isCollapsed,
-  mockFeedData,
-}: {
-  isCollapsed: boolean;
-  mockFeedData: FeedData[];
-}) => {
+const Feed = ({ feedData = mockFeedData }: { feedData?: FeedData[] }) => {
+  // const feedData: Array<FeedData> = mockFeedData
   return (
-    <aside
-      className={`flex-0 basis-84 bg-purple-700 rounded-lg shadow-md p-2 flex flex-col space-y-4 relative z-0 ${
-        isCollapsed ? "hidden" : ""
-      }`}
-    >
-      <aside className="w-80 z-0 bg-white rounded-lg shadow-md p-4 flex flex-col space-y-4 max-h-[111vh]">
+    <div className="absolute right-3 mt-16 bg-white rounded-lg overflow-hidden shadow-xl z-10">
+      <aside className="w-80 z-0 bg-white border-2 border-purple-700 rounded-lg shadow-md p-4 flex flex-col space-y-4 max-h-[90vh]">
         <h2 className="text-lg font-bold text-gray-800 border-b pb-2">
           The Movie and TV show feed!
         </h2>
@@ -45,7 +43,7 @@ const Feed = ({
           </button>
         </div>
         <div className="feed-items-container overflow-y-auto max-h-[calc72vh)]">
-          {mockFeedData.map((item) => (
+          {feedData.map((item) => (
             <div key={item.id} className="feed-item mb-4 last:mb-0">
               <div className="feed-item-header flex justify-between items-center mb-2">
                 <span className="font-semibold">{item.user}</span>
@@ -58,7 +56,7 @@ const Feed = ({
           ))}
         </div>
       </aside>
-    </aside>
+    </div>
   );
 };
 
