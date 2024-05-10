@@ -2,54 +2,10 @@
   display: flex;
   flex-direction: column;
   background: radial-gradient(
-    92.4% 259.17% at 99.48% 100%,
-    #ff1f8a 0%,
+    75.4% 259.17% at 94.48% 100%,
+    #1fffbc 0%,
     #540ba1 100%
   );
-}
-
-.headSection {
-  flex-direction: column;
-}
-
-.welcomeSection,
-.recommendationsSection {
-  text-align: center;
-  padding: 20px;
-  flex: 1;
-  height: 20vh;
-}
-
-.welcomeSection {
-  background-image: radial-gradient(
-    80% 250% at 95% 95%,
-    #ff2fa0 0%,
-    #5a0bb1 100%
-  );
-  color: white;
-}
-
-.searchBar {
-  text-align: center;
-  padding: 20px;
-  width: 50%;
-  background-color: white;
-  /* Style for search bar */
-}
-
-.recommendationsSection {
-  background-image: radial-gradient(
-    85% 200% at 90% 90%,
-    #ff33a0 0%,
-    #4c0ba6 100%
-  );
-  /* Style for recommendations section */
-}
-
-.forumButton {
-  margin-top: 15px;
-  color: black;
-  /* Common button styles */
 }
 
 .itemsList {
@@ -58,14 +14,7 @@
   width: 100%;
   height: 100%;
   background-color: white;
-}
-.feedPost {
-  margin-top: 20px;
-  padding: 20px;
-  width: 100%;
-  height: 95%;
-  background-color: white;
-  border-radius: 1cm;
+  scrollbar-color: #1fff7c;
 }
 
 .footer {
@@ -81,11 +30,3 @@
   color: white;
   padding: 40px 20px;
 }
-
-@media (max-width: 750px) {
-  .headSection {
-    flex-direction: row;
-  }
-}
-
-/* ... Add responsive styling here ... */
