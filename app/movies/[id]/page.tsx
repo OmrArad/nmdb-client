@@ -9,7 +9,7 @@ type MoviePageProps = {
   id: number;
 };
 
-const MoviePage: React.FC<MoviePageProps> = ({ id }) => {
+const MoviePage = () => {
   const urlPrefix = "https://image.tmdb.org/t/p/w220_and_h330_face";
   const urlPrefixOriginal = "https://image.tmdb.org/t/p/original";
 
