@@ -6,6 +6,7 @@ import {
   Watchlist,
 } from "@/app/api/watchlist/watchlistServices";
 import WatchlistPage from "./watchlistPage";
+import toast from "react-hot-toast";
 
 const WatchlistComponent = () => {
   const [watchlists, setWatchlists] = useState<Watchlist[]>();
@@ -16,10 +17,10 @@ const WatchlistComponent = () => {
 
   const loadWatchlists = async () => {
     try {
-      const data = await getUserWatchlists(123);
+      const data = await getUserWatchlists();
       setWatchlists(data);
     } catch (error) {
-      console.error("Failed to load watchlists:", error);
+      toast.error(`Failed to load watchlists: ${error}`);
     }
   };
 
@@ -27,8 +28,9 @@ const WatchlistComponent = () => {
     try {
       const newWatchlist = await createWatchlist();
       setWatchlists([...(watchlists ?? []), newWatchlist]);
+      toast.success(`New watchlist created successfuly: ${newWatchlist.name}`);
     } catch (error) {
-      console.error("Failed to create watchlist:", error);
+      toast.error(`Failed to create watchlist: ${error}`);
     }
   };
 
