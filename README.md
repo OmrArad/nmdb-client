@@ -18,6 +18,7 @@ First, install the project dependencies:
 npm install
 # or
 yarn install
+```
 
 Then, run the development server:
 
