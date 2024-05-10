@@ -45,12 +45,20 @@ Ensure you have created OAuth credentials (Client ID and Client Secret) in your 
 Add the following environment variables to your `.env.local` file:
 
 ```plaintext
-OAUTH_CLIENT_ID=your_oauth_client_id
-OAUTH_CLIENT_SECRET=your_oauth_client_secret
-NEXTAUTH_URL=http://localhost:3000
+AUTH_SECRET="REPLACE ME"
+AUTH_GOOGLE_ID=your_oauth_client_id
+AUTH_GOOGLE_SECRET=your_oauth_client_secret
 ```
 
 Replace `your_oauth_client_id` and `your_oauth_client_secret` with your actual OAuth credentials.
+
+AUTH_SECRET is a random token used by the library to encrypt tokens and email verification hashes, and it’s mandatory to keep things secure (See [Deployment](https://authjs.dev/getting-started/deployment) to learn more). You can use the CLI to generate an auth secret.
+
+```bash
+npm exec auth secret
+# or
+yarn auth secret
+```
 
 ## Learn More
 
