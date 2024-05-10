@@ -23,7 +23,7 @@ const MoviePage = () => {
         console.log(response.data);
       })
       .catch((error) => console.log(error));
-  }, [id]);
+  }, []);
 
   const genreNames = movie.genres.map((genre) => genre.name).join(", ");
 
