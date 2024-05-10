@@ -28,7 +28,7 @@ const WatchlistComponent = () => {
     try {
       const newWatchlist = await createWatchlist();
       setWatchlists([...(watchlists ?? []), newWatchlist]);
-      toast.success(`New watchlist created successfuly!\n${newWatchlist}`);
+      toast.success(`New watchlist created successfuly: ${newWatchlist.name}`);
     } catch (error) {
       toast.error(`Failed to create watchlist: ${error}`);
     }
