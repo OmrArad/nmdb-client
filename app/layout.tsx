@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import styles from "@/app/styles/Home.module.css";
 import Toolbar from "./ui/toolbar/toolbar";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Toaster position="top-right" />
         <div className={`${styles.container} h-full md:h-screen`}>
           <Toolbar />
           <div className="flex h-full flex-col md:flex-row md:overflow-hidden">
