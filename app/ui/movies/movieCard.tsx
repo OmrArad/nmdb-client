@@ -1,42 +1,52 @@
 "use client";
-
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-interface MovieProps {
-  id: number;
-  title: string;
-  image: string;
-  genre: string;
-  rating: number;
-  // include other props as necessary, e.g., image URL
+import { Movie } from "@/app/types/movie";
+type MovieCardProps = {
+  movie: Movie;
+};
+
+const urlPrefix = "https://image.tmdb.org/t/p/w220_and_h330_face";
+const urlPrefixOriginal = "https://image.tmdb.org/t/p/original";
+
+function formatDate(date: string) {
+  const formattedDate = new Date(date).toDateString().split(" ").slice(1);
+  formattedDate[1] += ",";
+  return formattedDate.join(" ");
 }
 
-const MovieCard: React.FC<MovieProps> = ({
-  id,
-  title,
-  image,
-  genre,
-  rating,
-}) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const pathname = usePathname();
   return (
-    <Link
-      href={`${pathname}/movies/${id}`}
-      className="min-w-48 max-h-96 bg-white rounded-lg overflow-hidden shadow-md relative"
-    >
-      <div className="absolute top-0 right-0 bg-yellow-400 rounded-bl-lg py-1 px-2 text-sm font-bold">
-        {rating}
+    <div className="min-w-[calc(150px)] min-h-[calc(21rem)] bg-white rounded-lg overflow-hidden relative ">
+      <Link href={`${pathname}movies/${movie.id}`}>
+        <div className="absolute top-0 right-0 bg-yellow-400 rounded-bl-lg py-1 px-2 text-sm font-bold">
+          {movie.vote_average ? movie.vote_average.toFixed(1) : "NR"}
+        </div>
+        <div className="h-[calc(225px)] bg-gray-200 rounded-xl ">
+          <Image
+            className="rounded-xl shadow-2xl shadow-emerald-900 hover:shadow-cyan-600"
+            alt="poster"
+            src={`${urlPrefixOriginal}/${movie.poster_path}`}
+            width={150}
+            height={225}
+          />
+        </div>
+      </Link>
+      <div className="p-3">
+        <Link href={`${pathname}movies/${movie.id}`}>
+          <h3 className="text-sm text-left font-bold mb-1 hover:text-sky-500">
+            {movie.title}
+          </h3>
+        </Link>
+        <p className="text-left text-zinc-400 text-sm">
+          {formatDate(movie.release_date)}
+        </p>
+        {/* <p className="text-gray-600 text-sm">{movie.genre_ids}</p> */}
       </div>
-      <div className="h-72 bg-gray-200">
-        <Image alt="poster" src={image} width={192} height={288} />
-      </div>
-      <div className="p-4">
-        <h3 className="text-lg font-semibold mb-2">{title}</h3>
-        <p className="text-gray-600 text-sm">{genre}</p>
-      </div>
-    </Link>
+    </div>
   );
 };
 
