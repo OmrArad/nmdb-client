@@ -1,4 +1,4 @@
-import Toolbar from "../ui/toolbar/toolbar";
+import Toolbar from "../components/toolbar/toolbar";
 import styles from "@/app/styles/Home.module.css";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

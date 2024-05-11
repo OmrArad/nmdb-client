@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import styles from "@/app/styles/Home.module.css";
-import Toolbar from "./ui/toolbar/toolbar";
+import Toolbar from "./components/toolbar/toolbar";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
 

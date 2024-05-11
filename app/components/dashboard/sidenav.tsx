@@ -1,7 +1,7 @@
 import Link from "next/link";
-import NavLinks from "@/app/ui/dashboard/nav-links";
+import NavLinks from "@/app/components/dashboard/nav-links";
 import { PowerIcon } from "@heroicons/react/24/outline";
-import NmdbLogo from "@/app/ui/nmdb-logo";
+import NmdbLogo from "@/app/components/nmdb-logo";
 
 export default function SideNav() {
   return (

@@ -1,5 +1,12 @@
+"use client";
+import React from "react";
 import Link from "next/link";
 import { Dropdown } from "flowbite-react";
+import { Session } from "next-auth";
+import { setAuthTokenAndLogin } from "@/app/api/auth/login";
+import styles from "@/app/styles/NavButton.module.css";
+import clsx from "clsx";
+import UserImage from "./userImage";
 
 const links = [
   {
@@ -17,16 +24,28 @@ const style =
 
 const UserDropdown = ({
   onLogoutClick,
-  dropdownTheme,
+  session,
 }: {
   onLogoutClick: () => void;
-  dropdownTheme: () => React.JSX.Element;
+  session: Session;
 }) => {
+  React.useEffect(() => {
+    setAuthTokenAndLogin(session?.accessToken);
+  }, [session?.accessToken]);
+
+  const userDropdownTheme = () => {
+    return (
+      <div className={clsx(styles.base_button, styles.user)}>
+        <UserImage session={session} />
+      </div>
+    );
+  };
+
   return (
     <Dropdown
       label="User dropdown button"
       dismissOnClick={false}
-      renderTrigger={dropdownTheme}
+      renderTrigger={userDropdownTheme}
     >
       <div className="absolute -right-12 -mt-2 w-36 bg-gray-50 rounded-md overflow-hidden shadow-xl z-10 divide-y">
         <div>

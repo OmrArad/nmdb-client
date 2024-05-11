@@ -1,7 +1,7 @@
 "use client";
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import Feed from "@/app/components/Feed";
+import Feed from "@/app/components/feed/Feed";
 import styles from "@/app/styles/NavButton.module.css";
 import { Dropdown, DropdownItem } from "flowbite-react";
 

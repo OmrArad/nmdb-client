@@ -3,7 +3,7 @@ import styles from "@/app/styles/NavButton.module.css";
 import clsx from "clsx";
 import GoogleSignInButton from "./googleSignInButton";
 
-export default function GuestAvatar({
+export default function SignInButton({
   handleLogin,
 }: {
   handleLogin?: () => void;
