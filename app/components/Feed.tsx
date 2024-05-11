@@ -33,12 +33,12 @@ const Feed = ({ feedData = mockFeedData }: { feedData?: FeedData[] }) => {
   // const feedData: Array<FeedData> = mockFeedData
   return (
     <div className="absolute right-3 mt-16 bg-white rounded-lg overflow-hidden shadow-xl z-10">
-      <aside className="w-80 z-0 bg-white border-2 border-purple-700 rounded-lg shadow-md p-4 flex flex-col space-y-4 max-h-[90vh]">
+      <aside className="w-80 z-0 border-2 border-purple-200 rounded-lg shadow-md p-4 flex flex-col space-y-4 max-h-[90vh]">
         <h2 className="text-lg font-bold text-gray-800 border-b pb-2">
           The Movie and TV show feed!
         </h2>
         <div className="mb-auto">
-          <button className="bg-purple-600 text-white py-2 px-4 rounded-lg w-full hover:bg-purple-700 transition duration-300">
+          <button className="hover:bg-custom-gradient-1 hover:text-white py-2 px-4 rounded-lg w-full hover:bg-purple-900 transition duration-300 border">
             Login to post in the feed
           </button>
         </div>

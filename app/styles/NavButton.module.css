@@ -1,0 +1,45 @@
+.base_button {
+  cursor: pointer;
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: rgba(249, 250, 251, 0.25);
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  height: 48px;
+  color: white;
+  border-radius: 0.375rem;
+}
+
+.base_button:hover {
+  background-color: rgba(236, 253, 245, 0.75);
+  color: #2563eb;
+}
+
+@media (min-width: 768px) {
+  .base_button {
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding: 0.5rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+.feed,
+.user {
+  border-radius: 9999px;
+  width: 48px;
+}
+
+.guest {
+  width: max-content;
+}
+
+.active_nav {
+  background-color: rgba(236, 253, 245, 0.75);
+  color: #2563eb;
+}

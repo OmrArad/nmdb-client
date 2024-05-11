@@ -5,6 +5,7 @@ import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Feed from "@/app/components/Feed";
+import styles from "@/app/styles/NavButton.module.css";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -24,10 +25,9 @@ export default function CollapsibleFeed() {
   return (
     <>
       <button
-        className={clsx(
-          "flex h-[48px] grow items-center justify-center gap-2 rounded-full bg-gray-50/75 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3",
-          { "bg-sky-100 text-blue-600": pathname === feedDropdown.href }
-        )}
+        className={clsx(styles.base_button, styles.feed, {
+          [styles.active_nav]: pathname === feedDropdown.href,
+        })}
         onClick={handleFeedClick}
       >
         <LinkIcon className="w-6" />
