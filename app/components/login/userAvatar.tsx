@@ -5,7 +5,7 @@ import UserImage from "./userImage";
 import { setAuthTokenAndLogin } from "@/app/api/auth/login";
 import styles from "@/app/styles/NavButton.module.css";
 import clsx from "clsx";
-import DropdownComponent from "../DropdownComponent";
+import UserDropdown from "../userDropdown";
 
 const UserAvatar = ({
   handleLogout,
@@ -18,7 +18,7 @@ const UserAvatar = ({
     setAuthTokenAndLogin(session?.accessToken);
   }, [session?.accessToken]);
 
-  const customTheme = () => {
+  const userDropdownTheme = () => {
     return (
       <div className={clsx(styles.base_button, styles.user)}>
         <UserImage session={session} />
@@ -27,9 +27,9 @@ const UserAvatar = ({
   };
 
   return (
-    <DropdownComponent
+    <UserDropdown
       onLogoutClick={handleLogout}
-      dropdownTheme={customTheme}
+      dropdownTheme={userDropdownTheme}
     />
   );
 };

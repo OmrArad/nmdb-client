@@ -1,7 +1,7 @@
 import React from "react";
 import NavLinks from "@/app/ui/dashboard/nav-links";
 import LoginLink from "@/app/components/login/loginLink";
-import CollapsibleFeed from "./collapsibleFeed";
+import CollapsibleFeed from "./feedDropdown";
 
 export default function TopNav() {
   return (

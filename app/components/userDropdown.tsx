@@ -13,9 +13,9 @@ const links = [
 ];
 
 const style =
-  "block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-100 w-full text-left";
+  "block px-4 py-2 w-full text-sm text-gray-700 hover:bg-emerald-100 text-left";
 
-const DropdownComponent = ({
+const UserDropdown = ({
   onLogoutClick,
   dropdownTheme,
 }: {
@@ -24,16 +24,21 @@ const DropdownComponent = ({
 }) => {
   return (
     <Dropdown
-      label="Dropdown button"
+      label="User dropdown button"
       dismissOnClick={false}
       renderTrigger={dropdownTheme}
     >
-      <div className="w-36 divide-y">
+      <div className="absolute -right-12 -mt-2 w-36 bg-gray-50 rounded-md overflow-hidden shadow-xl z-10 divide-y">
         <div>
           {links.map((link) => {
             return (
-              <Dropdown.Item key={link.name} className={style}>
-                <Link href={link.href}>{link.name}</Link>
+              <Dropdown.Item
+                as={Link}
+                href={link.href}
+                key={link.name}
+                className={style}
+              >
+                {link.name}
               </Dropdown.Item>
             );
           })}
@@ -46,4 +51,4 @@ const DropdownComponent = ({
   );
 };
 
-export default DropdownComponent;
+export default UserDropdown;
