@@ -1,17 +1,37 @@
-import Image from "next/image";
+"use client";
+import React from "react";
 import { Session } from "next-auth";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
+import UserImage from "./userImage";
+import { setAuthTokenAndLogin } from "@/app/api/auth/login";
+import styles from "@/app/styles/NavButton.module.css";
+import clsx from "clsx";
+import DropdownComponent from "../DropdownComponent";
 
-export default function UserAvatar({ session }: { session: Session | null }) {
-  if (!session?.user?.image) return <UserCircleIcon className="w-6" />;
+const UserAvatar = ({
+  handleLogout,
+  session,
+}: {
+  handleLogout: () => void;
+  session: Session;
+}) => {
+  React.useEffect(() => {
+    setAuthTokenAndLogin(session?.accessToken);
+  }, [session?.accessToken]);
+
+  const customTheme = () => {
+    return (
+      <div className={clsx(styles.base_button, styles.user)}>
+        <UserImage session={session} />
+      </div>
+    );
+  };
 
   return (
-    <Image
-      src={session.user.image}
-      alt="User Avatar"
-      width={96}
-      height={96}
-      className="rounded-full min-w-10"
+    <DropdownComponent
+      onLogoutClick={handleLogout}
+      dropdownTheme={customTheme}
     />
   );
-}
+};
+
+export default UserAvatar;

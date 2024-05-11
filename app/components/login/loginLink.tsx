@@ -1,5 +1,5 @@
 import { auth, signIn, signOut } from "@/auth";
-import UserAvatar from "./avatar";
+import UserAvatar from "./userAvatar";
 import GuestAvatar from "./guestAvatar";
 
 export default async function LoginLink() {
@@ -17,12 +17,12 @@ export default async function LoginLink() {
   };
 
   return (
-    <div>
+    <>
       {user ? (
         <UserAvatar handleLogout={handleLogout} session={session} />
       ) : (
         <GuestAvatar handleLogin={handleLogin} />
       )}
-    </div>
+    </>
   );
 }

@@ -4,6 +4,7 @@ import "./globals.css";
 import styles from "@/app/styles/Home.module.css";
 import Toolbar from "./ui/toolbar/toolbar";
 import { Toaster } from "react-hot-toast";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,6 +33,7 @@ export default function RootLayout({
           </div>
         </div>
       </body>
+      <Script src="../path/to/flowbite/dist/flowbite.min.js"></Script>
     </html>
   );
 }
