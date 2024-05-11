@@ -1,6 +1,7 @@
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import styles from "@/app/styles/NavButton.module.css";
 import clsx from "clsx";
+import GoogleSignInButton from "./googleSignInButton";
 
 export default function GuestAvatar({
   handleLogin,
@@ -11,7 +12,7 @@ export default function GuestAvatar({
     <form action={handleLogin}>
       <button type="submit" className={clsx(styles.base_button, styles.guest)}>
         <UserCircleIcon className="block lg:hidden w-6" />
-        <div className="hidden lg:block">Sign Up / Login</div>
+        <GoogleSignInButton />
       </button>
     </form>
   );
