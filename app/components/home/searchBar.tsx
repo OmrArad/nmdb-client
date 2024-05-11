@@ -10,7 +10,7 @@ const SearchBar = () => {
         className="w-full h-12 pl-4 pr-12 rounded-full text-gray-700 focus:outline-none"
       />
       <button type="submit" className="absolute top-0 right-0 mt-3 mr-4">
-        <MagnifyingGlassIcon stroke="#000" className="h-5 w-5" />
+        <MagnifyingGlassIcon stroke="#888" className="h-6 w-5" />
       </button>
     </div>
   );

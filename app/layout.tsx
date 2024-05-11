@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import styles from "@/app/styles/Home.module.css";
-import Toolbar from "./ui/toolbar/toolbar";
+import Toolbar from "./components/toolbar/toolbar";
 import { Toaster } from "react-hot-toast";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,10 +28,12 @@ export default function RootLayout({
           <div className="flex h-full flex-col md:flex-row md:overflow-hidden">
             <div className="flex-grow p-2 md:overflow-y-auto md:px-0 pb-0">
               {children}
+              <footer className={`${styles.footer}`}></footer>
             </div>
           </div>
         </div>
       </body>
+      <Script src="../path/to/flowbite/dist/flowbite.min.js"></Script>
     </html>
   );
 }

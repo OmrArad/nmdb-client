@@ -15,8 +15,8 @@ const TrendingSectionSkeleton = ({
     typeof data === typeof moviesData ? "Movies" : "TV-Shows"
   }`;
   return (
-    <section className="flex flex-col w-full">
-      <h2 className="text-2xl font-bold pt-5 px-5 text-grey-800 bg-white">
+    <section className="flex flex-col w-full bg-white">
+      <h2 className="text-2xl font-bold pt-5 px-5 text-gray-800">
         {sectionTitle}
       </h2>
       <section

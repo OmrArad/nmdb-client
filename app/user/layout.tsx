@@ -1,4 +1,4 @@
-import UserDashboard from "../ui/dashboard/userDashboard";
+import UserDashboard from "../components/dashboard/userDashboard";
 
 export default function UserLayout({
   children,
