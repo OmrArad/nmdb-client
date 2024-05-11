@@ -19,9 +19,13 @@ function formatDate(date: string) {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const pathname = usePathname();
+  const movieHref = {
+    pathname: `${pathname}movies/${movie.id}`,
+    query: { id: movie.id },
+  };
   return (
     <div className="min-w-[calc(150px)] min-h-[calc(21rem)] bg-white rounded-lg overflow-hidden relative ">
-      <Link href={`${pathname}movies/${movie.id}`}>
+      <Link href={movieHref}>
         <div className="absolute top-0 right-0 bg-yellow-400 rounded-bl-lg py-1 px-2 text-sm font-bold">
           {movie.vote_average ? movie.vote_average.toFixed(1) : "NR"}
         </div>
@@ -36,7 +40,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         </div>
       </Link>
       <div className="p-3">
-        <Link href={`${pathname}movies/${movie.id}`}>
+        <Link href={movieHref}>
           <h3 className="text-sm text-left font-bold mb-1 hover:text-blue-500">
             {movie.title}
           </h3>
