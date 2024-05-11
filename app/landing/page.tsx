@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../styles/Landing.module.css";
 import Image from "next/image";
-import Toolbar from "../ui/toolbar/toolbar";
+import Toolbar from "../components/toolbar/toolbar";
 
 export default function Landing() {
   const imageUrl =

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Session } from "next-auth";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 
-export default function UserAvatar({ session }: { session: Session | null }) {
+export default function UserImage({ session }: { session: Session }) {
   if (!session?.user?.image) return <UserCircleIcon className="w-6" />;
 
   return (

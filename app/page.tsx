@@ -1,7 +1,7 @@
-import SearchSection from "./ui/home/searchSection";
-import RecommendationsSection from "./ui/home/RecommendationsSection";
-import TrendingMoviesSection from "./ui/home/trendingMoviesSection";
-import TrendingTvSection from "./ui/home/trendingTvSection";
+import SearchSection from "./components/home/searchSection";
+import RecommendationsSection from "./components/home/RecommendationsSection";
+import TrendingMoviesSection from "./components/home/trendingMoviesSection";
+import TrendingTvSection from "./components/home/trendingTvSection";
 
 export default function Home() {
   return (

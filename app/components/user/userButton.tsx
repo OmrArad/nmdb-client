@@ -1,8 +1,8 @@
 import { auth, signIn, signOut } from "@/auth";
-import UserAvatar from "./avatar";
-import GuestAvatar from "./guestAvatar";
+import SignInButton from "../login/signInButton";
+import UserDropdown from "./userDropdown";
 
-export default async function LoginLink() {
+export default async function UserButton() {
   const session = await auth();
   const user = session?.user;
 
@@ -17,12 +17,12 @@ export default async function LoginLink() {
   };
 
   return (
-    <div>
+    <>
       {user ? (
-        <UserAvatar handleLogout={handleLogout} session={session} />
+        <UserDropdown onLogoutClick={handleLogout} session={session} />
       ) : (
-        <GuestAvatar handleLogin={handleLogin} />
+        <SignInButton handleLogin={handleLogin} />
       )}
-    </div>
+    </>
   );
 }

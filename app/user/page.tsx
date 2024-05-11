@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import UserDashboard from "../ui/dashboard/userDashboard";
+import UserDashboard from "../components/dashboard/userDashboard";
 
 const UserComponent = () => {
   return (
