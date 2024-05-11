@@ -27,7 +27,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         </div>
         <div className="h-[calc(225px)] bg-gray-200 rounded-xl ">
           <Image
-            className="rounded-xl shadow-2xl shadow-emerald-900 hover:shadow-cyan-600"
+            className="rounded-xl shadow-2xl hover:shadow-emerald-50"
             alt="poster"
             src={`${urlPrefixOriginal}/${movie.poster_path}`}
             width={150}
@@ -37,7 +37,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
       </Link>
       <div className="p-3">
         <Link href={`${pathname}movies/${movie.id}`}>
-          <h3 className="text-sm text-left font-bold mb-1 hover:text-sky-500">
+          <h3 className="text-sm text-left font-bold mb-1 hover:text-blue-500">
             {movie.title}
           </h3>
         </Link>

@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import MovieCard from "../movies/movieCard";
-import moviesData from "@/app/data/movies.json";
 import TrendingSectionSkeleton from "./trendingSectionSkeleton";
 import axios from "axios";
 import { TrendingMovies } from "@/app/types/trending";
