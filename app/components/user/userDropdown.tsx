@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { Dropdown } from "flowbite-react";
 import { Session } from "next-auth";
-import { setAuthTokenAndLogin } from "@/app/api/auth/login";
+import { setAuthTokenAndLogin } from "@/app/api/auth/auth";
 import styles from "@/app/styles/NavButton.module.css";
 import clsx from "clsx";
 import UserImage from "./userImage";
