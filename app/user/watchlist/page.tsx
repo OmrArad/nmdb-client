@@ -20,7 +20,7 @@ const WatchlistComponent = () => {
       const data = await getUserWatchlists();
       setWatchlists(data);
     } catch (error) {
-      toast.error(`Failed to load watchlists: ${error}`);
+      console.error(`Failed to load watchlists: ${error}`);
     }
   };
 

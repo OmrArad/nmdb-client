@@ -2,13 +2,13 @@ import React from "react";
 import MovieCard from "../movies/movieCard";
 import styles from "@/app/styles/Home.module.css";
 import moviesData from "@/app/data/movies.json";
-import { Movie } from "@/app/types/movie";
+import type { TrendingMovie } from "@/app/types/movie";
 
 const TrendingSectionSkeleton = ({
   data,
   Card,
 }: {
-  data: Movie[];
+  data: TrendingMovie[];
   Card: typeof MovieCard;
 }) => {
   const sectionTitle = `Top Trending ${

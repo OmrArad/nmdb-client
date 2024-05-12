@@ -11,7 +11,7 @@ import UserImage from "./userImage";
 const links = [
   {
     name: "Profile",
-    href: "/profile",
+    href: "/user",
   },
   {
     name: "Watchlist",
