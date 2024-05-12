@@ -16,7 +16,6 @@ const TrendingMoviesSection = () => {
       .get("http://localhost:5001/trendingMovies")
       .then((response) => {
         setTrendingMovies(response.data);
-        console.log(response.data);
       })
       .catch((error) => console.log(error));
   }, []);

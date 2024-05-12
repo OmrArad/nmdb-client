@@ -1,6 +1,6 @@
 import { JWT } from "next-auth/jwt";
 import { Key } from "react";
-import { apiClient } from "../auth/login";
+import { apiClient } from "../auth/auth";
 
 export type Watchlist = {
   id: Key | null | undefined;
