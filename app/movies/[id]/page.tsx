@@ -1,4 +1,4 @@
-import { MovieDetails } from "./movieDetails";
+import { MovieDetails } from "@/app/components/movies/movieDetails";
 
 export default async function MoviePage({
   params: { id },
