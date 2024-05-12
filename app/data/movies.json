@@ -1,16 +1,148 @@
 [
   {
-    "id": 1,
-    "title": "Movie Title",
-    "image": "https://image.tmdb.org/t/p/original/cxevDYdeFkiixRShbObdwAHBZry.jpg",
-    "genre": "Action",
-    "rating": 9.8
+    "adult": false,
+    "backdrop_path": "/5cCfqeUH2f5Gnu7Lh9xepY9TB6x.jpg",
+    "belongs_to_collection": {
+      "id": 2980,
+      "name": "Ghostbusters Collection",
+      "poster_path": "/sctvCtE1M1rDF4f0W2fMrk2BrGB.jpg",
+      "backdrop_path": "/guigdRPHN65fsgZHmvVvBOyiArf.jpg"
+    },
+    "budget": 100000000,
+    "genres": [
+      {
+        "id": 14,
+        "name": "Fantasy"
+      },
+      {
+        "id": 12,
+        "name": "Adventure"
+      },
+      {
+        "id": 35,
+        "name": "Comedy"
+      }
+    ],
+    "homepage": "https://www.ghostbusters.com",
+    "id": 967847,
+    "imdb_id": "tt21235248",
+    "origin_country": ["US"],
+    "original_language": "en",
+    "original_title": "Ghostbusters: Frozen Empire",
+    "overview": "The Spengler family returns to where it all started – the iconic New York City firehouse – to team up with the original Ghostbusters, who've developed a top-secret research lab to take busting ghosts to the next level. But when the discovery of an ancient artifact unleashes an evil force, Ghostbusters new and old must join forces to protect their home and save the world from a second Ice Age.",
+    "popularity": 919.006,
+    "poster_path": "/e1J2oNzSBdou01sUvriVuoYp0pJ.jpg",
+    "production_companies": [
+      {
+        "id": 84042,
+        "logo_path": "/hbln3zGw1R6mkfRETOaUbRuAJSI.png",
+        "name": "Ghost Corps",
+        "origin_country": "US"
+      },
+      {
+        "id": 5,
+        "logo_path": "/71BqEFAF4V3qjjMPCpLuyJFB9A.png",
+        "name": "Columbia Pictures",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [
+      {
+        "iso_3166_1": "US",
+        "name": "United States of America"
+      }
+    ],
+    "release_date": "2024-03-20",
+    "revenue": 195102874,
+    "runtime": 115,
+    "spoken_languages": [
+      {
+        "english_name": "English",
+        "iso_639_1": "en",
+        "name": "English"
+      }
+    ],
+    "status": "Released",
+    "tagline": "It'll send a chill down your spine.",
+    "title": "Ghostbusters: Frozen Empire",
+    "video": false,
+    "vote_average": 6.594,
+    "vote_count": 518
   },
   {
-    "id": 2,
-    "title": "Movie2 Title",
-    "image": "https://image.tmdb.org/t/p/original/cxevDYdeFkiixRShbObdwAHBZry.jpg",
-    "genre": "Drama",
-    "rating": 8.8
+    "adult": false,
+    "backdrop_path": "/iHYh4cdO8ylA3W0dUxTDVdyJ5G9.jpg",
+    "belongs_to_collection": {
+      "id": 173710,
+      "name": "Planet of the Apes (Reboot) Collection",
+      "poster_path": "/afGkMC4HF0YtXYNkyfCgTDLFe6m.jpg",
+      "backdrop_path": "/2ZkvqfOJUCINozB00wmYuGJQW81.jpg"
+    },
+    "budget": 0,
+    "genres": [
+      {
+        "id": 878,
+        "name": "Science Fiction"
+      },
+      {
+        "id": 12,
+        "name": "Adventure"
+      },
+      {
+        "id": 28,
+        "name": "Action"
+      }
+    ],
+    "homepage": "https://www.20thcenturystudios.com/movies/kingdom-of-the-planet-of-the-apes",
+    "id": 653346,
+    "imdb_id": "tt11389872",
+    "origin_country": ["US"],
+    "original_language": "en",
+    "original_title": "Kingdom of the Planet of the Apes",
+    "overview": "Several generations in the future following Caesar's reign, apes are now the dominant species and live harmoniously while humans have been reduced to living in the shadows. As a new tyrannical ape leader builds his empire, one young ape undertakes a harrowing journey that will cause him to question all that he has known about the past and to make choices that will define a future for apes and humans alike.",
+    "popularity": 1527.508,
+    "poster_path": "/gKkl37BQuKTanygYQG1pyYgLVgf.jpg",
+    "production_companies": [
+      {
+        "id": 127928,
+        "logo_path": "/h0rjX5vjW5r8yEnUBStFarjcLT4.png",
+        "name": "20th Century Studios",
+        "origin_country": "US"
+      },
+      {
+        "id": 133024,
+        "logo_path": null,
+        "name": "Oddball Entertainment",
+        "origin_country": "US"
+      },
+      {
+        "id": 89254,
+        "logo_path": null,
+        "name": "Jason T. Reed Productions",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [
+      {
+        "iso_3166_1": "US",
+        "name": "United States of America"
+      }
+    ],
+    "release_date": "2024-05-08",
+    "revenue": 0,
+    "runtime": 145,
+    "spoken_languages": [
+      {
+        "english_name": "English",
+        "iso_639_1": "en",
+        "name": "English"
+      }
+    ],
+    "status": "Released",
+    "tagline": "No one can stop the reign.",
+    "title": "Kingdom of the Planet of the Apes",
+    "video": false,
+    "vote_average": 6.971,
+    "vote_count": 103
   }
 ]

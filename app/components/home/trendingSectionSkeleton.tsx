@@ -2,20 +2,13 @@ import React from "react";
 import MovieCard from "../movies/movieCard";
 import styles from "@/app/styles/Home.module.css";
 import moviesData from "@/app/data/movies.json";
-
-export type itemData = {
-  id: number;
-  title: string;
-  image: string;
-  genre: string;
-  rating: number;
-}[];
+import { Movie } from "@/app/types/movie";
 
 const TrendingSectionSkeleton = ({
   data,
   Card,
 }: {
-  data: itemData;
+  data: Movie[];
   Card: typeof MovieCard;
 }) => {
   const sectionTitle = `Top Trending ${
@@ -30,14 +23,7 @@ const TrendingSectionSkeleton = ({
         className={`${styles.itemsList} flex flex-row w-full gap-4 overflow-auto items-center`}
       >
         {data.map((item, index) => (
-          <Card
-            key={index}
-            id={item.id}
-            title={item.title}
-            image={item.image}
-            genre={item.genre}
-            rating={item.rating}
-          />
+          <Card key={index} movie={item} />
         ))}
       </section>
     </section>
