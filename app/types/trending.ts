@@ -1,4 +1,5 @@
 import type { TrendingMovie } from "./movie";
+import type { TrendingTVShow } from "./tvShow";
 
 export type TrendingMovies = {
   page: number;
@@ -7,9 +8,9 @@ export type TrendingMovies = {
   total_results: number;
 };
 
-// export type TrendingShows = {
-//   page: number;
-//   results: TrendingShow[];
-//   total_pages: number;
-//   total_results: number;
-// };
+interface TrendingTVShows {
+  page: number;
+  results: TrendingTVShow[];
+  total_pages: number;
+  total_results: number;
+}

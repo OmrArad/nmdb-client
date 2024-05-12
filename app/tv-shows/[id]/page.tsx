@@ -1,6 +1,6 @@
-import { MovieDetails } from "@/app/components/movies/movieDetails";
+import { TvShowDetails } from "@/app/components/tvSeries/tvShowDetails";
 
-export default async function MoviePage({
+export default async function TvShowPage({
   params: { id },
 }: {
   params: { id: string };
@@ -8,7 +8,7 @@ export default async function MoviePage({
   return (
     <div className="container mx-auto my-8 p-4">
       <div className="bg-white p-6 rounded-lg shadow-lg">
-        <MovieDetails movieId={id} />
+        <TvShowDetails tvShowId={id} />
         {/* Here you might include additional sections such as a forum link, etc */}
       </div>
     </div>
