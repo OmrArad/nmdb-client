@@ -1,7 +1,6 @@
 import SearchSection from "./components/home/searchSection";
 import RecommendationsSection from "./components/home/RecommendationsSection";
-import TrendingMoviesSection from "./components/home/trendingMoviesSection";
-import TrendingTvSection from "./components/home/trendingTvSection";
+import TrendingSection from "./components/home/trendingSection";
 
 export default function Home() {
   return (
@@ -12,8 +11,7 @@ export default function Home() {
             <SearchSection />
             <RecommendationsSection />
           </section>
-          <TrendingMoviesSection />
-          <TrendingTvSection />
+          <TrendingSection />
         </main>
       </div>
     </>
