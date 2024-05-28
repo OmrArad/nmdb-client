@@ -13,7 +13,7 @@ const TrendingMoviesSection = () => {
 
   React.useEffect(() => {
     axios
-      .get("http://localhost:5001/trendingMovies")
+      .get("/api/movie/trending")
       .then((response) => {
         setTrendingMovies(response.data);
       })
