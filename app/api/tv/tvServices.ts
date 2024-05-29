@@ -13,7 +13,7 @@ export const getTVShow = async (
   }
 };
 
-export const getTrendingTVShows = async (): Promise<TrendingTVShow> => {
+export const getTrendingTVShows = async (): Promise<TrendingTVShow[]> => {
   "use server";
   try {
     const res = await apiClient.get("/api/tv/trending");
