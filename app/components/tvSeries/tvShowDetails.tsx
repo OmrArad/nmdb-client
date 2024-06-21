@@ -1,11 +1,14 @@
-import { getTVShow } from "@/app/api/tv/tvServices";
 import Image from "next/image";
+import { getTVShow, getTVCast } from "@/app/api/tv/tvServices";
+import { CastList } from "../cast/castList";
 
 export async function TvShowDetails({ tvShowId }: { tvShowId: string }) {
   const urlPrefixOriginal = "https://image.tmdb.org/t/p/original";
   const tvShow = await getTVShow(tvShowId);
 
   const genreNames = tvShow.genres.map((genre) => genre.name).join(", ");
+
+  const cast = await getTVCast(tvShowId);
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -43,7 +46,7 @@ export async function TvShowDetails({ tvShowId }: { tvShowId: string }) {
           Screenplay by: <span className="font-normal">movie.screenplay</span>
         </p>
         <div className="flex mt-4">
-          {/* Thumbnails for actors would go here */}
+          <CastList cast={cast} />
         </div>
         <div className="mt-4">
           <p>

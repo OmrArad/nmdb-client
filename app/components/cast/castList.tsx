@@ -9,7 +9,7 @@ export function CastList({ cast }: CastListProps) {
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-semibold">Top Billed Cast</h2>
-      <div className="flex overflow-x-scroll space-x-4 py-4 w-64 md:w-3/5">
+      <div className="flex overflow-x-scroll space-x-4 py-4 max-w-64 md:max-w-screen-lg">
         {cast.slice(0, 9).map((member) => (
           <div
             key={member.id}
