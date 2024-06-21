@@ -1,11 +1,14 @@
-import { getMovie } from "@/app/api/movie/movieServices";
+import { getMovie, getMovieCast } from "@/app/api/movie/movieServices";
 import Image from "next/image";
+import { CastList } from "../cast/castList";
 
 export async function MovieDetails({ movieId }: { movieId: string }) {
   const urlPrefixOriginal = "https://image.tmdb.org/t/p/original";
   const movie = await getMovie(movieId);
 
   const genreNames = movie.genres.map((genre) => genre.name).join(", ");
+
+  const cast = await getMovieCast(movieId);
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -42,7 +45,7 @@ export async function MovieDetails({ movieId }: { movieId: string }) {
           Screenplay by: <span className="font-normal">movie.screenplay</span>
         </p>
         <div className="flex mt-4">
-          {/* Thumbnails for actors would go here */}
+          <CastList cast={cast} />
         </div>
         <div className="mt-4">
           <p>
