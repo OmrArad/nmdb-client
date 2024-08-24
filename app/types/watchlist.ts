@@ -7,7 +7,7 @@ export type WatchlistItem = {
 };
 
 export type Watchlist = {
-  Content: WatchlistItem[];
-  ID: string;
-  Name: string;
+  content: WatchlistItem[];
+  id: string;
+  name: string;
 };

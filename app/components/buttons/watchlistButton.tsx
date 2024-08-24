@@ -8,7 +8,7 @@ import {
 } from "@/app/api/watchlist/watchlistServices";
 import { WatchlistItem } from "@/app/types/watchlist";
 import toast from "react-hot-toast";
-import { Spinner } from "flowbite-react";
+import { AxiosError } from "axios";
 
 export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
@@ -21,16 +21,16 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
     const checkWatchlistStatus = async () => {
       try {
         const watchlists = await getWatchlist();
-        console.log({ watchlists });
-        watchlistIdRef.current = watchlists.ID;
+        watchlistIdRef.current = watchlists.id;
         const isMovieInWatchlist =
           watchlists &&
-          watchlists.Content.some(
+          watchlists.content.some(
             (item: WatchlistItem) => item.tmdb_id === contentId
           );
         setIsInWatchlist(isMovieInWatchlist);
       } catch (error) {
-        if (error.response.status === 401) {
+        const err = error as AxiosError;
+        if (err.response!.status === 401) {
           setIsLoggedIn(false);
         }
         console.error("Error fetching watchlist status", error);
@@ -48,9 +48,6 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
       setIsInWatchlist(true);
       toast.success("Successfully added to your watchlist!");
     } catch (error) {
-      if (error.response.status === 401) {
-        toast.error("Something went wrong! Make sure you are logged in");
-      }
       console.error("Error adding to watchlist", error);
     }
   };
@@ -70,7 +67,7 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   };
 
   if (loading) {
-    return <Spinner />;
+    return <div>Loading...</div>;
   }
 
   return (
@@ -78,14 +75,14 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
       {isLoggedIn ? (
         isInWatchlist ? (
           <button
-            className="bg-red-500 text-white p-2 rounded"
+            className="bg-red-500 text-white p-2 rounded hover:bg-yellow-500"
             onClick={handleRemoveFromWatchlist}
           >
             Remove from Watchlist
           </button>
         ) : (
           <button
-            className="bg-green-500 text-white p-2 rounded"
+            className="bg-green-500 text-white p-2 rounded hover:bg-yellow-500"
             onClick={handleAddToWatchlist}
           >
             Add to Watchlist

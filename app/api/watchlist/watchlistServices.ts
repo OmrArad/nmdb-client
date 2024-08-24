@@ -1,15 +1,5 @@
-import { JWT } from "next-auth/jwt";
-import { Key } from "react";
 import { apiClient } from "../auth/auth";
 import { Watchlist } from "@/app/types/watchlist";
-
-// export type Watchlist = {
-//   id: Key | null | undefined;
-//   user_id: number;
-//   name: string;
-//   description: string;
-//   token: JWT;
-// };
 
 // Create a new watchlist
 export const createWatchlist = async (
@@ -43,7 +33,7 @@ export const getWatchlist = async (
 };
 
 // Get all watchlists for a user
-export const getUserWatchlists = async (): Promise<Watchlist> => {
+export const getUserWatchlists = async (): Promise<Watchlist[]> => {
   try {
     const response = await apiClient.get(`/api/watchlists/all`);
     return response.data;
@@ -57,9 +47,12 @@ export const addToWatchlist = async (
   watchlist_id: string,
   content_id: string,
   is_movie: boolean
-) => {
+): Promise<{
+  Success: string;
+  watchlist_object_id: string;
+}> => {
   try {
-    const response = await apiClient.put("/api/watchlists/content", {
+    const response = await apiClient.post("/api/watchlists/content", {
       watchlist_id,
       content_id,
       is_movie,
