@@ -21,10 +21,10 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
     const checkWatchlistStatus = async () => {
       try {
         const watchlists = await getWatchlist();
-        watchlistIdRef.current = watchlists.ID;
+        watchlistIdRef.current = watchlists.id;
         const isMovieInWatchlist =
           watchlists &&
-          watchlists.Content.some(
+          watchlists.content.some(
             (item: WatchlistItem) => item.tmdb_id === contentId
           );
         setIsInWatchlist(isMovieInWatchlist);
