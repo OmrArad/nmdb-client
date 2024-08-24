@@ -55,7 +55,8 @@ export const RatingsButton = ({
         return;
       }
       if (rating === newRating) {
-        await removeRating(ratingRef.current); // TODO: should work with contentId
+        // TODO: should work after updates. should work with contentId
+        await removeRating(ratingRef.current);
         setRating(0);
         return;
       }

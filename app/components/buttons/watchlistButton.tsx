@@ -44,7 +44,8 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
 
   const handleAddToWatchlist = async () => {
     try {
-      await addToWatchlist(watchlistIdRef.current, contentId, true); // Assuming true for is_movie
+      // TODO: fix CORS error on first try
+      await addToWatchlist(watchlistIdRef.current, contentId, true);
       setIsInWatchlist(true);
       toast.success("Successfully added to your watchlist!");
     } catch (error) {
