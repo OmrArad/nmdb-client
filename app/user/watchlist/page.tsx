@@ -40,7 +40,7 @@ const WatchlistComponent = () => {
     try {
       const newWatchlist = await createWatchlist();
       setWatchlists([...(watchlists ?? []), newWatchlist]);
-      toast.success(`New watchlist created successfuly: ${newWatchlist.name}`);
+      toast.success(`New watchlist created successfuly: ${newWatchlist.Name}`);
     } catch (error) {
       toast.error(`Failed to create watchlist: ${error}`);
     }
@@ -53,12 +53,12 @@ const WatchlistComponent = () => {
         Create New Watchlist
       </button>
       {mainWatchlist ? (
-        <div key={mainWatchlist.id}>{mainWatchlist.name}</div>
+        <div key={mainWatchlist.ID}>{mainWatchlist.Name}</div>
       ) : null}
       <span>All watchlists: </span>
       {Array.isArray(watchlists) &&
         watchlists.map((watchlist) => (
-          <div key={watchlist.id}>{watchlist.name}</div>
+          <div key={watchlist.ID}>{watchlist.Name}</div>
         ))}
     </div>
   );
