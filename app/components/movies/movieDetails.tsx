@@ -2,6 +2,7 @@ import { getMovie, getMovieCast } from "@/app/api/movie/movieServices";
 import Image from "next/image";
 import { CastList } from "../cast/castList";
 import { WatchlistButton } from "../buttons/watchlistButton";
+import { RatingsButton } from "../buttons/ratingsButton";
 
 export async function MovieDetails({ movieId }: { movieId: string }) {
   const urlPrefixOriginal = "https://image.tmdb.org/t/p/original";
@@ -32,6 +33,7 @@ export async function MovieDetails({ movieId }: { movieId: string }) {
           Click here for more reviews
         </a>
         <WatchlistButton contentId={movieId} />
+        <RatingsButton contentId={movieId} isMovie={true} />
       </div>
       <div className="w-full md:w-2/3 md:pl-8">
         <h1 className="text-4xl font-bold mb-2">{movie.title}</h1>
