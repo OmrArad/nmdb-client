@@ -36,7 +36,7 @@ export const RatingsButton = ({
         }
       } catch (error) {
         const err = error as AxiosError;
-        if (err.response!.status === 401) {
+        if (err.response?.status === 401) {
           setIsLoggedIn(false);
         }
         console.error("Error fetching user ratings", error);

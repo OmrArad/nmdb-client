@@ -21,16 +21,16 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
     const checkWatchlistStatus = async () => {
       try {
         const watchlists = await getWatchlist();
-        watchlistIdRef.current = watchlists.id;
+        watchlistIdRef.current = watchlists.ID;
         const isMovieInWatchlist =
           watchlists &&
-          watchlists.content.some(
+          watchlists.Content.some(
             (item: WatchlistItem) => item.tmdb_id === contentId
           );
         setIsInWatchlist(isMovieInWatchlist);
       } catch (error) {
         const err = error as AxiosError;
-        if (err.response!.status === 401) {
+        if (err.response?.status === 401) {
           setIsLoggedIn(false);
         }
         console.error("Error fetching watchlist status", error);

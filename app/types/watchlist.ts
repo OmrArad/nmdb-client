@@ -6,8 +6,9 @@ export type WatchlistItem = {
   watchlist_item_id: string;
 };
 
+// Do not change to lower case
 export type Watchlist = {
-  content: WatchlistItem[];
-  id: string;
-  name: string;
+  Content: WatchlistItem[];
+  ID: string;
+  Name: string;
 };

@@ -11,7 +11,7 @@ import type { Watchlist } from "@/app/types/watchlist";
 
 const WatchlistComponent = () => {
   const [mainWatchlist, setMainWatchlist] = useState<Watchlist>();
-  const [watchlists, setWatchlists] = useState<Watchlist[]>();
+  const [watchlists, setWatchlists] = useState<Watchlist[]>([]);
 
   useEffect(() => {
     loadWatchlists();
@@ -56,9 +56,10 @@ const WatchlistComponent = () => {
         <div key={mainWatchlist.id}>{mainWatchlist.name}</div>
       ) : null}
       <span>All watchlists: </span>
-      {(watchlists ?? []).map((watchlist) => (
-        <div key={watchlist.id}>{watchlist.name}</div>
-      ))}
+      {Array.isArray(watchlists) &&
+        watchlists.map((watchlist) => (
+          <div key={watchlist.id}>{watchlist.name}</div>
+        ))}
     </div>
   );
 };

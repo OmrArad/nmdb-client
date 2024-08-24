@@ -2,6 +2,7 @@ import Image from "next/image";
 import { getTVShow, getTVCast } from "@/app/api/tv/tvServices";
 import { CastList } from "../cast/castList";
 import { RatingsButton } from "../buttons/ratingsButton";
+import { WatchlistButton } from "../buttons/watchlistButton";
 
 export async function TvShowDetails({ tvShowId }: { tvShowId: string }) {
   const urlPrefixOriginal = "https://image.tmdb.org/t/p/original";
@@ -31,6 +32,7 @@ export async function TvShowDetails({ tvShowId }: { tvShowId: string }) {
         >
           Click here for more reviews
         </a>
+        <WatchlistButton contentId={tvShowId} />
         <RatingsButton contentId={tvShowId} isMovie={false} />
       </div>
       <div className="w-full md:w-2/3 md:pl-8">
