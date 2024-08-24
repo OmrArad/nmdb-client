@@ -59,7 +59,7 @@ export const addToWatchlist = async (
   is_movie: boolean
 ) => {
   try {
-    const response = await apiClient.put("/api/watchlists/content", {
+    const response = await apiClient.post("/api/watchlists/content", {
       watchlist_id,
       content_id,
       is_movie,
