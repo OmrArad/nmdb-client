@@ -21,16 +21,16 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
     const checkWatchlistStatus = async () => {
       try {
         const watchlists = await getWatchlist();
-        watchlistIdRef.current = watchlists.id;
+        watchlistIdRef.current = watchlists.ID;
         const isMovieInWatchlist =
           watchlists &&
-          watchlists.content.some(
+          watchlists.Content.some(
             (item: WatchlistItem) => item.tmdb_id === contentId
           );
         setIsInWatchlist(isMovieInWatchlist);
       } catch (error) {
         const err = error as AxiosError;
-        if (err.response!.status === 401) {
+        if (err.response?.status === 401) {
           setIsLoggedIn(false);
         }
         console.error("Error fetching watchlist status", error);
@@ -44,7 +44,8 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
 
   const handleAddToWatchlist = async () => {
     try {
-      await addToWatchlist(watchlistIdRef.current, contentId, true); // Assuming true for is_movie
+      // TODO: fix CORS error on first try
+      await addToWatchlist(watchlistIdRef.current, contentId, true);
       setIsInWatchlist(true);
       toast.success("Successfully added to your watchlist!");
     } catch (error) {
