@@ -22,6 +22,7 @@ export const RatingsButton = ({
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   let ratingRef = useRef("");
+  const STARS = 10;
 
   useEffect(() => {
     const fetchRating = async () => {
@@ -70,7 +71,7 @@ export const RatingsButton = ({
 
   const renderStars = () => {
     const stars = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= STARS; i++) {
       stars.push(
         <span
           key={i}
@@ -90,7 +91,7 @@ export const RatingsButton = ({
 
   const renderDisabledStars = () => {
     const stars = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= STARS; i++) {
       stars.push(
         <span
           key={i}
