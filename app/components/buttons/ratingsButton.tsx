@@ -22,10 +22,12 @@ export const RatingsButton = ({
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   let ratingRef = useRef("");
+  const STARS = 10;
 
   useEffect(() => {
     const fetchRating = async () => {
       try {
+        // TODO: get rating using contentId
         const userRatings = await getRatingsByUser();
         const contentRating = userRatings.ratings.find(
           (r: { media_ID: string }) => r.media_ID === contentId
@@ -56,12 +58,16 @@ export const RatingsButton = ({
       }
       if (rating === newRating) {
         // TODO: should work after updates. should work with contentId
-        await removeRating(ratingRef.current);
+        await removeRating(contentId);
         setRating(0);
+        ratingRef.current = "";
+        toast.success("Successfully deleted!");
         return;
       }
       const newContentRating = await addRating(contentId, newRating, isMovie);
       setRating(newRating);
+      ratingRef.current = newContentRating.rating_id;
+
       toast.success("Successfully rated!");
     } catch (error) {
       console.error("Error adding rating", error);
@@ -70,7 +76,7 @@ export const RatingsButton = ({
 
   const renderStars = () => {
     const stars = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= STARS; i++) {
       stars.push(
         <span
           key={i}
@@ -90,7 +96,7 @@ export const RatingsButton = ({
 
   const renderDisabledStars = () => {
     const stars = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= STARS; i++) {
       stars.push(
         <span
           key={i}
