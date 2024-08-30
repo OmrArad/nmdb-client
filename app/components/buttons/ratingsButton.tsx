@@ -27,6 +27,7 @@ export const RatingsButton = ({
   useEffect(() => {
     const fetchRating = async () => {
       try {
+        // TODO: get rating using contentId
         const userRatings = await getRatingsByUser();
         const contentRating = userRatings.ratings.find(
           (r: { media_ID: string }) => r.media_ID === contentId
@@ -57,12 +58,16 @@ export const RatingsButton = ({
       }
       if (rating === newRating) {
         // TODO: should work after updates. should work with contentId
-        await removeRating(ratingRef.current);
+        await removeRating(contentId);
         setRating(0);
+        ratingRef.current = "";
+        toast.success("Successfully deleted!");
         return;
       }
       const newContentRating = await addRating(contentId, newRating, isMovie);
       setRating(newRating);
+      ratingRef.current = newContentRating.rating_id;
+
       toast.success("Successfully rated!");
     } catch (error) {
       console.error("Error adding rating", error);

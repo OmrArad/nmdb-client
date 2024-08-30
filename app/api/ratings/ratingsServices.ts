@@ -18,14 +18,24 @@ export const addRating = async (
   }
 };
 
-export const getRatingsByUser = async (): Promise<RatingsResponse> => {
+export const getRatingsByUser = async (
+  contentId?: string,
+  isMovie = 1
+): Promise<RatingsResponse> => {
+  if (contentId) {
+    const response = await apiClient.get<RatingsResponse>(
+      "/api/users/ratings",
+      { data: { content_id: contentId, is_movie: isMovie } }
+    );
+    return response.data;
+  }
   const response = await apiClient.get<RatingsResponse>("/api/users/ratings");
   return response.data;
 };
 
-export const removeRating = async (ratingId: string) => {
+export const removeRating = async (contentId: string, isMovie = true) => {
   const response = await apiClient.delete("/api/ratings", {
-    data: { rating_object_id: ratingId },
+    data: { content_id: contentId, is_movie: isMovie },
   });
   return response.data;
 };
