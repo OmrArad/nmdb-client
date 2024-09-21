@@ -31,7 +31,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
                 ? `https://image.tmdb.org/t/p/w200${result.poster_path}`
                 : fallbackImage
             }
-            alt={result.title || result.name}
+            alt={result.title || result.name!}
             width={200}
             height={300}
             className="rounded-md"
