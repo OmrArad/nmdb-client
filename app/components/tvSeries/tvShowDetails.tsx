@@ -3,6 +3,7 @@ import { getTVShow, getTVCast } from "@/app/api/tv/tvServices";
 import { CastList } from "../cast/castList";
 import { RatingsButton } from "../buttons/ratingsButton";
 import { WatchlistButton } from "../buttons/watchlistButton";
+import { TextExpander } from "../textExpander";
 
 export async function TvShowDetails({ tvShowId }: { tvShowId: string }) {
   const urlPrefixOriginal = "https://image.tmdb.org/t/p/original";
@@ -42,7 +43,7 @@ export async function TvShowDetails({ tvShowId }: { tvShowId: string }) {
           {tvShow.first_air_date}
         </p>
         <h2 className="text-2xl font-bold mb-2">Overview</h2>
-        <p>{tvShow.overview}</p>
+        <TextExpander text={tvShow.overview} initialClampLines={5} />
         <p className="font-bold mt-4">
           Directed by: <span className="font-normal">movie.director</span>
         </p>
