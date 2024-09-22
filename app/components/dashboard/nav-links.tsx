@@ -14,7 +14,7 @@ const links = [
   },
   {
     name: "Tv-Shows",
-    href: "/tv-shows",
+    href: "/tv",
     icon: TvIcon,
   },
   { name: "Actors", href: "/actors", icon: UserGroupIcon },

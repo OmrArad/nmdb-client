@@ -20,7 +20,7 @@ function formatDate(date: string) {
 const TvShowCard: React.FC<tvCardProps> = ({ tvShow }) => {
   const pathname = usePathname();
   const tvShowHref = {
-    pathname: `${pathname}tv-shows/${tvShow.id}`,
+    pathname: `${pathname}tv/${tvShow.id}`,
     query: { id: tvShow.id },
   };
   return (
