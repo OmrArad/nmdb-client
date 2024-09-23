@@ -1,4 +1,4 @@
-interface TVShow {
+export interface TVShow {
   backdrop_path: string | null;
   id: number;
   original_name: string;

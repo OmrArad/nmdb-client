@@ -1,17 +1,17 @@
-import { getMovie, getMovieCast } from "@/app/api/movie/movieServices";
 import Image from "next/image";
-import { CastList } from "../cast/castList";
-import { WatchlistButton } from "../buttons/watchlistButton";
-import { RatingsButton } from "../buttons/ratingsButton";
-import { TextExpander } from "../textExpander";
+import { getTVShow, getTVCast } from "@/app/api/tv/tvServices";
+import { CastList } from "../../cast/castList";
+import { RatingsButton } from "../../buttons/ratingsButton";
+import { WatchlistButton } from "../../buttons/watchlistButton";
+import { TextExpander } from "../../textExpander";
 
-export async function MovieDetails({ movieId }: { movieId: string }) {
+export async function TvShowDetails({ tvShowId }: { tvShowId: string }) {
   const urlPrefixOriginal = "https://image.tmdb.org/t/p/original";
-  const movie = await getMovie(movieId);
+  const tvShow = await getTVShow(tvShowId);
 
-  const genreNames = movie.genres.map((genre) => genre.name).join(", ");
+  const genreNames = tvShow.genres.map((genre) => genre.name).join(", ");
 
-  const cast = await getMovieCast(movieId);
+  const cast = await getTVCast(tvShowId);
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -19,12 +19,12 @@ export async function MovieDetails({ movieId }: { movieId: string }) {
         <Image
           className="mb-4"
           alt="poster"
-          src={`${urlPrefixOriginal}/${movie.poster_path}`}
+          src={`${urlPrefixOriginal}/${tvShow.poster_path}`}
           width={300}
           height={450}
         />
         <div className="bg-yellow-400 text-xl font-bold p-2 mb-4">
-          {movie.vote_average ? movie.vote_average.toFixed(1) : "NR"}
+          {tvShow.vote_average ? tvShow.vote_average.toFixed(1) : "NR"}
         </div>
         {/* <p>{movie.reviewersQuote}</p> */}
         <a
@@ -33,17 +33,17 @@ export async function MovieDetails({ movieId }: { movieId: string }) {
         >
           Click here for more reviews
         </a>
-        <WatchlistButton contentId={movieId} />
-        <RatingsButton contentId={movieId} isMovie={true} />
+        <WatchlistButton contentId={tvShowId} />
+        <RatingsButton contentId={tvShowId} isMovie={false} />
       </div>
       <div className="w-full md:w-2/3 md:pl-8">
-        <h1 className="text-4xl font-bold mb-2">{movie.title}</h1>
+        <h1 className="text-4xl font-bold mb-2">{tvShow.name}</h1>
         <p className="mb-2">
-          {genreNames} | {movie.runtime} | Released: {movie.release_date}
+          {genreNames} | {tvShow.episode_run_time} | Released:{" "}
+          {tvShow.first_air_date}
         </p>
         <h2 className="text-2xl font-bold mb-2">Overview</h2>
-        <TextExpander text={movie.overview} initialClampLines={5} />
-        {/* <p>{movie.overview}</p> */}
+        <TextExpander text={tvShow.overview} initialClampLines={5} />
         <p className="font-bold mt-4">
           Directed by: <span className="font-normal">movie.director</span>
         </p>

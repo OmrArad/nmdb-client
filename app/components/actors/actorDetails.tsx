@@ -1,8 +1,28 @@
-import { ActorDetailsProps } from "@/app/types/actor";
+import { ActorDetailsProps, MediaAppearance } from "@/app/types/actor";
 import Image from "next/image";
 import { TextExpander } from "../textExpander";
+import MediaCard from "../media/mediaCard";
+import TrendingSectionSkeleton from "../home/trendingSectionSkeleton";
+import Link from "next/link";
 
-const ActorDetails = ({ actor }: ActorDetailsProps) => {
+const pathname = "http://localhost:3000";
+
+const ActorDetails = ({ actor, mediaAppearances }: ActorDetailsProps) => {
+  const getMediaCard = (media: MediaAppearance, index: number) => (
+    <MediaCard
+      key={index}
+      type={"MediaAppearance"}
+      kind={media.media_kind}
+      media={media}
+    />
+  );
+
+  const getCastAppearances = () =>
+    mediaAppearances.cast.map((media, index) => getMediaCard(media, index));
+
+  const getCrewAppearances = () =>
+    mediaAppearances.crew.map((media, index) => getMediaCard(media, index));
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-col items-center sm:flex-row">
@@ -15,14 +35,14 @@ const ActorDetails = ({ actor }: ActorDetailsProps) => {
             className="rounded-md"
           />
         </div>
-        <div className="mt-4 sm:mt-0 sm:ml-6 overflow-hidden ">
+        <div className="mt-4 sm:mt-0 sm:ml-6 overflow-hidden">
           <h1 className="text-3xl font-bold">{actor.name}</h1>
           <p className="text-sm text-gray-500 mt-2">
             {actor.known_for_department}
           </p>
-          {/* Use the TextExpander for the biography */}
+
           <TextExpander text={actor.biography} initialClampLines={5} />
-          {/* <p className="mt-2 text-lg truncate">{actor.biography}</p> */}
+
           <div className="mt-4">
             <p>
               <strong>Birthday:</strong> {actor.birthday}
@@ -62,6 +82,23 @@ const ActorDetails = ({ actor }: ActorDetailsProps) => {
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold mb-4">Media Appearances</h2>
+
+        {mediaAppearances.cast.length > 0 && (
+          <TrendingSectionSkeleton
+            sectionTitle="Cast"
+            Trending={getCastAppearances}
+          />
+        )}
+        {mediaAppearances.crew.length > 0 && (
+          <TrendingSectionSkeleton
+            sectionTitle="Crew"
+            Trending={getCrewAppearances}
+          />
+        )}
       </div>
     </div>
   );

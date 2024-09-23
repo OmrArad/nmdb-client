@@ -1,4 +1,4 @@
-import { TvShowDetails } from "@/app/components/tvSeries/tvShowDetails";
+import { TvShowDetails } from "@/app/components/media/tvSeries/tvShowDetails";
 
 export default async function TvShowPage({
   params: { id },
