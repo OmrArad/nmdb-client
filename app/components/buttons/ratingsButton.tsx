@@ -82,7 +82,7 @@ export const RatingsButton = ({
           key={i}
           className={`${
             i <= (hoverRating || rating || 0) ? "text-yellow-500" : ""
-          } cursor-pointer`}
+          } cursor-pointer pr-1`}
           onClick={() => handleRating(i)}
           onMouseEnter={() => setHoverRating(i)}
           onMouseLeave={() => setHoverRating(0)}
@@ -100,7 +100,7 @@ export const RatingsButton = ({
       stars.push(
         <span
           key={i}
-          className={`text-gray-500 cursor-pointer`}
+          className={`text-gray-500 cursor-pointer pr-1`}
           onClick={() => handleRating(i)}
         >
           ★
