@@ -86,7 +86,7 @@ const SearchSection = () => {
             <h3 className="text-lg font-semibold">Previous Searches</h3>
             <button
               onClick={clearSearchHistory}
-              className="text-sm mt-1 text-gray-300 underline"
+              className="text-sm mt-1 text-gray-300 hover:underline"
             >
               Clear Search History
             </button>
@@ -95,7 +95,7 @@ const SearchSection = () => {
             {searchHistory.map((query, index) => (
               <li
                 key={index}
-                className="text-sm text-gray-400 cursor-pointer"
+                className="text-sm text-gray-400 cursor-pointer hover:underline"
                 onClick={() => handleSearch(query)}
               >
                 {query}
