@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { SearchResponse, SearchResult } from "@/app/types/search";
+import { SearchResult } from "@/app/types/search";
 
 type SearchResultsProps = {
   results: SearchResult[];
@@ -12,6 +12,16 @@ const getHref = (pathname: string, result: SearchResult) =>
   result.media_kind === "movie"
     ? `${pathname}movies/${result.id}`
     : `${pathname}tv/${result.id}`;
+
+const getRating = (vote_average: number) =>
+  vote_average > 0 ? (
+    <p className="text-sm text-gray-400 text-center">
+      Rating: {vote_average % 1 !== 0 ? vote_average.toFixed(1) : vote_average}{" "}
+      / 10
+    </p>
+  ) : (
+    <p className="text-sm text-gray-400 text-center">No Rating</p>
+  );
 
 const fallbackImage = "/not-found-image.jpg";
 
@@ -42,9 +52,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
           <p className="text-sm text-gray-400 text-center">
             {result.release_date || result.first_air_date}
           </p>
-          <p className="text-sm text-gray-400 text-center">
-            Rating: {result.vote_average.toFixed(1)} / 10
-          </p>
+          {getRating(result.vote_average)}
         </Link>
       ))}
     </div>

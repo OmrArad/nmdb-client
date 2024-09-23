@@ -3,6 +3,7 @@ import Image from "next/image";
 import { CastList } from "../../cast/castList";
 import { WatchlistButton } from "../../buttons/watchlistButton";
 import { RatingsButton } from "../../buttons/ratingsButton";
+import { TextExpander } from "../../textExpander";
 
 export async function MovieDetails({ movieId }: { movieId: string }) {
   const urlPrefixOriginal = "https://image.tmdb.org/t/p/w500";
@@ -41,7 +42,7 @@ export async function MovieDetails({ movieId }: { movieId: string }) {
           {genreNames} | {movie.runtime} | Released: {movie.release_date}
         </p>
         <h2 className="text-2xl font-bold mb-2">Overview</h2>
-        <p>{movie.overview}</p>
+        <TextExpander text={movie.overview} initialClampLines={5} />
         <p className="font-bold mt-4">
           Directed by: <span className="font-normal">movie.director</span>
         </p>
