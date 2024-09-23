@@ -1,11 +1,11 @@
 import { getMovie, getMovieCast } from "@/app/api/movie/movieServices";
 import Image from "next/image";
-import { CastList } from "../cast/castList";
-import { WatchlistButton } from "../buttons/watchlistButton";
-import { RatingsButton } from "../buttons/ratingsButton";
+import { CastList } from "../../cast/castList";
+import { WatchlistButton } from "../../buttons/watchlistButton";
+import { RatingsButton } from "../../buttons/ratingsButton";
 
 export async function MovieDetails({ movieId }: { movieId: string }) {
-  const urlPrefixOriginal = "https://image.tmdb.org/t/p/original";
+  const urlPrefixOriginal = "https://image.tmdb.org/t/p/w500";
   const movie = await getMovie(movieId);
 
   const genreNames = movie.genres.map((genre) => genre.name).join(", ");
