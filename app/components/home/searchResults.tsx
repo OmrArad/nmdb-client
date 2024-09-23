@@ -42,9 +42,13 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
           <p className="text-sm text-gray-400 text-center">
             {result.release_date || result.first_air_date}
           </p>
-          <p className="text-sm text-gray-400 text-center">
-            Rating: {result.vote_average.toFixed(1)} / 10
-          </p>
+          {result.vote_average > 0 ? (
+            <p className="text-sm text-gray-400 text-center">
+              Rating: {result.vote_average.toFixed(1)} / 10
+            </p>
+          ) : (
+            <p className="text-sm text-gray-400 text-center">No Rating</p>
+          )}
         </Link>
       ))}
     </div>
