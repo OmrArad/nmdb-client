@@ -4,6 +4,7 @@ import { CastList } from "../../cast/castList";
 import { WatchlistButton } from "../../buttons/watchlistButton";
 import { RatingsButton } from "../../buttons/ratingsButton";
 import { TextExpander } from "../../textExpander";
+import MediaRating from "../../rating/mediaRating";
 
 export async function MovieDetails({ movieId }: { movieId: string }) {
   const urlPrefixOriginal = "https://image.tmdb.org/t/p/w500";
@@ -35,6 +36,7 @@ export async function MovieDetails({ movieId }: { movieId: string }) {
         </a>
         <WatchlistButton contentId={movieId} />
         <RatingsButton contentId={movieId} isMovie={true} />
+        <MediaRating />
       </div>
       <div className="w-full md:w-2/3 md:pl-8">
         <h1 className="text-4xl font-bold mb-2">{movie.title}</h1>
