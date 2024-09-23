@@ -1,8 +1,7 @@
 import { getTrendingTVShows } from "@/app/api/tv/tvServices";
-import TvShowCard from "../tvSeries/tvShowCard";
 import TrendingSectionSkeleton from "./trendingSectionSkeleton";
 import { getTrendingMovies } from "@/app/api/movie/movieServices";
-import MovieCard from "../movies/movieCard";
+import MediaCard from "../media/mediaCard";
 
 const TrendingSection = async () => {
   const trendingShows = await getTrendingTVShows();
@@ -10,12 +9,12 @@ const TrendingSection = async () => {
 
   const TrendingMovies = () => {
     return trendingMovies.map((item, index) => (
-      <MovieCard key={index} movie={item} />
+      <MediaCard key={index} type={"Movie"} kind={"movie"} media={item} />
     ));
   };
   const TrendingTvShows = () => {
     return trendingShows.map((item, index) => (
-      <TvShowCard key={index} tvShow={item} />
+      <MediaCard key={index} type={"TVShow"} kind={"tv"} media={item} />
     ));
   };
 

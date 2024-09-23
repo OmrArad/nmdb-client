@@ -1,25 +1,21 @@
 import { ActorDetailsProps, MediaAppearance } from "@/app/types/actor";
 import Image from "next/image";
 import { TextExpander } from "../textExpander";
-import MovieCard from "../movies/movieCard";
-import TvShowCard from "../tvSeries/tvShowCard";
+import MediaCard from "../media/mediaCard";
 import TrendingSectionSkeleton from "../home/trendingSectionSkeleton";
 import Link from "next/link";
 
 const pathname = "http://localhost:3000";
 
 const ActorDetails = ({ actor, mediaAppearances }: ActorDetailsProps) => {
-  const getMediaCard = (media: MediaAppearance, index: number) =>
-    media.media_kind === "movie" ? (
-      <MovieCard key={index} movie={media} />
-    ) : (
-      <TvShowCard key={index} tvShow={media} />
-    );
-
-  const getMediaLink = (media: MediaAppearance) => {
-    const link = media.media_kind === "movie" ? `movies` : `tv`;
-    return `${pathname}/${link}/${media.id}`;
-  };
+  const getMediaCard = (media: MediaAppearance, index: number) => (
+    <MediaCard
+      key={index}
+      type={"MediaAppearance"}
+      kind={media.media_kind}
+      media={media}
+    />
+  );
 
   const getCastAppearances = () =>
     mediaAppearances.cast.map((media, index) => getMediaCard(media, index));
@@ -102,65 +98,6 @@ const ActorDetails = ({ actor, mediaAppearances }: ActorDetailsProps) => {
             sectionTitle="Crew"
             Trending={getCrewAppearances}
           />
-        )}
-
-        {mediaAppearances.cast.length > 0 && (
-          <div className="mb-8">
-            <h3 className="text-xl font-semibold mb-2">Cast</h3>
-            <div className="flex gap-4 overflow-x-auto pb-3">
-              {mediaAppearances.cast.map((media) => (
-                <Link
-                  key={media.id}
-                  className="bg-gray-800 p-4 rounded-lg max-h-[calc(22rem)] min-w-52 w-52 hover:bg-gray-700 cursor-pointer overflow-y-hidden flex flex-col"
-                  href={getMediaLink(media)}
-                >
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w200${media.poster_path}`}
-                    alt={media.name || media.title!}
-                    width={150}
-                    height={225}
-                    className="rounded-md self-center"
-                  />
-                  <h4 className="text-lg font-semibold mt-2 text-white">
-                    {media.name || media.title}
-                  </h4>
-                  <p className="text-sm text-gray-400">
-                    {media.character ? `as ${media.character}` : ""}
-                  </p>
-                  <p className="text-sm text-gray-400">
-                    {media.first_air_date || media.release_date}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {mediaAppearances.crew.length > 0 && (
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Crew</h3>
-            <div className="flex gap-4 overflow-x-auto pb-3">
-              {mediaAppearances.crew.map((media) => (
-                <div
-                  key={media.id}
-                  className="bg-gray-800 p-4 rounded-lg max-h-[calc(22rem)] w-52 min-w-52 hover:bg-gray-700 cursor-pointer overflow-y-hidden flex flex-col"
-                >
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w200${media.poster_path}`}
-                    alt={media.title!}
-                    width={150}
-                    height={225}
-                    className="rounded-md self-center"
-                  />
-                  <h4 className="text-lg font-semibold mt-2 text-white">
-                    {media.title}
-                  </h4>
-                  <p className="text-sm text-gray-400">{media.job}</p>
-                  <p className="text-sm text-gray-400">{media.release_date}</p>
-                </div>
-              ))}
-            </div>
-          </div>
         )}
       </div>
     </div>
