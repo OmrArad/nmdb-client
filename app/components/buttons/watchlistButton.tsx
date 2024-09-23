@@ -72,18 +72,18 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   }
 
   return (
-    <div className="mt-4">
+    <div className="mb-4 flex flex-col">
       {isLoggedIn ? (
         isInWatchlist ? (
           <button
-            className="bg-red-500 text-white p-2 rounded hover:bg-yellow-500"
+            className="bg-red-500 text-white text-xl font-bold px-4 py-2 rounded hover:bg-yellow-500"
             onClick={handleRemoveFromWatchlist}
           >
             Remove from Watchlist
           </button>
         ) : (
           <button
-            className="bg-green-500 text-white p-2 rounded hover:bg-yellow-500"
+            className="bg-green-500 text-white text-xl font-bold p-3.5 rounded hover:bg-yellow-500"
             onClick={handleAddToWatchlist}
           >
             Add to Watchlist

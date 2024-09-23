@@ -21,11 +21,10 @@ const MediaRating = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-3xl font-bold mb-4">Movie Rating</h1>
+    <div className="flex flex-col flex-grow items-stretch mb-4">
       <button
         onClick={handleOpenPopup}
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+        className="bg-blue-500 text-white text-xl font-bold px-4 py-3 rounded hover:bg-blue-700"
       >
         Rate This Movie
       </button>

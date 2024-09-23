@@ -18,25 +18,27 @@ export async function MovieDetails({ movieId }: { movieId: string }) {
     <div className="flex flex-col md:flex-row">
       <div className="w-full md:w-1/5">
         <Image
-          className="mb-4"
+          className="mb-4 rounded"
           alt="poster"
           src={`${urlPrefixOriginal}/${movie.poster_path}`}
           width={300}
           height={450}
         />
-        <div className="bg-yellow-400 text-xl font-bold p-2 mb-4">
-          {movie.vote_average ? movie.vote_average.toFixed(1) : "NR"}
+        <WatchlistButton contentId={movieId} />
+        <div className="flex flex-row items-stretch justify-between gap-2 flex-grow">
+          <div className="bg-yellow-400 text-xl font-bold p-3 mb-4 rounded-lg">
+            {movie.vote_average ? movie.vote_average.toFixed(1) : "NR"}
+          </div>
+          {/* <p>{movie.reviewersQuote}</p> */}
+          <MediaRating />
         </div>
-        {/* <p>{movie.reviewersQuote}</p> */}
+        {/* <RatingsButton contentId={movieId} isMovie={true} /> */}
         <a
           href="#reviews"
-          className="text-indigo-600 hover:text-indigo-800 visited:text-purple-600"
+          className="text-indigo-600 hover:text-indigo-800 visited:text-purple-600 mt-4"
         >
           Click here for more reviews
         </a>
-        <WatchlistButton contentId={movieId} />
-        <RatingsButton contentId={movieId} isMovie={true} />
-        <MediaRating />
       </div>
       <div className="w-full md:w-2/3 md:pl-8">
         <h1 className="text-4xl font-bold mb-2">{movie.title}</h1>
