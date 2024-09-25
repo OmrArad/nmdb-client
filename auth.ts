@@ -15,7 +15,7 @@ type SessionType = {
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [google],
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: 60 * 60 },
   callbacks: {
     jwt({ token, user, account }) {
       if (user) {
@@ -36,7 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }) {
       session.user.id = token.id!;
       session.accessToken = token.access_token!;
-      console.log(session.accessToken);
+      // console.log(session.accessToken);
       return session;
     },
   },
