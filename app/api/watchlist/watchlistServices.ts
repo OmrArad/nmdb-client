@@ -1,11 +1,11 @@
 import { apiClient } from "../auth/auth";
-import { Watchlist } from "@/app/types/watchlist";
+import { IWatchlist } from "@/app/types/watchlist";
 
 // Create a new watchlist
 export const createWatchlist = async (
   name = "Untitled Watchlist",
   description = ""
-): Promise<Watchlist> => {
+): Promise<IWatchlist> => {
   try {
     const response = await apiClient.post("/api/watchlists", {
       name,
@@ -20,7 +20,7 @@ export const createWatchlist = async (
 // Get a specific watchlist
 export const getWatchlist = async (
   watchlistId?: string | number
-): Promise<Watchlist> => {
+): Promise<IWatchlist> => {
   try {
     const url = watchlistId
       ? `/api/watchlists?watchlist_id=${watchlistId}`
@@ -33,7 +33,7 @@ export const getWatchlist = async (
 };
 
 // Get all watchlists for a user
-export const getUserWatchlists = async (): Promise<Watchlist[]> => {
+export const getUserWatchlists = async (): Promise<IWatchlist[]> => {
   try {
     const response = await apiClient.get(`/api/watchlists/all`);
     return response.data;
