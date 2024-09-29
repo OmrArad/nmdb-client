@@ -5,6 +5,7 @@ import styles from "@/app/styles/Home.module.css";
 import Toolbar from "./components/toolbar/toolbar";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
+import { WatchlistProvider } from "./user/watchlist/watchlistContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,16 +23,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Toaster position="top-right" />
-        <div className={`${styles.container} h-full md:h-screen`}>
-          <Toolbar />
-          <div className="flex h-full flex-col md:flex-row md:overflow-hidden">
-            <div className="flex-grow p-2 md:overflow-y-auto md:px-0 pb-0">
-              {children}
-              <footer className={`${styles.footer}`}></footer>
+        <WatchlistProvider>
+          <Toaster position="top-right" />
+          <div className={`${styles.container} h-full md:h-screen`}>
+            <Toolbar />
+            <div className="flex h-full flex-col md:flex-row md:overflow-hidden">
+              <div className="flex-grow p-2 md:overflow-y-auto md:px-0 pb-0">
+                {children}
+                <footer className={`${styles.footer}`}></footer>
+              </div>
             </div>
           </div>
-        </div>
+        </WatchlistProvider>
       </body>
       <Script src="../path/to/flowbite/dist/flowbite.min.js"></Script>
     </html>
