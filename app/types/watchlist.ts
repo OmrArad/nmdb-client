@@ -1,3 +1,5 @@
+import { SetStateAction } from "react";
+
 export type IWatchlistItem = {
   watchlist_item_id: string;
   title: string;
@@ -15,4 +17,11 @@ export type IWatchlist = {
   Content: IWatchlistItem[];
   ID: string;
   Name: string;
+};
+
+export type IWatchlistHandlerProps = {
+  watchlist: IWatchlist;
+  updateWatchlist: (newWatchlist: IWatchlist) => void;
+  mediaId: string;
+  setIsInWatchlist: (value: SetStateAction<boolean>) => void;
 };

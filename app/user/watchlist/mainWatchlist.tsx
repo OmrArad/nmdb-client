@@ -32,8 +32,8 @@ const MainWatchlist = () => {
         My Watchlist
       </h1>
       <div className="container mx-auto px-4 py-6 md:h-[calc(100vh-254px)] overflow-scroll">
-        {watchlist.Content?.map((movie) => (
-          <WatchlistItem key={movie.watchlist_item_id} movie={movie} />
+        {watchlist.Content?.map((media) => (
+          <WatchlistItem key={media.watchlist_item_id} media={media} />
         ))}
       </div>
     </div>

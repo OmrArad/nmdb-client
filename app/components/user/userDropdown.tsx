@@ -7,6 +7,8 @@ import { setAuthTokenAndLogin } from "@/app/api/auth/auth";
 import styles from "@/app/styles/NavButton.module.css";
 import clsx from "clsx";
 import UserImage from "./userImage";
+import { IWatchlist } from "@/app/types/watchlist";
+// import { useWatchlist } from "@/app/user/watchlist/watchlistContext";
 
 const links = [
   {
@@ -25,12 +27,18 @@ const style =
 const UserDropdown = ({
   onLogoutClick,
   session,
+  userWatchlist,
 }: {
   onLogoutClick: () => void;
   session: Session;
+  userWatchlist?: IWatchlist;
 }) => {
+  // const { updateWatchlist } = useWatchlist();
+
   React.useEffect(() => {
-    setAuthTokenAndLogin(session?.accessToken);
+    const res = setAuthTokenAndLogin(session?.accessToken);
+    // updateWatchlist(userWatchlist);
+    // console.log(res);
   }, [session?.accessToken]);
 
   const userDropdownTheme = () => {

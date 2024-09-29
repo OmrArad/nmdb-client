@@ -1,34 +1,74 @@
+"use client";
 import Image from "next/image";
-import React from "react";
-import { IWatchlistItem } from "@/app/types/watchlist";
+import Link from "next/link";
+import React, { useState } from "react";
+import { IWatchlistHandlerProps, IWatchlistItem } from "@/app/types/watchlist";
+import { useWatchlist } from "./watchlistContext";
+import {
+  handleAddToWatchlist,
+  handleRemoveFromWatchlist,
+} from "./watchlistUtils";
+import { useRouter } from "next/navigation"; // For programmatic navigation
 
-const WatchlistItem = ({ movie }: { movie: IWatchlistItem }) => {
+const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
+  const { watchlist, updateWatchlist } = useWatchlist();
+  const [isInWatchlist, setIsInWatchlist] = useState(true);
+  const router = useRouter();
+
+  const handleRemove = () =>
+    handleRemoveFromWatchlist(
+      watchlist!,
+      updateWatchlist,
+      media.tmdb_id,
+      setIsInWatchlist
+    );
+
+  const handleAdd = () =>
+    handleAddToWatchlist(
+      watchlist!,
+      updateWatchlist,
+      media.tmdb_id,
+      setIsInWatchlist
+    );
+
+  // Function to navigate to the media page
+  const handleNavigate = () => {
+    router.push(`/movies/${media.tmdb_id}`);
+  };
+
   return (
     <div className="bg-gray-100 border border-gray-300 rounded-xl overflow-hidden shadow-lg mb-4">
-      <div className="flex items-start p-4">
+      <div className="md:flex items-start p-4">
         <Image
           src={
-            movie.poster_path
-              ? movie.poster_path
+            media.poster_path
+              ? media.poster_path
               : "/images/no-image-available.png"
           }
-          alt={movie.title}
-          className="w-24 h-36 mr-4"
+          alt={media.title}
+          className="w-24 h-36 mr-4 cursor-pointer transition-transform transform hover:scale-105 hover:shadow-lg rounded-lg"
           width={96}
           height={144}
+          onClick={handleNavigate}
         />
-        <div className="flex-grow">
+        <div className="">
           <div className="flex-col justify-between">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold">{movie.title}</h2>
-              {movie.tmdb_rating !== null && (
+              <Link
+                href={`/movies/${media.tmdb_id}`}
+                passHref
+                className="text-xl font-bold transition-transform transform hover:scale-105 "
+              >
+                {media.title}
+              </Link>
+              {media.tmdb_rating !== null && (
                 <span className="text-green-400 font-bold">
-                  {movie.tmdb_rating.toFixed(1)}
+                  {media.tmdb_rating.toFixed(1)}
                 </span>
               )}
             </div>
-            <p className="text-gray-400">{movie.release_date}</p>
-            <p className="text-sm mt-2">{movie.overview}</p>
+            <p className="text-gray-400">{media.release_date}</p>
+            <p className="text-sm mt-2">{media.overview}</p>
           </div>
           <div className="bg-transparent py-3 flex justify-between items-center">
             <div>
@@ -42,7 +82,21 @@ const WatchlistItem = ({ movie }: { movie: IWatchlistItem }) => {
                 Add to list
               </button>
             </div>
-            <button className="text-red-600 hover:text-red-800">Remove</button>
+            {isInWatchlist ? (
+              <button
+                className="text-red-600 hover:text-red-800 transition-transform transform hover:scale-105"
+                onClick={handleRemove}
+              >
+                Remove
+              </button>
+            ) : (
+              <button
+                className="text-green-600 hover:text-green-800 transition-transform transform hover:scale-105"
+                onClick={handleAdd}
+              >
+                Add
+              </button>
+            )}
           </div>
         </div>
       </div>

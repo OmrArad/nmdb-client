@@ -1,5 +1,4 @@
 import axios from "axios";
-import toast from "react-hot-toast";
 
 export const apiClient = axios.create({
   baseURL: "http://127.0.0.1:5000",
@@ -22,10 +21,10 @@ export const login = async () => {
     const response = await apiClient.post("/api/login");
     return response.data;
   } catch (error) {
-    toast.error(`Failed to login user: ${error}`);
+    console.error(`Failed to login user: ${error}`);
   }
 };
 
 export const setAuthTokenAndLogin = async (token?: string) => {
-  setAuthToken(token).then(() => login());
+  return await setAuthToken(token).then(async () => await login());
 };
