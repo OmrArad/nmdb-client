@@ -1,12 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import {
-  addToWatchlist,
-  getWatchlist,
-  removeFromWatchlist,
-} from "@/app/api/watchlist/watchlistServices";
+import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 import { IWatchlistItem } from "@/app/types/watchlist";
-import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { useWatchlist } from "@/app/user/watchlist/watchlistContext";
 import {
@@ -46,38 +41,6 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
 
     checkWatchlistStatus();
   }, [contentId, isLoggedIn]);
-
-  // const handleAddToWatchlist = async () => {
-  //   try {
-  //     // TODO: fix CORS error on first try
-  //     await addToWatchlist(watchlistIdRef.current, contentId, true);
-  //     setIsInWatchlist(true);
-  //     const updatedWatchlist = await getWatchlist();
-  //     // const updatedWatchlist = watchlist!;
-  //     // updatedWatchlist?.Content.push(contentId)
-  //     updateWatchlist(updatedWatchlist);
-  //     toast.success("Successfully added to your watchlist!");
-  //   } catch (error) {
-  //     console.error("Error adding to watchlist", error);
-  //     updateWatchlist(watchlist!);
-  //   }
-  // };
-
-  // const handleRemoveFromWatchlist = async () => {
-  //   try {
-  //     await removeFromWatchlist(contentId, watchlistIdRef.current);
-  //     setIsInWatchlist(false);
-  //     const updatedWatchlist = watchlist!;
-  //     updatedWatchlist.Content = updatedWatchlist?.Content.filter(
-  //       (content) => content.tmdb_id !== contentId
-  //     );
-  //     updateWatchlist(updatedWatchlist);
-  //     toast.success("Successfully removed from your watchlist!");
-  //   } catch (error) {
-  //     console.error("Error removing from watchlist", error);
-  //     updateWatchlist(watchlist!);
-  //   }
-  // };
 
   const handleAdd = () =>
     handleAddToWatchlist(
