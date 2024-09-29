@@ -1,13 +1,8 @@
-import { auth, signIn, signOut } from "@/auth";
-import SignInButton from "../login/signInButton";
+import { signIn, signOut } from "@/auth";
 import UserDropdown from "./userDropdown";
-import { setAuthTokenAndLogin } from "@/app/api/auth/auth";
+import { SessionProvider } from "next-auth/react";
 
 export default async function UserButton() {
-  const session = await auth();
-  const user = session?.user;
-  const res = await setAuthTokenAndLogin(session?.accessToken);
-
   const handleLogout = async () => {
     "use server";
     await signOut();
@@ -19,12 +14,8 @@ export default async function UserButton() {
   };
 
   return (
-    <>
-      {user && res ? (
-        <UserDropdown onLogoutClick={handleLogout} session={session} />
-      ) : (
-        <SignInButton handleLogin={handleLogin} />
-      )}
-    </>
+    <SessionProvider>
+      <UserDropdown onLogoutClick={handleLogout} handleLogin={handleLogin} />
+    </SessionProvider>
   );
 }

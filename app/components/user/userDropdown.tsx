@@ -2,11 +2,12 @@
 import React from "react";
 import Link from "next/link";
 import { Dropdown } from "flowbite-react";
-import { Session } from "next-auth";
 import { setAuthTokenAndLogin } from "@/app/api/auth/auth";
 import styles from "@/app/styles/NavButton.module.css";
 import clsx from "clsx";
 import UserImage from "./userImage";
+import { useSession } from "next-auth/react";
+import SignInButton from "../login/signInButton";
 
 const links = [
   {
@@ -24,11 +25,13 @@ const style =
 
 const UserDropdown = ({
   onLogoutClick,
-  session,
+  handleLogin,
 }: {
   onLogoutClick: () => void;
-  session: Session;
+  handleLogin?: () => void;
 }) => {
+  const { data: session } = useSession();
+
   React.useEffect(() => {
     setAuthTokenAndLogin(session?.accessToken);
   }, [session?.accessToken]);
@@ -40,33 +43,38 @@ const UserDropdown = ({
       </div>
     );
   };
-
   return (
-    <Dropdown
-      label="User dropdown button"
-      dismissOnClick={false}
-      renderTrigger={userDropdownTheme}
-    >
-      <div className="absolute -right-12 -mt-2 w-36 bg-gray-50 rounded-md overflow-hidden shadow-xl z-10 divide-y">
-        <div>
-          {links.map((link) => {
-            return (
-              <Dropdown.Item
-                as={Link}
-                href={link.href}
-                key={link.name}
-                className={style}
-              >
-                {link.name}
-              </Dropdown.Item>
-            );
-          })}
-        </div>
-        <form action={onLogoutClick}>
-          <button className={style}>Logout</button>
-        </form>
-      </div>
-    </Dropdown>
+    <>
+      {session?.user ? (
+        <Dropdown
+          label="User dropdown button"
+          dismissOnClick={false}
+          renderTrigger={userDropdownTheme}
+        >
+          <div className="absolute -right-12 -mt-2 w-36 bg-gray-50 rounded-md overflow-hidden shadow-xl z-10 divide-y">
+            <div>
+              {links.map((link) => {
+                return (
+                  <Dropdown.Item
+                    as={Link}
+                    href={link.href}
+                    key={link.name}
+                    className={style}
+                  >
+                    {link.name}
+                  </Dropdown.Item>
+                );
+              })}
+            </div>
+            <form action={onLogoutClick}>
+              <button className={style}>Logout</button>
+            </form>
+          </div>
+        </Dropdown>
+      ) : (
+        <SignInButton handleLogin={handleLogin} />
+      )}
+    </>
   );
 };
 
