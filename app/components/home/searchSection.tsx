@@ -3,12 +3,14 @@ import { useState, useRef, useEffect } from "react";
 import SearchBar from "./searchBar";
 import SearchResults from "./searchResults";
 import { apiClient } from "@/app/api/auth/auth";
+import { useSession } from "next-auth/react";
 
 const SearchSection = () => {
   const [results, setResults] = useState<any[]>([]);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const storedQueries = sessionStorage.getItem("searchHistory");
@@ -80,7 +82,7 @@ const SearchSection = () => {
 
       <SearchBar onSearch={handleSearch} />
 
-      {searchHistory.length > 0 && (
+      {session && searchHistory.length > 0 && (
         <div className="mt-4">
           <div className="flex flex-row gap-4 justify-between">
             <h3 className="text-lg font-semibold">Previous Searches</h3>
