@@ -1,14 +1,13 @@
 "use client";
-
 import { useState, useEffect, useRef } from "react";
-import {
-  addToWatchlist,
-  getWatchlist,
-  removeFromWatchlist,
-} from "@/app/api/watchlist/watchlistServices";
-import { WatchlistItem } from "@/app/types/watchlist";
-import toast from "react-hot-toast";
+import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
+import { IWatchlistItem } from "@/app/types/watchlist";
 import { AxiosError } from "axios";
+import { useWatchlist } from "@/app/user/watchlist/watchlistContext";
+import {
+  handleAddToWatchlist,
+  handleRemoveFromWatchlist,
+} from "@/app/user/watchlist/watchlistUtils";
 
 export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
@@ -16,6 +15,7 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   const [loading, setLoading] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const watchlistIdRef = useRef("");
+  const { watchlist, updateWatchlist } = useWatchlist();
 
   useEffect(() => {
     const checkWatchlistStatus = async () => {
@@ -25,7 +25,7 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
         const isMovieInWatchlist =
           watchlists &&
           watchlists.Content.some(
-            (item: WatchlistItem) => item.tmdb_id === contentId
+            (item: IWatchlistItem) => item.tmdb_id === contentId
           );
         setIsInWatchlist(isMovieInWatchlist);
       } catch (error) {
@@ -42,26 +42,21 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
     checkWatchlistStatus();
   }, [contentId, isLoggedIn]);
 
-  const handleAddToWatchlist = async () => {
-    try {
-      // TODO: fix CORS error on first try
-      await addToWatchlist(watchlistIdRef.current, contentId, true);
-      setIsInWatchlist(true);
-      toast.success("Successfully added to your watchlist!");
-    } catch (error) {
-      console.error("Error adding to watchlist", error);
-    }
-  };
+  const handleAdd = () =>
+    handleAddToWatchlist(
+      watchlist!,
+      updateWatchlist,
+      contentId,
+      setIsInWatchlist
+    );
 
-  const handleRemoveFromWatchlist = async () => {
-    try {
-      await removeFromWatchlist(contentId, watchlistIdRef.current);
-      setIsInWatchlist(false);
-      toast.success("Successfully removed from your watchlist!");
-    } catch (error) {
-      console.error("Error removing from watchlist", error);
-    }
-  };
+  const handleRemove = () =>
+    handleRemoveFromWatchlist(
+      watchlist!,
+      updateWatchlist,
+      contentId,
+      setIsInWatchlist
+    );
 
   const handleDisabledButtonClick = () => {
     setShowMessage(true);
@@ -76,15 +71,15 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
       {isLoggedIn ? (
         isInWatchlist ? (
           <button
-            className="bg-red-500 text-white text-xl font-bold px-4 py-2 rounded hover:bg-yellow-500"
-            onClick={handleRemoveFromWatchlist}
+            className="bg-red-500 text-white p-2 rounded hover:bg-yellow-500"
+            onClick={handleRemove}
           >
             Remove from Watchlist
           </button>
         ) : (
           <button
-            className="bg-green-500 text-white text-xl font-bold p-3.5 rounded hover:bg-yellow-500"
-            onClick={handleAddToWatchlist}
+            className="bg-green-500 text-white p-2 rounded hover:bg-yellow-500"
+            onClick={handleAdd}
           >
             Add to Watchlist
           </button>
