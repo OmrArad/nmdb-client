@@ -7,6 +7,8 @@ interface RatingPopupProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (rating: number) => void;
+  onRemoveSubmit: () => void;
+  userRating: number | null;
 }
 
 const RatingPopup: React.FC<RatingPopupProps> = ({
@@ -14,6 +16,8 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
   isOpen,
   onClose,
   onSubmit,
+  onRemoveSubmit,
+  userRating,
 }) => {
   const [rating, setRating] = useState<number>(0); // Manage the current rating
   const [hoverRating, setHoverRating] = useState<number>(0);
@@ -24,6 +28,10 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
     if (rating > 0) {
       onSubmit(rating);
     }
+  };
+
+  const handleRemoveRateClick = () => {
+    onRemoveSubmit();
   };
 
   return (
@@ -75,6 +83,16 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
         >
           Rate
         </button>
+
+        {/* Remove Rating Button */}
+        {userRating && (
+          <button
+            onClick={handleRemoveRateClick}
+            className="text-blue-500 hover:bg-gray-800 rounded-full px-6 py-2 mt-4 w-full"
+          >
+            Remove Rating
+          </button>
+        )}
       </div>
     </div>
   );

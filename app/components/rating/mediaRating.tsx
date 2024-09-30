@@ -11,8 +11,6 @@ import { signOut } from "@/auth";
 import { useSession } from "next-auth/react";
 import { Spinner } from "flowbite-react";
 
-const STARS = 10;
-
 const MediaRating = ({
   contentId,
   isMovie,
@@ -63,8 +61,7 @@ const MediaRating = ({
   const handleRatingSubmit = async (rating: number) => {
     try {
       if (userRating === rating) {
-        await removeRating(contentId);
-        setUserRating(0);
+        console.log(`User's rating hasn't changed`);
         return;
       }
       await addRating(contentId, rating, isMovie);
@@ -74,6 +71,16 @@ const MediaRating = ({
       console.error("Error adding rating", error);
     } finally {
       setIsPopupOpen(false); // Close popup after submitting
+    }
+  };
+
+  const handleRemoveRatingSubmit = async () => {
+    try {
+      await removeRating(contentId);
+      setUserRating(0);
+      return;
+    } catch (error) {
+      console.error("Error removing rating", error);
     }
   };
 
@@ -111,12 +118,13 @@ const MediaRating = ({
         </p>
       )}
 
-      {/* Rating Popup */}
       <RatingPopup
         movieTitle="The Perfect Couple"
         isOpen={isPopupOpen}
         onClose={handleClosePopup}
         onSubmit={handleRatingSubmit}
+        onRemoveSubmit={handleRemoveRatingSubmit}
+        userRating={userRating}
       />
     </div>
   );
