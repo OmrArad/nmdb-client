@@ -1,12 +1,58 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RatingPopup from "./ratingPopup";
+import {
+  addRating,
+  getRatingsByUser,
+  removeRating,
+} from "@/app/api/ratings/ratingsServices";
+import { AxiosError } from "axios";
+import { signOut } from "@/auth";
+import { useSession } from "next-auth/react";
+import { Spinner } from "flowbite-react";
 
-const MediaRating = () => {
+const STARS = 10;
+
+const MediaRating = ({
+  contentId,
+  isMovie,
+}: {
+  contentId: string;
+  isMovie: boolean;
+}) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [userRating, setUserRating] = useState<number | null>(null);
+  const [showMessage, setShowMessage] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      try {
+        // TODO: get rating using contentId
+        const userRatings = await getRatingsByUser();
+        const contentRating = userRatings.ratings.find(
+          (r: { media_ID: string }) => r.media_ID === contentId
+        );
+        if (contentRating) {
+          setUserRating(contentRating.rating);
+        }
+      } catch (error) {
+        const err = error as AxiosError;
+        if (err.response?.status === 401) {
+          await signOut();
+        }
+        console.error("Error fetching user ratings", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRating();
+  }, [contentId]);
 
   const handleOpenPopup = () => {
+    setShowMessage(false);
     setIsPopupOpen(true);
   };
 
@@ -14,28 +60,55 @@ const MediaRating = () => {
     setIsPopupOpen(false);
   };
 
-  const handleRatingSubmit = (rating: number) => {
-    setUserRating(rating);
-    setIsPopupOpen(false); // Close popup after submitting
-    console.log(`User rated the movie: ${rating} stars`);
+  const handleRatingSubmit = async (rating: number) => {
+    try {
+      if (userRating === rating) {
+        await removeRating(contentId);
+        setUserRating(0);
+        return;
+      }
+      await addRating(contentId, rating, isMovie);
+      setUserRating(rating);
+      console.log(`User rated the movie: ${rating} stars`);
+    } catch (error) {
+      console.error("Error adding rating", error);
+    } finally {
+      setIsPopupOpen(false); // Close popup after submitting
+    }
+  };
+
+  const handleDisabledButtonClick = () => {
+    setShowMessage(true);
   };
 
   return (
-    <div className="flex flex-col flex-grow items-stretch mb-4">
+    <div className="flex flex-col flex-grow items-stretch">
       <button
-        onClick={handleOpenPopup}
-        className="bg-blue-500 text-white text-xl font-bold px-4 py-3 rounded hover:bg-blue-700"
+        onClick={session?.user ? handleOpenPopup : handleDisabledButtonClick}
+        className="bg-blue-500 hover:bg-blue-700 text-white py-2 rounded-full"
       >
-        Rate This Movie
+        {loading ? (
+          <div className="flex justify-center">
+            <Spinner />
+          </div>
+        ) : userRating ? (
+          <div className="flex justify-center items-center">
+            <div className="">
+              Your Rating:{" "}
+              <span className="text-xl text-yellow-400 font-bold ">
+                {userRating}
+              </span>
+              <span>/10</span>
+            </div>
+          </div>
+        ) : (
+          "Rate"
+        )}
       </button>
-
-      {/* Show the user's rating */}
-      {userRating && (
-        <div className="mt-4">
-          <h2 className="text-lg font-semibold">
-            Your Rating: {userRating}/10
-          </h2>
-        </div>
+      {showMessage && (
+        <p className="text-red-500 mt-2 w-40 text-center">
+          Please log in to rate this movie.
+        </p>
       )}
 
       {/* Rating Popup */}

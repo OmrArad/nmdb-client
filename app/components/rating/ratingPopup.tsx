@@ -16,6 +16,7 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
   onSubmit,
 }) => {
   const [rating, setRating] = useState<number>(0); // Manage the current rating
+  const [hoverRating, setHoverRating] = useState<number>(0);
 
   if (!isOpen) return null;
 
@@ -47,15 +48,19 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
         <h1 className="text-white text-2xl font-bold mb-4">{movieTitle}</h1>
 
         {/* Star Ratings */}
-        <div className="flex justify-center space-x-1 mb-4">
+        <div className="flex justify-center mb-4">
           {[...Array(10)].map((_, index) => (
             <FaStar
               key={index}
               size={30}
-              className={`cursor-pointer ${
-                index < rating ? "text-blue-500" : "text-gray-500"
-              }`}
+              className={`cursor-pointer pr-1 ${
+                index < (hoverRating || rating)
+                  ? "text-blue-500"
+                  : "text-gray-500"
+              } `}
               onClick={() => setRating(index + 1)} // Rating is index + 1
+              onMouseEnter={() => setHoverRating(index + 1)}
+              onMouseLeave={() => setHoverRating(0)}
             />
           ))}
         </div>
