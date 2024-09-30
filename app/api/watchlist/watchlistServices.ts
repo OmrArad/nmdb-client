@@ -1,5 +1,7 @@
+import { AxiosError } from "axios";
 import { apiClient } from "../auth/auth";
 import { IWatchlist } from "@/app/types/watchlist";
+import { signOut } from "next-auth/react";
 
 // Create a new watchlist
 export const createWatchlist = async (
@@ -28,6 +30,11 @@ export const getWatchlist = async (
     const response = await apiClient.get(url);
     return response.data;
   } catch (error) {
+    const err = error as AxiosError;
+    if (err.response?.status === 401) {
+      await signOut();
+      console.log("logging out user");
+    }
     throw error;
   }
 };

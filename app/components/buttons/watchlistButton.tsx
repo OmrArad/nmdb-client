@@ -21,6 +21,7 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
     const checkWatchlistStatus = async () => {
       try {
         const watchlists = await getWatchlist();
+        updateWatchlist(watchlists);
         watchlistIdRef.current = watchlists.ID;
         const isMovieInWatchlist =
           watchlists &&
