@@ -10,13 +10,17 @@ import { AxiosError } from "axios";
 import { signOut } from "@/auth";
 import { useSession } from "next-auth/react";
 import { Spinner } from "flowbite-react";
+import { Movie } from "@/app/types/movie";
+import { TVShow } from "@/app/types/tvShow";
 
 const MediaRating = ({
   contentId,
   isMovie,
+  media,
 }: {
   contentId: string;
   isMovie: boolean;
+  media: Movie | TVShow;
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [userRating, setUserRating] = useState<number | null>(null);
@@ -37,7 +41,7 @@ const MediaRating = ({
         }
       } catch (error) {
         const err = error as AxiosError;
-        if (err.response?.status === 401) {
+        if (session && err.response?.status === 401) {
           await signOut();
         }
         console.error("Error fetching user ratings", error);
@@ -47,7 +51,7 @@ const MediaRating = ({
     };
 
     fetchRating();
-  }, [contentId]);
+  }, [contentId, session]);
 
   const handleOpenPopup = () => {
     setShowMessage(false);
@@ -119,7 +123,7 @@ const MediaRating = ({
       )}
 
       <RatingPopup
-        movieTitle="The Perfect Couple"
+        movieTitle={isMovie ? (media as Movie).title : (media as TVShow).name}
         isOpen={isPopupOpen}
         onClose={handleClosePopup}
         onSubmit={handleRatingSubmit}
