@@ -8,6 +8,8 @@ import {
   handleAddToWatchlist,
   handleRemoveFromWatchlist,
 } from "@/app/user/watchlist/watchlistUtils";
+import { useSession } from "next-auth/react";
+import { signOut } from "@/auth";
 
 export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
@@ -16,6 +18,7 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   const [showMessage, setShowMessage] = useState(false);
   const watchlistIdRef = useRef("");
   const { watchlist, updateWatchlist } = useWatchlist();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const checkWatchlistStatus = async () => {
@@ -31,7 +34,8 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
         setIsInWatchlist(isMovieInWatchlist);
       } catch (error) {
         const err = error as AxiosError;
-        if (err.response?.status === 401) {
+        if (session && err.response?.status === 401) {
+          await signOut();
           setIsLoggedIn(false);
         }
         console.error("Error fetching watchlist status", error);
@@ -41,11 +45,11 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
     };
 
     checkWatchlistStatus();
-  }, [contentId, isLoggedIn]);
+  }, [contentId, isLoggedIn, session, updateWatchlist]);
 
   const handleAdd = () =>
     handleAddToWatchlist(
-      watchlist!,
+      watchlist,
       updateWatchlist,
       contentId,
       setIsInWatchlist
@@ -72,14 +76,14 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
       {isLoggedIn ? (
         isInWatchlist ? (
           <button
-            className="bg-red-500 text-white p-2 rounded hover:bg-yellow-500"
+            className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
             onClick={handleRemove}
           >
             Remove from Watchlist
           </button>
         ) : (
           <button
-            className="bg-green-500 text-white p-2 rounded hover:bg-yellow-500"
+            className="bg-yellow-400 text-white p-2 rounded hover:bg-yellow-500"
             onClick={handleAdd}
           >
             Add to Watchlist

@@ -28,17 +28,21 @@ export const handleRemoveFromWatchlist = async (
 };
 
 export const handleAddToWatchlist = async (
-  watchlist: IWatchlist,
+  watchlist: IWatchlist | null,
   updateWatchlist: (newWatchlist: IWatchlist) => void,
   mediaId: string,
   setIsInWatchlist: (value: SetStateAction<boolean>) => void
 ) => {
   try {
+    if (!watchlist) {
+      watchlist = await getWatchlist();
+      updateWatchlist(watchlist);
+    }
     await addToWatchlist(watchlist.ID, mediaId, true);
     setIsInWatchlist(true);
-    const updatedWatchlist = await getWatchlist();
     // const updatedWatchlist = watchlist!;
     // updatedWatchlist?.Content.push(contentId)
+    const updatedWatchlist = await getWatchlist();
     updateWatchlist(updatedWatchlist);
     toast.success("Successfully added to your watchlist!");
   } catch (error) {
