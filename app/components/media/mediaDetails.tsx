@@ -8,6 +8,7 @@ import { SessionProvider } from "next-auth/react";
 import { getTVCast, getTVShow } from "@/app/api/tv/tvServices";
 import { DetailedMovie, Movie } from "@/app/types/movie";
 import { DetailedTVSeries, TVShow } from "@/app/types/tvShow";
+import { CastMember } from "@/app/types/cast";
 
 export async function MediaDetails({
   mediaId,
@@ -17,11 +18,27 @@ export async function MediaDetails({
   isMovie: boolean;
 }) {
   const urlPrefixOriginal = "https://image.tmdb.org/t/p/w500";
-  const media = isMovie ? await getMovie(mediaId) : await getTVShow(mediaId);
+  let media: DetailedMovie | DetailedTVSeries;
+  let cast: CastMember[];
+  let title: string;
+  let runtime: number | number[];
+  let release_date: string;
+
+  if (isMovie) {
+    media = await getMovie(mediaId);
+    cast = await getMovieCast(mediaId);
+    title = media.title;
+    runtime = media.runtime;
+    release_date = media.release_date;
+  } else {
+    media = await getTVShow(mediaId);
+    cast = await getTVCast(mediaId);
+    title = media.name;
+    runtime = media.episode_run_time;
+    release_date = media.first_air_date;
+  }
 
   const genreNames = media.genres.map((genre) => genre.name).join(", ");
-
-  const cast = isMovie ? await getMovieCast(mediaId) : await getTVCast(mediaId);
 
   const IMDbRating = () => (
     <div className=" p-1">
@@ -53,11 +70,7 @@ export async function MediaDetails({
       </div>
       <div className="w-full flex flex-col">
         <div className="flex flex-row justify-between items-center ml-8 relative">
-          <h1 className="text-4xl font-bold mb-2">
-            {isMovie
-              ? (media as DetailedMovie).title
-              : (media as DetailedTVSeries).name}
-          </h1>
+          <h1 className="text-4xl font-bold mb-2">{title}</h1>
           <div className="flex flex-col md:absolute top-0 right-0  gap-2">
             <SessionProvider>
               <MediaRating
@@ -71,14 +84,7 @@ export async function MediaDetails({
         </div>
         <div className="w-full md:w-2/3 md:pl-8">
           <p className="mb-2">
-            {genreNames} |{" "}
-            {isMovie
-              ? (media as DetailedMovie).runtime
-              : (media as DetailedTVSeries).episode_run_time}{" "}
-            | Released:{" "}
-            {isMovie
-              ? (media as DetailedMovie).release_date
-              : (media as DetailedTVSeries).first_air_date}
+            {genreNames} | {runtime} | Released: {release_date}
           </p>
           <h2 className="text-2xl font-bold mb-2">Overview</h2>
           <TextExpander text={media.overview} initialClampLines={5} />
