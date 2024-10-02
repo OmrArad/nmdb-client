@@ -1,7 +1,5 @@
-import { AxiosError } from "axios";
 import { apiClient } from "../auth/auth";
 import { IWatchlist } from "@/app/types/watchlist";
-import { signOut } from "next-auth/react";
 
 // Create a new watchlist
 export const createWatchlist = async (
