@@ -67,7 +67,7 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   }
 
   return (
-    <div className="mt-4">
+    <div className="mb-4 flex flex-col">
       {isLoggedIn ? (
         isInWatchlist ? (
           <button
