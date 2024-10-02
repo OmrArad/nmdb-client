@@ -54,7 +54,7 @@ export async function MediaDetails({
     <div className="flex flex-col md:flex-row">
       <div className="w-full md:w-1/5">
         <Image
-          className="mb-4 rounded"
+          className="mb-3 rounded"
           alt="poster"
           src={`${urlPrefixOriginal}/${media.poster_path}`}
           width={300}
