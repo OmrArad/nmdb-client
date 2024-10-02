@@ -60,7 +60,9 @@ export async function MediaDetails({
           width={300}
           height={450}
         />
-        <WatchlistButton contentId={mediaId} />
+        <SessionProvider>
+          <WatchlistButton contentId={mediaId} />
+        </SessionProvider>
         <a
           href="#reviews"
           className="text-indigo-600 hover:text-indigo-800 visited:text-purple-600 mt-4"
