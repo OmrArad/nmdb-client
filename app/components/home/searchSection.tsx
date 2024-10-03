@@ -4,6 +4,7 @@ import SearchBar from "./searchBar";
 import SearchResults from "./searchResults";
 import { apiClient } from "@/app/api/auth/auth";
 import { useSession } from "next-auth/react";
+import { AiOutlineClose } from "react-icons/ai"; // Import star icons
 
 const SearchSection = () => {
   const [results, setResults] = useState<any[]>([]);
@@ -82,7 +83,7 @@ const SearchSection = () => {
 
       <SearchBar onSearch={handleSearch} />
 
-      {session && searchHistory.length > 0 && (
+      {searchHistory.length > 0 && (
         <div className="mt-4">
           <div className="flex flex-row gap-4 justify-between">
             <h3 className="text-lg font-semibold">Previous Searches</h3>
@@ -116,14 +117,18 @@ const SearchSection = () => {
             <div className="flex flex-row justify-end sticky top-0 backdrop-blur-md p-4 pr-5 bg-gray-900 bg-opacity-30">
               <button
                 onClick={clearResults}
-                className="text-white hover:underline bg-gray-800 bg-opacity-60 hover:bg-gray-700 font-bold py-2 px-4 rounded-full hover:bg-opacity-100"
+                className="text-white bg-gray-800 bg-opacity-60 hover:bg-gray-700 font-bold p-1.5 rounded-full hover:bg-opacity-100"
               >
-                Close X
+                <AiOutlineClose>Close X</AiOutlineClose>
               </button>
             </div>
 
             <div className="h-[70vh] my-6 px-6">
-              <SearchResults results={results} />
+              {results.length > 0 ? (
+                <SearchResults results={results} />
+              ) : (
+                <h1 className="font-bold text-center">NO RESULTS FOUND</h1>
+              )}
             </div>
           </div>
         </div>
