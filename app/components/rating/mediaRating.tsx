@@ -32,7 +32,11 @@ const MediaRating = ({
     const fetchRating = async () => {
       try {
         // TODO: get rating using contentId
-        const userRatings = await getRatingsByUser();
+        const userRatings = await getRatingsByUser(
+          undefined,
+          contentId,
+          isMovie
+        );
         const contentRating = userRatings.ratings.find(
           (r: { media_ID: string }) => r.media_ID === contentId
         );
