@@ -10,6 +10,7 @@ import {
 } from "@/app/user/watchlist/watchlistUtils";
 import { useSession } from "next-auth/react";
 import { signOut } from "@/auth";
+import { Spinner } from "flowbite-react";
 
 export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
@@ -36,8 +37,8 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
         const err = error as AxiosError;
         if (session && err.response?.status === 401) {
           await signOut();
-          setIsLoggedIn(false);
         }
+        setIsLoggedIn(false);
         console.error("Error fetching watchlist status", error);
       } finally {
         setLoading(false);
@@ -45,7 +46,8 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
     };
 
     checkWatchlistStatus();
-  }, [contentId, isLoggedIn, session, updateWatchlist]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contentId, isLoggedIn, session]);
 
   const handleAdd = () =>
     handleAddToWatchlist(
@@ -63,43 +65,42 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
       setIsInWatchlist
     );
 
+  const handleAddToWatchlistClick = () => {
+    isLoggedIn ? handleAdd() : handleDisabledButtonClick();
+  };
+
   const handleDisabledButtonClick = () => {
     setShowMessage(true);
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
     <div className="mb-4 flex flex-col">
-      {isLoggedIn ? (
-        isInWatchlist ? (
-          <button
-            className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
-            onClick={handleRemove}
-          >
-            Remove from Watchlist
-          </button>
-        ) : (
-          <button
-            className="bg-yellow-400 text-white p-2 rounded hover:bg-yellow-500"
-            onClick={handleAdd}
-          >
-            Add to Watchlist
-          </button>
-        )
+      {isInWatchlist ? (
+        <button
+          className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
+          onClick={handleRemove}
+        >
+          Remove from Watchlist
+        </button>
       ) : (
         <>
           <button
-            className="bg-gray-500 text-white p-2 rounded"
-            onClick={handleDisabledButtonClick}
+            className="bg-yellow-400 text-white p-2 rounded hover:bg-yellow-500"
+            onClick={handleAddToWatchlistClick}
           >
             Add to Watchlist
           </button>
           {showMessage && (
-            <p className="text-red-500 mt-2">
-              Please log in to add or remove items from your watchlist.
+            <p className="text-red-500 mt-2 w-40 text-center">
+              Please log in to add this item to your watchlist.
             </p>
           )}
         </>
