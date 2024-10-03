@@ -26,7 +26,8 @@ const MainWatchlist = () => {
     if (!watchlist) {
       fetchWatchlist();
     }
-  }, [watchlist, updateWatchlist]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchlist, session]);
 
   if (!watchlist) {
     return <p>Loading watchlist...</p>;
