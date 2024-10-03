@@ -3,9 +3,12 @@ import React, { useEffect } from "react";
 import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 import WatchlistItem from "./watchlistItem";
 import { useWatchlist } from "./watchlistContext";
+import { signOut, useSession } from "next-auth/react";
+import { AxiosError } from "axios";
 
 const MainWatchlist = () => {
   const { watchlist, updateWatchlist } = useWatchlist();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchWatchlist = async () => {
@@ -14,6 +17,9 @@ const MainWatchlist = () => {
         updateWatchlist(watchlistData);
       } catch (error) {
         console.error("Failed to load watchlist", error);
+        if (session && (error as AxiosError).response?.status === 401) {
+          signOut();
+        }
       }
     };
 
