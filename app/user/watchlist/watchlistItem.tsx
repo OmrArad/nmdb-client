@@ -24,6 +24,7 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
     overview,
     tmdb_rating,
     user_rating,
+    tmdb_id,
   } = media;
 
   const handleRemove = () =>
@@ -77,7 +78,12 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
                 </Link>
                 <p className="text-gray-400">{release_date}</p>
               </div>
-              <Ratings tmdbRating={tmdb_rating} userRating={user_rating} />
+              <Ratings
+                tmdbRating={tmdb_rating}
+                contentId={tmdb_id}
+                isMovie={true}
+                media={media}
+              />
             </div>
             <p className="text-sm mt-2">{overview}</p>
           </div>
