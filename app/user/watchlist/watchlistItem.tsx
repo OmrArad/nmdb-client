@@ -9,6 +9,7 @@ import {
   handleRemoveFromWatchlist,
 } from "./watchlistUtils";
 import { useRouter } from "next/navigation"; // For programmatic navigation
+import { FaStar, FaRegStar } from "react-icons/fa"; // Import star icons
 
 const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
   const { watchlist, updateWatchlist } = useWatchlist();
@@ -61,11 +62,41 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
               >
                 {media.title}
               </Link>
-              {media.tmdb_rating !== null && (
-                <span className="text-green-400 font-bold">
-                  {media.tmdb_rating.toFixed(1)}
-                </span>
-              )}
+              <div className="flex flex-col items-end">
+                {media.tmdb_rating !== null && (
+                  <div className="flex justify-center items-center">
+                    <div className="flex justify-center">
+                      <span className="text-gray-400 font-bold">
+                        {media.tmdb_rating.toFixed(1)}
+                      </span>
+                      <div className="text-yellow-400 rounded-full p-1">
+                        <FaStar size={15} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {media.user_rating !== null ? (
+                  <div className="flex justify-center items-center">
+                    <div className="flex justify-center">
+                      <span className="text-gray-400 font-bold">
+                        {media.user_rating.toFixed(1)}
+                      </span>
+                      <div className="text-blue-400 rounded-full p-1">
+                        <FaStar size={15} />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center">
+                    <div className="flex justify-center">
+                      <span className="text-gray-400 font-bold">Rate</span>
+                      <div className="text-blue-400 rounded-full p-1">
+                        <FaRegStar size={15} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
             <p className="text-gray-400">{media.release_date}</p>
             <p className="text-sm mt-2">{media.overview}</p>
