@@ -31,6 +31,7 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
   const handleRateClick = () => {
     if (rating > 0) {
       onSubmit(rating);
+      onClose();
     }
   };
 
