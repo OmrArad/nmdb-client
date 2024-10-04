@@ -11,6 +11,7 @@ import {
 import { useSession } from "next-auth/react";
 import { signOut } from "@/auth";
 import { Spinner } from "flowbite-react";
+import { FaCheck, FaPlus } from "react-icons/fa";
 
 export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
@@ -73,37 +74,35 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
     setShowMessage(true);
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center">
-        <Spinner />
-      </div>
-    );
-  }
-
   return (
     <div className="mb-4 flex flex-col">
-      {isInWatchlist ? (
-        <button
-          className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
-          onClick={handleRemove}
-        >
-          Remove from Watchlist
-        </button>
-      ) : (
-        <>
-          <button
-            className="bg-yellow-400 text-white p-2 rounded hover:bg-yellow-500"
-            onClick={handleAddToWatchlistClick}
-          >
-            Add to Watchlist
-          </button>
-          {showMessage && (
-            <p className="text-red-500 mt-2 w-40 text-center">
-              Please log in to add this item to your watchlist.
-            </p>
+      <button
+        className="bg-yellow-400 hover:bg-yellow-500 text-white rounded p-2"
+        onClick={isInWatchlist ? handleRemove : handleAddToWatchlistClick}
+      >
+        <div className="flex gap-2 items-center justify-center">
+          {loading ? (
+            <div className="flex justify-center">
+              <Spinner />
+            </div>
+          ) : isInWatchlist ? (
+            <>
+              <FaCheck />
+              <span>{"In Watchlist"}</span>
+            </>
+          ) : (
+            <>
+              <FaPlus />
+              <span>{"Add to Watchlist"}</span>
+            </>
           )}
-        </>
+        </div>
+      </button>
+
+      {showMessage && (
+        <p className="text-red-500 mt-2 w-40 text-center">
+          Please log in to add this item to your watchlist.
+        </p>
       )}
     </div>
   );
