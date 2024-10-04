@@ -28,29 +28,29 @@ const UserRating: React.FC<UserRatingProps> = ({
 
   return (
     <>
-      {userRating !== null ? (
-        <div
-          className="flex justify-center items-center cursor-pointer rounded hover:bg-gray-200 hover:shadow-md px-1"
-          onClick={handleOpenPopup}
-        >
-          <span className="text-gray-400 font-bold">
-            {userRating.toFixed(1)}
-          </span>
-          <div className="text-blue-400 rounded-full p-1">
-            <FaStar size={15} />
+      <div className="cursor-pointer rounded px-1 border border-gray-100 text-gray-400  hover:bg-blue-100 hover:border-blue-200 hover:shadow-sm hover:text-blue-500 transition-transform transform duration-300 ease-in-out hover:scale-105">
+        {userRating !== null ? (
+          <div
+            className="flex justify-center items-center "
+            onClick={handleOpenPopup}
+          >
+            <span className=" font-bold ">{userRating.toFixed(1)}</span>
+            <div className="text-blue-400 rounded-full p-1 ">
+              <FaStar size={15} />
+            </div>
           </div>
-        </div>
-      ) : (
-        <div
-          className="flex justify-center items-center cursor-pointer rounded hover:bg-gray-300 hover:shadow-md text-gray-400 hover:text-gray-500 px-1"
-          onClick={handleOpenPopup}
-        >
-          <span className="font-bold">Rate</span>
-          <div className="text-blue-400 rounded-full p-1">
-            <FaRegStar size={15} />
+        ) : (
+          <div
+            className="flex justify-center items-center "
+            onClick={handleOpenPopup}
+          >
+            <span className="font-bold">Rate</span>
+            <div className="text-blue-400 rounded-full p-1">
+              <FaRegStar size={15} />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       {/* Rating Popup */}
       <RatingPopup
         movieTitle={mediaTitle}

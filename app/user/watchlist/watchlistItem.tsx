@@ -55,7 +55,7 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
         <Image
           src={poster_path ? poster_path : "/images/no-image-available.png"}
           alt={title}
-          className="w-24 h-36 mr-4 cursor-pointer transition-transform transform hover:scale-105 hover:shadow-lg rounded-lg"
+          className="w-24 h-36 mr-4 cursor-pointer transition-transform transform  rounded-lg hover:brightness-105 hover:scale-105 duration-300 ease-in-out"
           width={96}
           height={144}
           onClick={handleNavigate}

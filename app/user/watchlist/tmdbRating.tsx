@@ -11,7 +11,7 @@ const TMDBRating: React.FC<TMDBRatingProps> = ({ tmdbRating }) => {
   }
 
   return (
-    <div className="flex justify-center items-center px-1">
+    <div className="flex justify-center items-center px-1 border border-gray-100">
       <div className="flex justify-center">
         <span className="text-gray-400 font-bold">{tmdbRating.toFixed(1)}</span>
         <div className="text-yellow-400 rounded-full p-1">

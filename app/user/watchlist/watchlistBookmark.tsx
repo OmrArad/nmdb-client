@@ -24,7 +24,7 @@ const WatchlistBookmark = ({
 
   return (
     <div
-      className="absolute -top-0.5 left-0 text-yellow-500 cursor-pointer hover:scale-y-110"
+      className="absolute -top-0.5 left-0 text-yellow-500 cursor-pointer "
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
