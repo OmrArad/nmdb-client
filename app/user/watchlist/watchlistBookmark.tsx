@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { FaBookmark, FaRegBookmark, FaCheck, FaPlus } from "react-icons/fa";
 
 interface WatchlistBookmarkProps {
-  isInWatchlist: boolean; // Determines whether the item is in the watchlist
-  handleAdd: () => void; // Function to add the item to the watchlist
-  handleRemove: () => void; // Function to remove the item from the watchlist
+  isInWatchlist: boolean;
+  handleAdd: () => void;
+  handleRemove: () => void;
 }
 
 const WatchlistBookmark = ({
@@ -25,11 +25,16 @@ const WatchlistBookmark = ({
   const Tooltip = () => {
     return (
       <>
-        {showTooltip && (
-          <div className="absolute bg-yellow-500 text-white text-xs rounded py-1 px-2 ml-2  transform -translate-y-3/4 whitespace-nowrap">
-            {isInWatchlist ? <FaCheck /> : <FaPlus />}
-          </div>
-        )}
+        {showTooltip &&
+          (isInWatchlist ? (
+            <div className="absolute bg-yellow-500 text-white text-xs rounded py-1 px-2 ml-1 transform -translate-y-2/3 bg-opacity-90">
+              <FaCheck />
+            </div>
+          ) : (
+            <div className="absolute border border-yellow-500 bg-yellow-200 text-black text-xs rounded py-1 px-2 ml-1 transform -translate-y-2/3 bg-opacity-90 ">
+              <FaPlus />
+            </div>
+          ))}
       </>
     );
   };
@@ -37,7 +42,7 @@ const WatchlistBookmark = ({
   return (
     <>
       <div
-        className="absolute -top-0.5 left-0 text-yellow-500 cursor-pointer transition-transform transform hover:scale-y-150 duration-300 ease-in-out"
+        className="absolute -top-0.5 left-0 text-yellow-500 cursor-pointer transition-transform transform scale-y-150 duration-300 ease-in-out hover:translate-y-1"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
