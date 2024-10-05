@@ -61,13 +61,7 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
                 </Link>
                 <p className="text-gray-400">{release_date}</p>
               </div>
-              <Ratings
-                tmdbRating={tmdb_rating}
-                user_rating={user_rating}
-                contentId={tmdb_id}
-                isMovie={true}
-                title={title}
-              />
+              <Ratings isMovie={true} media={media} />
             </div>
             <p className="text-sm mt-2">{overview}</p>
           </div>

@@ -1,42 +1,58 @@
 "use client";
-import React, { useState } from "react";
-import { FaStar } from "react-icons/fa"; // Import star icons
+import React, { useState, useEffect, SetStateAction } from "react";
+import { FaStar } from "react-icons/fa";
+import {
+  handleRatingSubmit,
+  handleRemoveRatingSubmit,
+} from "@/app/utils/ratingUtils"; // Import utility functions
 
 interface RatingPopupProps {
-  movieTitle: string;
+  title: string;
+  contentId: string;
+  isMovie: boolean;
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (rating: number) => void;
-  onRemoveSubmit: () => void;
   userRating: number | null;
+  setUserRating: (value: SetStateAction<number | null>) => void;
+  setLoading: (value: SetStateAction<boolean>) => void;
 }
 
 const RatingPopup: React.FC<RatingPopupProps> = ({
-  movieTitle,
+  title,
+  contentId,
+  isMovie,
   isOpen,
   onClose,
-  onSubmit,
-  onRemoveSubmit,
   userRating,
+  setUserRating,
+  setLoading,
 }) => {
   const [rating, setRating] = useState<number>(0); // Manage the current rating
   const [hoverRating, setHoverRating] = useState<number>(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setRating(userRating || 0);
   }, [userRating]);
 
   if (!isOpen) return null;
 
-  const handleRateClick = () => {
+  const handleRateClick = async () => {
     if (rating > 0) {
-      onSubmit(rating);
-      onClose();
+      await handleRatingSubmit(
+        rating,
+        userRating,
+        contentId,
+        isMovie,
+        setUserRating,
+        setLoading
+      );
+      onClose(); // Close the popup after submission
     }
   };
 
-  const handleRemoveRateClick = () => {
-    onRemoveSubmit();
+  const handleRemoveRateClick = async () => {
+    await handleRemoveRatingSubmit(contentId, setUserRating);
+    onClose(); // Close the popup after removing the rating
   };
 
   return (
@@ -58,7 +74,7 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
         <h2 className="text-yellow-500 uppercase font-semibold text-sm mb-1">
           Rate This
         </h2>
-        <h1 className="text-white text-2xl font-bold mb-4">{movieTitle}</h1>
+        <h1 className="text-white text-2xl font-bold mb-4">{title}</h1>
 
         {/* Star Ratings */}
         <div className="flex justify-center mb-4">
@@ -70,7 +86,7 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
                 index < (hoverRating || rating)
                   ? "text-blue-500"
                   : "text-gray-500"
-              } `}
+              }`}
               onClick={() => setRating(index + 1)} // Rating is index + 1
               onMouseEnter={() => setHoverRating(index + 1)}
               onMouseLeave={() => setHoverRating(0)}

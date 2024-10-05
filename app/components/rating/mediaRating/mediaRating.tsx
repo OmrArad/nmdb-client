@@ -1,11 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import RatingPopup from "../ratingPopup";
-import {
-  addRating,
-  getRatingsByUser,
-  removeRating,
-} from "@/app/api/ratings/ratingsServices";
+import { getRatingsByUser } from "@/app/api/ratings/ratingsServices";
 import { AxiosError } from "axios";
 import { signOut } from "@/auth";
 import { useSession } from "next-auth/react";
@@ -55,7 +51,7 @@ const MediaRating = ({
     };
 
     fetchRating();
-  }, [contentId, session]);
+  }, [contentId, isMovie, session]);
 
   const handleOpenPopup = () => {
     setShowMessage(false);
@@ -64,32 +60,6 @@ const MediaRating = ({
 
   const handleClosePopup = () => {
     setIsPopupOpen(false);
-  };
-
-  const handleRatingSubmit = async (rating: number) => {
-    try {
-      if (userRating === rating) {
-        console.log(`User's rating hasn't changed`);
-        return;
-      }
-      await addRating(contentId, rating, isMovie);
-      setUserRating(rating);
-      console.log(`User rated the movie: ${rating} stars`);
-    } catch (error) {
-      console.error("Error adding rating", error);
-    } finally {
-      setIsPopupOpen(false); // Close popup after submitting
-    }
-  };
-
-  const handleRemoveRatingSubmit = async () => {
-    try {
-      await removeRating(contentId);
-      setUserRating(0);
-      return;
-    } catch (error) {
-      console.error("Error removing rating", error);
-    }
   };
 
   const handleDisabledButtonClick = () => {
@@ -127,12 +97,14 @@ const MediaRating = ({
       )}
 
       <RatingPopup
-        movieTitle={isMovie ? (media as Movie).title : (media as TVShow).name}
+        title={isMovie ? (media as Movie).title : (media as TVShow).name}
+        contentId={media.id.toString()}
+        isMovie={isMovie}
         isOpen={isPopupOpen}
         onClose={handleClosePopup}
-        onSubmit={handleRatingSubmit}
-        onRemoveSubmit={handleRemoveRatingSubmit}
         userRating={userRating}
+        setUserRating={setUserRating}
+        setLoading={setLoading}
       />
     </div>
   );
