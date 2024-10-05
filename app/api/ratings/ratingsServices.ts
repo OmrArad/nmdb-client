@@ -19,17 +19,19 @@ export const addRating = async (
 };
 
 export const getRatingsByUser = async (
+  userId?: string,
   contentId?: string,
-  isMovie = 1
+  isMovie?: boolean
 ): Promise<RatingsResponse> => {
-  if (contentId) {
-    const response = await apiClient.get<RatingsResponse>(
-      "/api/users/ratings",
-      { data: { content_id: contentId, is_movie: isMovie } }
-    );
-    return response.data;
-  }
-  const response = await apiClient.get<RatingsResponse>("/api/users/ratings");
+  const body = JSON.stringify({
+    user_id: userId,
+    content_id: contentId,
+    is_movie: isMovie,
+  });
+
+  const response = await apiClient.get<RatingsResponse>("/api/users/ratings", {
+    data: body,
+  });
   return response.data;
 };
 
