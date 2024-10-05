@@ -1,15 +1,5 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+import React from "react";
 import { SearchResult } from "@/app/types/search";
-import WatchlistBookmark from "@/app/user/watchlist/watchlistBookmark";
-import { useWatchlist } from "@/app/user/watchlist/watchlistContext";
-import {
-  handleAddToWatchlist,
-  handleRemoveFromWatchlist,
-} from "@/app/user/watchlist/watchlistUtils";
 import SingleSearchResult from "./singleSearchResults";
 
 type SearchResultsProps = {

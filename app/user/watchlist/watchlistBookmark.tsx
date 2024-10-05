@@ -14,8 +14,6 @@ interface WatchlistBookmarkProps {
   updateWatchlist: (watchlist: IWatchlist) => void;
   mediaId: string;
   setIsInWatchlist: (value: SetStateAction<boolean>) => void;
-  handleAdd?: () => void;
-  handleRemove?: () => void;
   shouldShowTooltip?: boolean;
   shouldShowIcon?: boolean;
 }

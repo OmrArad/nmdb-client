@@ -4,10 +4,6 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { IWatchlistItem } from "@/app/types/watchlist";
 import { useWatchlist } from "./watchlistContext";
-import {
-  handleAddToWatchlist,
-  handleRemoveFromWatchlist,
-} from "./watchlistUtils";
 import { useRouter } from "next/navigation"; // For programmatic navigation
 import WatchlistBookmark from "./watchlistBookmark";
 import Ratings from "./ratings";
@@ -27,23 +23,7 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
     tmdb_id,
   } = media;
 
-  const handleRemove = () =>
-    handleRemoveFromWatchlist(
-      watchlist!,
-      updateWatchlist,
-      media.tmdb_id,
-      setIsInWatchlist
-    );
-
-  const handleAdd = () =>
-    handleAddToWatchlist(
-      watchlist!,
-      updateWatchlist,
-      media.tmdb_id,
-      setIsInWatchlist
-    );
-
-  const navLink = `/movies/${media.tmdb_id}`;
+  const navLink = `/movies/${tmdb_id}`;
 
   const handleNavigate = () => {
     router.push(navLink);
@@ -61,9 +41,11 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
           onClick={handleNavigate}
         />
         <WatchlistBookmark
+          mediaId={tmdb_id}
+          setIsInWatchlist={setIsInWatchlist}
+          updateWatchlist={updateWatchlist}
+          watchlist={watchlist}
           isInWatchlist={isInWatchlist}
-          handleAdd={handleAdd}
-          handleRemove={handleRemove}
           shouldShowIcon={false}
         />
 
@@ -81,9 +63,10 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
               </div>
               <Ratings
                 tmdbRating={tmdb_rating}
+                user_rating={user_rating}
                 contentId={tmdb_id}
                 isMovie={true}
-                media={media}
+                title={title}
               />
             </div>
             <p className="text-sm mt-2">{overview}</p>
