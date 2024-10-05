@@ -20,7 +20,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 pb-6">
       {results.map((result) => (
-        <SingleSearchResult result={result} />
+        <SingleSearchResult key={result.id} result={result} />
       ))}
     </div>
   );
