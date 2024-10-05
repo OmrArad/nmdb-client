@@ -18,8 +18,20 @@ interface WatchlistBookmarkProps {
   shouldShowIcon?: boolean;
 }
 
-const Plus = () => <Icon Icon={FaPlus} />;
-const Check = () => <Icon Icon={FaCheck} />;
+const Plus = () => (
+  <div className="z-10 absolute top-1.5 left-1.5 text-xs text-gray-900 transform">
+    <FaPlus size={10} />
+  </div>
+);
+
+const Check = () => (
+  <div className="z-10 absolute top-1.5 left-1.5 text-xs text-gray-900 transform">
+    <FaCheck size={10} />
+  </div>
+);
+
+// const Plus = () => <Icon Icon={FaPlus} />;
+// const Check = () => <Icon Icon={FaCheck} />;
 
 const WatchlistBookmark = ({
   isInWatchlist,
