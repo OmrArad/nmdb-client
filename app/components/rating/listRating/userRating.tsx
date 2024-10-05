@@ -3,7 +3,6 @@ import RatingPopup from "@/app/components/rating/ratingPopup";
 import UserRatingDisplay from "./userRatingDisplay";
 import RatePrompt from "./ratePrompt";
 import { IWatchlistItem } from "@/app/types/watchlist";
-
 interface UserRatingProps {
   media: IWatchlistItem;
   isMovie: boolean;

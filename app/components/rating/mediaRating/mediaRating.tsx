@@ -8,6 +8,8 @@ import { useSession } from "next-auth/react";
 import { Spinner } from "flowbite-react";
 import { Movie } from "@/app/types/movie";
 import { TVShow } from "@/app/types/tvShow";
+import { useRatings } from "@/app/context/userRatingContext";
+import { findRating } from "@/app/utils/ratingUtils";
 
 const MediaRating = ({
   contentId,
@@ -18,8 +20,12 @@ const MediaRating = ({
   isMovie: boolean;
   media: Movie | TVShow;
 }) => {
+  const { ratings } = useRatings();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [userRating, setUserRating] = useState<number | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [userRating, setUserRating] = useState<number | null>(
+    (ratings && findRating(ratings, contentId)?.rating) || null
+  );
   const [showMessage, setShowMessage] = useState(false);
   const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
@@ -33,13 +39,10 @@ const MediaRating = ({
           contentId,
           isMovie
         );
-        const contentRating = userRatings.ratings.find(
-          (r: { media_ID: string }) => r.media_ID === contentId
-        );
-        if (contentRating) {
-          setUserRating(contentRating.rating);
-        }
+        const contentRating = findRating(userRatings, contentId);
+        setUserRating(contentRating?.rating || null);
       } catch (error) {
+        setIsLoggedIn(false);
         const err = error as AxiosError;
         if (session && err.response?.status === 401) {
           await signOut();
@@ -50,8 +53,13 @@ const MediaRating = ({
       }
     };
 
-    fetchRating();
-  }, [contentId, isMovie, session]);
+    if (!ratings) fetchRating();
+    else {
+      const contentRating = findRating(ratings, contentId);
+      setUserRating(contentRating?.rating || null);
+      setLoading(false);
+    }
+  }, [contentId, isMovie, ratings, session, userRating]);
 
   const handleOpenPopup = () => {
     setShowMessage(false);
@@ -66,10 +74,14 @@ const MediaRating = ({
     setShowMessage(true);
   };
 
+  const handleRateClick = () => {
+    isLoggedIn ? handleOpenPopup() : handleDisabledButtonClick();
+  };
+
   return (
     <div className="flex flex-col flex-grow items-stretch">
       <button
-        onClick={session?.user ? handleOpenPopup : handleDisabledButtonClick}
+        onClick={handleRateClick}
         className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-full"
       >
         {loading ? (
