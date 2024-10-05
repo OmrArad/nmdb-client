@@ -1,18 +1,34 @@
-import React, { useState } from "react";
+import { IWatchlist } from "@/app/types/watchlist";
+import React, { SetStateAction, useState } from "react";
 import { FaBookmark, FaCheck, FaPlus } from "react-icons/fa";
+import {
+  handleAddToWatchlist,
+  handleRemoveFromWatchlist,
+} from "./watchlistUtils";
+import Tooltip from "./tooltip";
+import Icon from "./icon";
 
 interface WatchlistBookmarkProps {
   isInWatchlist: boolean;
-  handleAdd: () => void;
-  handleRemove: () => void;
+  watchlist: IWatchlist | null;
+  updateWatchlist: (watchlist: IWatchlist) => void;
+  mediaId: string;
+  setIsInWatchlist: (value: SetStateAction<boolean>) => void;
+  handleAdd?: () => void;
+  handleRemove?: () => void;
   shouldShowTooltip?: boolean;
   shouldShowIcon?: boolean;
 }
 
+const Plus = () => <Icon Icon={FaPlus} />;
+const Check = () => <Icon Icon={FaCheck} />;
+
 const WatchlistBookmark = ({
   isInWatchlist,
-  handleAdd,
-  handleRemove,
+  watchlist,
+  updateWatchlist,
+  mediaId,
+  setIsInWatchlist,
   shouldShowTooltip = false,
   shouldShowIcon = true,
 }: WatchlistBookmarkProps) => {
@@ -26,6 +42,22 @@ const WatchlistBookmark = ({
     setShowTooltip(false);
   };
 
+  const handleRemove = () =>
+    handleRemoveFromWatchlist(
+      watchlist!,
+      updateWatchlist,
+      mediaId,
+      setIsInWatchlist
+    );
+
+  const handleAdd = () =>
+    handleAddToWatchlist(
+      watchlist!,
+      updateWatchlist,
+      mediaId,
+      setIsInWatchlist
+    );
+
   const handleClick = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
@@ -36,35 +68,6 @@ const WatchlistBookmark = ({
       handleAdd();
     }
   };
-
-  const Tooltip = () => {
-    return (
-      <>
-        {showTooltip &&
-          (isInWatchlist ? (
-            <div className="absolute bg-yellow-500 text-white text-xs rounded py-1 px-2 ml-1 transform -translate-y-2/3 bg-opacity-90">
-              <FaCheck />
-            </div>
-          ) : (
-            <div className="absolute border border-yellow-500 bg-yellow-100 text-black text-xs rounded py-1 px-2 ml-1 transform -translate-y-2/3 bg-opacity-90 ">
-              <FaPlus />
-            </div>
-          ))}
-      </>
-    );
-  };
-
-  const Plus = () => (
-    <div className="z-10 absolute top-1.5 left-1.5 text-xs text-gray-900 transform">
-      <FaPlus size={10} />
-    </div>
-  );
-
-  const Check = () => (
-    <div className="z-10 absolute top-1.5 left-1.5 text-xs text-gray-900 transform">
-      <FaCheck size={10} />
-    </div>
-  );
 
   const bookmarkSize = shouldShowIcon ? 22 : 18;
 
@@ -89,7 +92,9 @@ const WatchlistBookmark = ({
         )}
       </div>
 
-      {shouldShowTooltip && <Tooltip />}
+      {shouldShowTooltip && (
+        <Tooltip showTooltip={showTooltip} isInWatchlist={isInWatchlist} />
+      )}
     </>
   );
 };
