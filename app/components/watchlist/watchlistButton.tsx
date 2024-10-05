@@ -3,11 +3,11 @@ import { useState, useEffect, useRef } from "react";
 import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 import { IWatchlistItem } from "@/app/types/watchlist";
 import { AxiosError } from "axios";
-import { useWatchlist } from "@/app/user/watchlist/watchlistContext";
+import { useWatchlist } from "@/app/context/watchlistContext";
 import {
   handleAddToWatchlist,
   handleRemoveFromWatchlist,
-} from "@/app/user/watchlist/watchlistUtils";
+} from "@/app/utils/watchlistUtils";
 import { useSession } from "next-auth/react";
 import { signOut } from "@/auth";
 import { Spinner } from "flowbite-react";

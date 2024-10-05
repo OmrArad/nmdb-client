@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
 import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
-import WatchlistItem from "./watchlistItem";
-import { useWatchlist } from "./watchlistContext";
+import WatchlistItem from "../../components/watchlist/watchlistItem";
+import { useWatchlist } from "@/app/context/watchlistContext";
 import { signOut, useSession } from "next-auth/react";
 import { AxiosError } from "axios";
 

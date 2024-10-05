@@ -3,10 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { IWatchlistItem } from "@/app/types/watchlist";
-import { useWatchlist } from "./watchlistContext";
+import { useWatchlist } from "@/app/context/watchlistContext";
 import { useRouter } from "next/navigation"; // For programmatic navigation
 import WatchlistBookmark from "./watchlistBookmark";
-import Ratings from "./ratings";
+import Ratings from "@/app/components/rating/listRating/ratings";
 
 const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
   const { watchlist, updateWatchlist } = useWatchlist();

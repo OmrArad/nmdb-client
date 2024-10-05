@@ -5,12 +5,8 @@ import Image from "next/image";
 import { Movie } from "@/app/types/movie";
 import { TVShow } from "@/app/types/tvShow";
 import { MediaAppearance } from "@/app/types/actor";
-import WatchlistBookmark from "@/app/user/watchlist/watchlistBookmark";
-import { useWatchlist } from "@/app/user/watchlist/watchlistContext";
-import {
-  handleAddToWatchlist,
-  handleRemoveFromWatchlist,
-} from "@/app/user/watchlist/watchlistUtils";
+import WatchlistBookmark from "@/app/components/watchlist/watchlistBookmark";
+import { useWatchlist } from "@/app/context/watchlistContext";
 
 type MediaCardProps = {
   media: Movie | TVShow | MediaAppearance;

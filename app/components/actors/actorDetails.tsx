@@ -2,7 +2,7 @@ import { ActorDetailsProps, MediaAppearance } from "@/app/types/actor";
 import Image from "next/image";
 import { TextExpander } from "../textExpander";
 import MediaCard from "../media/mediaCard";
-import TrendingSectionSkeleton from "../home/trendingSectionSkeleton";
+import TrendingSectionSkeleton from "../home/trending/trendingSectionSkeleton";
 import Link from "next/link";
 
 const pathname = "http://localhost:3000";

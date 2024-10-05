@@ -2,7 +2,7 @@
 "use client";
 import React, { useEffect } from "react";
 import RatingsItem from "./ratingsItem";
-import { useUserRatings } from "@/app/components/context/userRatingContext";
+import { useUserRatings } from "@/app/context/userRatingContext";
 import { getRatingsByUser } from "@/app/api/ratings/ratingsServices";
 
 const RatingsList = () => {
