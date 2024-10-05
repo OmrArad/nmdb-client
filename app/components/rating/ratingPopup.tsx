@@ -22,11 +22,16 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
   const [rating, setRating] = useState<number>(0); // Manage the current rating
   const [hoverRating, setHoverRating] = useState<number>(0);
 
+  React.useEffect(() => {
+    setRating(userRating || 0);
+  }, [userRating]);
+
   if (!isOpen) return null;
 
   const handleRateClick = () => {
     if (rating > 0) {
       onSubmit(rating);
+      onClose();
     }
   };
 

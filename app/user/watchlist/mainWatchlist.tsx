@@ -34,7 +34,7 @@ const MainWatchlist = () => {
   }
 
   return (
-    <div className="bg-gray-100 rounded-xl px-12">
+    <div className="bg-gray-100 rounded-xl md:px-12 md:w-5/6">
       <h1 className="text-2xl font-bold container mx-auto px-4 pt-12">
         My Watchlist
       </h1>
