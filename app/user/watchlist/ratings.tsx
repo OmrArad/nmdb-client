@@ -9,19 +9,20 @@ import UserRating from "./userRating";
 interface RatingComponentProps {
   contentId: string;
   isMovie: boolean;
-  media: IWatchlistItem;
+  title: string;
+  user_rating: number | null;
   tmdbRating: number | null;
+  media?: IWatchlistItem;
 }
 
 const Ratings: React.FC<RatingComponentProps> = ({
   contentId,
   isMovie,
-  media,
+  title,
+  user_rating,
   tmdbRating,
 }) => {
-  const [userRating, setUserRating] = useState<number | null>(
-    media.user_rating
-  );
+  const [userRating, setUserRating] = useState<number | null>(user_rating);
   const [loading, setLoading] = useState(false);
 
   const handleRatingSubmit = async (rating: number) => {
@@ -59,7 +60,7 @@ const Ratings: React.FC<RatingComponentProps> = ({
         <Spinner />
       ) : (
         <UserRating
-          mediaTitle={media.title}
+          mediaTitle={title}
           onRemoveSubmit={handleRemoveRatingSubmit}
           onSubmit={handleRatingSubmit}
           userRating={userRating}

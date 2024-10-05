@@ -13,6 +13,24 @@ import { signOut } from "@/auth";
 import { Spinner } from "flowbite-react";
 import { FaCheck, FaPlus } from "react-icons/fa";
 
+const InWatchlist = () => (
+  <>
+    <FaCheck />
+    <span>{"In Watchlist"}</span>
+  </>
+);
+const AddtoWatchlist = () => (
+  <>
+    <FaPlus />
+    <span>{"Add to Watchlist"}</span>
+  </>
+);
+const SpinnerComponent = () => (
+  <div className="flex justify-center">
+    <Spinner />
+  </div>
+);
+
 export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -74,6 +92,8 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
     setShowMessage(true);
   };
 
+  const buttonContent = isInWatchlist ? <InWatchlist /> : <AddtoWatchlist />;
+
   return (
     <div className="mb-4 flex flex-col">
       <button
@@ -81,21 +101,7 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
         onClick={isInWatchlist ? handleRemove : handleAddToWatchlistClick}
       >
         <div className="flex gap-2 items-center justify-center">
-          {loading ? (
-            <div className="flex justify-center">
-              <Spinner />
-            </div>
-          ) : isInWatchlist ? (
-            <>
-              <FaCheck />
-              <span>{"In Watchlist"}</span>
-            </>
-          ) : (
-            <>
-              <FaPlus />
-              <span>{"Add to Watchlist"}</span>
-            </>
-          )}
+          {loading ? <SpinnerComponent /> : buttonContent}
         </div>
       </button>
 
