@@ -6,7 +6,6 @@ import {
   handleRemoveFromWatchlist,
 } from "./watchlistUtils";
 import Tooltip from "./tooltip";
-import Icon from "./icon";
 
 interface WatchlistBookmarkProps {
   isInWatchlist: boolean;
