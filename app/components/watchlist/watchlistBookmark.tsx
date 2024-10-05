@@ -4,8 +4,8 @@ import { FaBookmark, FaCheck, FaPlus } from "react-icons/fa";
 import {
   handleAddToWatchlist,
   handleRemoveFromWatchlist,
-} from "./watchlistUtils";
-import Tooltip from "./tooltip";
+} from "../../utils/watchlistUtils";
+import Tooltip from "./tooltip/tooltip";
 
 interface WatchlistBookmarkProps {
   isInWatchlist: boolean;
@@ -28,9 +28,6 @@ const Check = () => (
     <FaCheck size={10} />
   </div>
 );
-
-// const Plus = () => <Icon Icon={FaPlus} />;
-// const Check = () => <Icon Icon={FaCheck} />;
 
 const WatchlistBookmark = ({
   isInWatchlist,

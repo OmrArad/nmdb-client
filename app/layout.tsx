@@ -5,7 +5,7 @@ import styles from "@/app/styles/Home.module.css";
 import Toolbar from "./components/toolbar/toolbar";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
-import { WatchlistProvider } from "./user/watchlist/watchlistContext";
+import { WatchlistProvider } from "@/app/context/watchlistContext";
 
 const inter = Inter({ subsets: ["latin"] });
 

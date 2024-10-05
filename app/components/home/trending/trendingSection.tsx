@@ -1,7 +1,7 @@
 import { getTrendingTVShows } from "@/app/api/tv/tvServices";
-import TrendingSectionSkeleton from "./trendingSectionSkeleton";
+import TrendingSectionSkeleton from "../trending/trendingSectionSkeleton";
 import { getTrendingMovies } from "@/app/api/movie/movieServices";
-import MediaCard from "../media/mediaCard";
+import MediaCard from "../../media/mediaCard";
 
 const TrendingSection = async () => {
   const trendingShows = await getTrendingTVShows();

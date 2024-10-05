@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import RatingPopup from "./ratingPopup";
+import RatingPopup from "../ratingPopup";
 import {
   addRating,
   getRatingsByUser,

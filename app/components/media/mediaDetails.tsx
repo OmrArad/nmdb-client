@@ -1,13 +1,13 @@
 import { getMovie, getMovieCast } from "@/app/api/movie/movieServices";
 import Image from "next/image";
 import { CastList } from "../cast/castList";
-import { WatchlistButton } from "../buttons/watchlistButton";
+import { WatchlistButton } from "../watchlist/watchlistButton";
 import { TextExpander } from "../textExpander";
-import MediaRating from "../rating/mediaRating";
+import MediaRating from "../rating/mediaRating/mediaRating";
 import { SessionProvider } from "next-auth/react";
 import { getTVCast, getTVShow } from "@/app/api/tv/tvServices";
-import { DetailedMovie, Movie } from "@/app/types/movie";
-import { DetailedTVSeries, TVShow } from "@/app/types/tvShow";
+import { DetailedMovie } from "@/app/types/movie";
+import { DetailedTVSeries } from "@/app/types/tvShow";
 import { CastMember } from "@/app/types/cast";
 
 export async function MediaDetails({

@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import WatchlistBookmark from "@/app/user/watchlist/watchlistBookmark";
-import { useWatchlist } from "@/app/user/watchlist/watchlistContext";
+import WatchlistBookmark from "@/app/components/watchlist/watchlistBookmark";
+import { useWatchlist } from "@/app/context/watchlistContext";
 import { usePathname } from "next/navigation";
 import { SearchResult } from "@/app/types/search";
 

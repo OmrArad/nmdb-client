@@ -1,6 +1,6 @@
-import SearchSection from "./components/home/searchSection";
-import RecommendationsSection from "./components/home/RecommendationsSection";
-import TrendingSection from "./components/home/trendingSection";
+import SearchSection from "./components/home/search/searchSection";
+import RecommendationsSection from "./components/home/recommendations/RecommendationsSection";
+import TrendingSection from "./components/home/trending/trendingSection";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 export default function Home({
