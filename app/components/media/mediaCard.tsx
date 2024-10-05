@@ -7,10 +7,6 @@ import { TVShow } from "@/app/types/tvShow";
 import { MediaAppearance } from "@/app/types/actor";
 import WatchlistBookmark from "@/app/components/watchlist/watchlistBookmark";
 import { useWatchlist } from "@/app/context/watchlistContext";
-import {
-  handleAddToWatchlist,
-  handleRemoveFromWatchlist,
-} from "@/app/user/watchlist/watchlistUtils";
 
 type MediaCardProps = {
   media: Movie | TVShow | MediaAppearance;
