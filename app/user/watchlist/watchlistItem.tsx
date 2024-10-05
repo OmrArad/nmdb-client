@@ -64,6 +64,7 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
           isInWatchlist={isInWatchlist}
           handleAdd={handleAdd}
           handleRemove={handleRemove}
+          shouldShowIcon={false}
         />
 
         <div>

@@ -76,26 +76,28 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
     );
 
   return (
-    <div className="min-w-[calc(150px)] w-[calc(150px)] min-h-[calc(21rem)] bg-white rounded-lg overflow-hidden relative">
+    <div className="min-w-[calc(150px)] w-[calc(150px)] min-h-[calc(21rem)] bg-white rounded-sm overflow-hidden relative">
       <Link href={mediaHref}>
         {media.vote_average && (
           <div className="absolute top-0 right-0 bg-yellow-400 rounded-bl-lg py-1 px-2 text-sm font-bold cursor-default">
             {media.vote_average.toFixed(1)}
           </div>
         )}
-        <div className="h-[calc(225px)] bg-gray-200 rounded-xl">
+        <div className="h-[calc(225px)] bg-gray-200">
           <Image
-            className="rounded-lg shadow-2xl hover:shadow-gray-500"
+            className="rounded-sm shadow-2xl hover:shadow-gray-500"
             alt="poster"
             src={`${urlPrefix}/${media.poster_path}`}
             width={150}
             height={225}
           />
-          <WatchlistBookmark
-            isInWatchlist={isInWatchlist}
-            handleAdd={handleAdd}
-            handleRemove={handleRemove}
-          />
+          <div className="absolute bottom-full translate-x-0.5">
+            <WatchlistBookmark
+              isInWatchlist={isInWatchlist}
+              handleAdd={handleAdd}
+              handleRemove={handleRemove}
+            />
+          </div>
         </div>
       </Link>
       <div className="p-3">

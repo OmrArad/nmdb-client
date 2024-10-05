@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { FaBookmark, FaRegBookmark, FaCheck, FaPlus } from "react-icons/fa";
+import { FaBookmark, FaCheck, FaPlus } from "react-icons/fa";
 
 interface WatchlistBookmarkProps {
   isInWatchlist: boolean;
   handleAdd: () => void;
   handleRemove: () => void;
   shouldShowTooltip?: boolean;
+  shouldShowIcon?: boolean;
 }
 
 const WatchlistBookmark = ({
@@ -13,6 +14,7 @@ const WatchlistBookmark = ({
   handleAdd,
   handleRemove,
   shouldShowTooltip = false,
+  shouldShowIcon = true,
 }: WatchlistBookmarkProps) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -52,24 +54,38 @@ const WatchlistBookmark = ({
     );
   };
 
+  const Plus = () => (
+    <div className="z-10 absolute top-1.5 left-1.5 text-xs text-gray-900 transform">
+      <FaPlus size={10} />
+    </div>
+  );
+
+  const Check = () => (
+    <div className="z-10 absolute top-1.5 left-1.5 text-xs text-gray-900 transform">
+      <FaCheck size={10} />
+    </div>
+  );
+
+  const bookmarkSize = shouldShowIcon ? 22 : 18;
+
   return (
     <>
       <div
-        className="absolute top-0 left-0 text-yellow-400 cursor-pointer transition-transform transform scale-y-150 duration-300 ease-in-out "
+        className="absolute top-0 left-0 text-yellow-400 cursor-pointer transition-transform transform  duration-300 ease-in-out "
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
       >
         {isInWatchlist ? (
-          <FaBookmark
-            size={18}
-            className="hover:text-gray-400 transition-transform transform duration-300 ease-in-out hover:-translate-y-0.5"
-          />
+          <div className="transition-transform transform duration-300 ease-in-out hover:-translate-y-0.5 hover:text-gray-400 ">
+            <FaBookmark size={bookmarkSize} className=" scale-y-150" />
+            {shouldShowIcon && (showTooltip ? <Plus /> : <Check />)}
+          </div>
         ) : (
-          <FaBookmark
-            size={18}
-            className="text-gray-400 hover:text-yellow-400 transition-transform transform duration-300 ease-in-out -translate-y-0.5 hover:translate-y-0.5"
-          />
+          <div className="relative text-gray-400  transition-transform transform duration-300 ease-in-out -translate-y-0.5 hover:translate-y-0.5 hover:text-yellow-400">
+            <FaBookmark size={bookmarkSize} className=" scale-y-150" />
+            {shouldShowIcon && (showTooltip ? <Check /> : <Plus />)}
+          </div>
         )}
       </div>
 
