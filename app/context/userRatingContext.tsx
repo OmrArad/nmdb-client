@@ -2,24 +2,22 @@
 import { RatingsResponse } from "@/app/types/ratings";
 import React, { ReactNode, createContext, useContext, useState } from "react";
 
-interface UserRatingsContextType {
+interface ratingsContextType {
   ratings: RatingsResponse | null;
   updateRatings: (ratingsData: RatingsResponse) => void;
 }
 
-const UserRatingsContext = createContext<UserRatingsContextType | undefined>(
-  undefined
-);
+const ratingsContext = createContext<ratingsContextType | undefined>(undefined);
 
-export const useUserRatings = () => {
-  const context = useContext(UserRatingsContext);
+export const useRatings = () => {
+  const context = useContext(ratingsContext);
   if (context === undefined) {
-    throw new Error("useUserRatings must be used within a UserRatingsProvider");
+    throw new Error("useratings must be used within a ratingsProvider");
   }
   return context;
 };
 
-export const UserRatingsProvider = ({ children }: { children: ReactNode }) => {
+export const RatingsProvider = ({ children }: { children: ReactNode }) => {
   const [ratings, setRatings] = useState<RatingsResponse | null>(null);
 
   // Memoize the updateRatings function
@@ -28,8 +26,8 @@ export const UserRatingsProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <UserRatingsContext.Provider value={{ ratings, updateRatings }}>
+    <ratingsContext.Provider value={{ ratings, updateRatings }}>
       {children}
-    </UserRatingsContext.Provider>
+    </ratingsContext.Provider>
   );
 };
