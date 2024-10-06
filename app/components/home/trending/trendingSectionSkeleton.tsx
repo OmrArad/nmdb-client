@@ -9,7 +9,7 @@ const TrendingSectionSkeleton = ({
   Trending: () => JSX.Element[];
 }) => {
   return (
-    <section className="flex flex-col w-full bg-gray-100">
+    <section className="flex flex-col w-full bg-gray-50">
       <h2 className="text-2xl font-bold pt-5 px-5 text-gray-800">
         {sectionTitle}
       </h2>
