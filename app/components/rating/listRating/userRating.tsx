@@ -37,15 +37,15 @@ const UserRating: React.FC<UserRatingProps> = ({
   };
 
   const darkThemeClass =
-    "border-neutral-800 text-neutral-400 hover:bg-neutral-800 hover:border-neutral-900  hover:brightness-125";
+    "border-neutral-800 translate-x-1 text-neutral-400 hover:bg-neutral-700 hover:border-neutral-900  hover:brightness-125 hover:translate-x-0";
 
   const lightThemeClass =
-    "border-gray-100 text-gray-400 hover:bg-blue-100 hover:border-blue-200 hover:text-blue-400 hover:brightness-90";
+    "border-gray-100 text-gray-400 hover:bg-blue-100 hover:border-blue-200 hover:text-blue-400 hover:brightness-90 hover:scale-105";
 
   return (
     <>
       <div
-        className={`cursor-pointer rounded-sm px-1 border hover:shadow-sm transition-transform transform duration-300 ease-in-out hover:scale-105 ${
+        className={`cursor-pointer rounded-sm rounded-br-md px-1 border hover:shadow-sm transition-transform transform duration-300 ease-in-out hover:scale-105 ${
           darkTheme ? darkThemeClass : lightThemeClass
         }`}
         onClick={handleOpenPopup}

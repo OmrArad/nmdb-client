@@ -77,11 +77,11 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
   const handleClosePopup = () => setIsPopupOpen(false);
 
   return (
-    <div className="min-w-[calc(150px)] w-[calc(150px)] min-h-[calc(21rem)] rounded-sm overflow-hidden relative ">
+    <div className="min-w-[calc(150px)] w-[calc(150px)] min-h-[calc(21rem)] rounded-sm overflow-hidden relative">
       <Link href={mediaHref}>
         <div className="h-[calc(225px)]">
           <Image
-            className="rounded-sm brightness-95 hover:brightness-100 transition-transform transform duration-300 ease-in-out "
+            className="brightness-95 hover:brightness-100 transition-transform transform duration-300 ease-in-out "
             alt="poster"
             src={`${urlPrefix}/${poster_path}`}
             width={150}
@@ -99,7 +99,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
         </div>
       </Link>
 
-      <div className="flex items-center justify-between bottom-0 rounded-bl-lg rounded-br-sm py-1 px-2 text-sm font-bold cursor-default bg-neutral-800">
+      <div className="flex items-center justify-between bottom-0 rounded-br-md  py-1 px-2 text-sm font-bold cursor-default bg-neutral-800">
         <div className="flex items-center text-neutral-300 gap-1">
           <span className="cursor-text">{vote_average.toFixed(1)}</span>
           <FaStar className="text-yellow-400" />
@@ -115,7 +115,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
       </div>
       <div className="p-2">
         <Link href={mediaHref}>
-          <h3 className="text-sm text-left font-bold mb-1 hover:text-blue-500">
+          <h3 className="text-sm text-left  font-bold mb-1  hover:text-blue-500 hover:translate-x-1 transition-transform transform duration-300 ease-in-out hover:scale-105">
             {isMovie(media, kind) ? media.title : media.name}
           </h3>
         </Link>
