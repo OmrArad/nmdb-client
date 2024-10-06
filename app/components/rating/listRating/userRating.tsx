@@ -3,12 +3,17 @@ import RatingPopup from "@/app/components/rating/ratingPopup";
 import UserRatingDisplay from "./userRatingDisplay";
 import RatePrompt from "./ratePrompt";
 import { IWatchlistItem } from "@/app/types/watchlist";
+import { TVShow } from "@/app/types/tvShow";
+import { Movie } from "@/app/types/movie";
+import { MediaAppearance } from "@/app/types/actor";
 interface UserRatingProps {
   media: IWatchlistItem;
   isMovie: boolean;
   userRating: number | null;
   setUserRating: (value: SetStateAction<number | null>) => void;
   setLoading: (value: SetStateAction<boolean>) => void;
+  darkTheme?: boolean;
+  showText?: boolean;
 }
 
 const UserRating: React.FC<UserRatingProps> = ({
@@ -17,6 +22,8 @@ const UserRating: React.FC<UserRatingProps> = ({
   userRating,
   setLoading,
   setUserRating,
+  darkTheme = false,
+  showText = true,
 }) => {
   const { tmdb_id, title } = media;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -29,16 +36,24 @@ const UserRating: React.FC<UserRatingProps> = ({
     setIsPopupOpen(false);
   };
 
+  const darkThemeClass =
+    "border-neutral-800 text-neutral-400 hover:bg-neutral-800 hover:border-neutral-900  hover:brightness-125";
+
+  const lightThemeClass =
+    "border-gray-100 text-gray-400 hover:bg-blue-100 hover:border-blue-200 hover:text-blue-400 hover:brightness-90";
+
   return (
     <>
       <div
-        className="cursor-pointer rounded px-1 border border-gray-100 text-gray-400  hover:bg-blue-100 hover:border-blue-200 hover:shadow-sm hover:text-blue-500 transition-transform transform duration-300 ease-in-out hover:scale-105"
+        className={`cursor-pointer rounded-sm px-1 border hover:shadow-sm transition-transform transform duration-300 ease-in-out hover:scale-105 ${
+          darkTheme ? darkThemeClass : lightThemeClass
+        }`}
         onClick={handleOpenPopup}
       >
         {userRating ? (
           <UserRatingDisplay userRating={userRating} />
         ) : (
-          <RatePrompt />
+          <RatePrompt showText={showText} />
         )}
       </div>
 
