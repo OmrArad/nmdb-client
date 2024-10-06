@@ -11,8 +11,7 @@ interface RatingComponentProps {
 }
 
 const Ratings: React.FC<RatingComponentProps> = ({ isMovie, media }) => {
-  const { user_rating, tmdb_rating: tmdbRating } = media;
-  const [userRating, setUserRating] = useState<number | null>(user_rating);
+  const { tmdb_rating: tmdbRating } = media;
   const [loading, setLoading] = useState(false);
 
   return (
@@ -22,13 +21,7 @@ const Ratings: React.FC<RatingComponentProps> = ({ isMovie, media }) => {
       {loading ? (
         <Spinner />
       ) : (
-        <UserRating
-          media={media}
-          isMovie={isMovie}
-          userRating={userRating}
-          setUserRating={setUserRating}
-          setLoading={setLoading}
-        />
+        <UserRating media={media} isMovie={isMovie} setLoading={setLoading} />
       )}
     </div>
   );
