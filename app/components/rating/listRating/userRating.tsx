@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import RatingPopup from "@/app/components/rating/ratingPopup";
 import UserRatingDisplay from "./userRatingDisplay";
 import RatePrompt from "./ratePrompt";
@@ -6,11 +6,11 @@ import { IWatchlistItem } from "@/app/types/watchlist";
 import { TVShow } from "@/app/types/tvShow";
 import { Movie } from "@/app/types/movie";
 import { MediaAppearance } from "@/app/types/actor";
+import { useRatings } from "@/app/context/userRatingContext";
+import { findRating } from "@/app/utils/ratingUtils";
 interface UserRatingProps {
   media: IWatchlistItem;
   isMovie: boolean;
-  userRating: number | null;
-  setUserRating: (value: SetStateAction<number | null>) => void;
   setLoading: (value: SetStateAction<boolean>) => void;
   darkTheme?: boolean;
   showText?: boolean;
@@ -19,14 +19,20 @@ interface UserRatingProps {
 const UserRating: React.FC<UserRatingProps> = ({
   media,
   isMovie = true,
-  userRating,
   setLoading,
-  setUserRating,
   darkTheme = false,
   showText = true,
 }) => {
   const { tmdb_id, title } = media;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [userRating, setUserRating] = useState<number | null>(null);
+  const { ratings } = useRatings();
+
+  useEffect(() => {
+    const _userRatings =
+      (ratings && findRating(ratings, tmdb_id)?.rating) || null;
+    setUserRating(_userRatings);
+  }, [userRating, ratings]);
 
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
