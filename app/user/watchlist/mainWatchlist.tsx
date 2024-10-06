@@ -3,12 +3,12 @@ import React, { useEffect } from "react";
 import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 import WatchlistItem from "../../components/watchlist/watchlistItem";
 import { useWatchlist } from "@/app/context/watchlistContext";
-import { signOut, useSession } from "next-auth/react";
-import { AxiosError } from "axios";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const MainWatchlist = () => {
   const { watchlist, updateWatchlist } = useWatchlist();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const fetchWatchlist = async () => {
@@ -17,14 +17,14 @@ const MainWatchlist = () => {
         updateWatchlist(watchlistData);
       } catch (error) {
         console.error("Failed to load watchlist", error);
-        if (session && (error as AxiosError).response?.status === 401) {
-          signOut();
-        }
       }
     };
 
-    if (!watchlist) {
+    if (!watchlist && status === "authenticated") {
       fetchWatchlist();
+    }
+    if (status === "unauthenticated") {
+      redirect("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchlist, session]);
