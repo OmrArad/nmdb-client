@@ -21,7 +21,7 @@ export default async function UserButton() {
   return (
     <>
       {user && res ? (
-        <UserDropdown onLogoutClick={handleLogout} session={session} />
+        <UserDropdown onLogoutClick={handleLogout} _session={session} />
       ) : (
         <SignInButton handleLogin={handleLogin} />
       )}

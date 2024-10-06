@@ -3,7 +3,7 @@ import {
   getWatchlist,
   removeFromWatchlist,
 } from "@/app/api/watchlist/watchlistServices";
-import { IWatchlist } from "@/app/types/watchlist";
+import { IWatchlist, IWatchlistItem } from "@/app/types/watchlist";
 import { SetStateAction } from "react";
 import toast from "react-hot-toast";
 
@@ -48,4 +48,15 @@ export const handleAddToWatchlist = async (
   } catch (error) {
     console.error("Error adding to watchlist", error);
   }
+};
+
+export const isMovieInWatchlist = (
+  watchlists: IWatchlist | null,
+  contentId: string
+): boolean => {
+  return watchlists
+    ? watchlists.Content.some(
+        (item: IWatchlistItem) => item.tmdb_id === contentId
+      )
+    : false;
 };

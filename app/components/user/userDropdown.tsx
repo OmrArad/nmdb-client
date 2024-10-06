@@ -1,12 +1,17 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Dropdown } from "flowbite-react";
-import { Session } from "next-auth";
-import { setAuthTokenAndLogin } from "@/app/api/auth/auth";
+import { setAuthToken } from "@/app/api/auth/auth";
 import styles from "@/app/styles/NavButton.module.css";
 import clsx from "clsx";
 import UserImage from "./userImage";
+import { useWatchlist } from "@/app/context/watchlistContext";
+import { useRatings } from "@/app/context/userRatingContext";
+import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
+import { getRatingsByUser } from "@/app/api/ratings/ratingsServices";
+import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 
 const links = [
   {
@@ -24,19 +29,32 @@ const style =
 
 const UserDropdown = ({
   onLogoutClick,
-  session,
+  _session,
 }: {
   onLogoutClick: () => void;
-  session: Session;
+  _session: Session;
 }) => {
+  const { updateWatchlist } = useWatchlist();
+  const { updateRatings } = useRatings();
+  const { data: session, status } = useSession();
+  const [isUpdated, setIsUpdated] = useState(false);
   React.useEffect(() => {
-    setAuthTokenAndLogin(session?.accessToken);
-  }, [session?.accessToken]);
+    const updateContext = async () => {
+      updateWatchlist(await getWatchlist());
+      updateRatings(await getRatingsByUser());
+    };
+
+    if (status === "authenticated") {
+      setAuthToken(_session?.accessToken);
+      setIsUpdated(true);
+      if (!isUpdated) updateContext();
+    }
+  }, [session]);
 
   const userDropdownTheme = () => {
     return (
       <div className={clsx(styles.base_button, styles.user)}>
-        <UserImage session={session} />
+        <UserImage image={_session?.user?.image} />
       </div>
     );
   };
