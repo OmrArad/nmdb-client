@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from "react";
 import RatingPopup from "../ratingPopup";
 import { getRatingsByUser } from "@/app/api/ratings/ratingsServices";
-import { AxiosError } from "axios";
-import { signOut } from "@/auth";
-import { useSession } from "next-auth/react";
 import { Spinner } from "flowbite-react";
 import { Movie } from "@/app/types/movie";
 import { TVShow } from "@/app/types/tvShow";
 import { useRatings } from "@/app/context/userRatingContext";
 import { findRating } from "@/app/utils/ratingUtils";
+import { AxiosError } from "axios";
+import { logout } from "@/app/api/auth/auth";
+import { useSession } from "next-auth/react";
 
 const MediaRating = ({
   contentId,
@@ -28,7 +28,7 @@ const MediaRating = ({
   );
   const [showMessage, setShowMessage] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { data: session } = useSession();
+  const { status } = useSession();
 
   useEffect(() => {
     const fetchRating = async () => {
@@ -42,24 +42,26 @@ const MediaRating = ({
         const contentRating = findRating(userRatings, contentId);
         setUserRating(contentRating?.rating || null);
       } catch (error) {
-        setIsLoggedIn(false);
-        const err = error as AxiosError;
-        if (session && err.response?.status === 401) {
-          await signOut();
-        }
         console.error("Error fetching user ratings", error);
+        await logout();
       } finally {
         setLoading(false);
       }
     };
 
-    if (!ratings) fetchRating();
-    else {
-      const contentRating = findRating(ratings, contentId);
-      setUserRating(contentRating?.rating || null);
+    if (status === "authenticated") {
+      setIsLoggedIn(true);
+      if (!ratings) fetchRating();
+      else {
+        const contentRating = findRating(ratings, contentId);
+        setUserRating(contentRating?.rating || null);
+        setLoading(false);
+      }
+    } else if (status === "unauthenticated") {
       setLoading(false);
+      setIsLoggedIn(false);
     }
-  }, [contentId, isMovie, ratings, session, userRating]);
+  }, [contentId, isMovie, ratings, status]);
 
   const handleOpenPopup = () => {
     setShowMessage(false);

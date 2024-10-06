@@ -42,7 +42,7 @@ export const setAuthTokenAndLogin = async (token?: string) => {
 };
 
 // Function to check if the user is logged in
-export const isLoggedIn = async (): Promise<LoggedInResponse> => {
+export const checkIfUserLoggedIn = async (): Promise<LoggedInResponse> => {
   try {
     const response = await apiClient.get("/api/is_logged_in");
     return response.data; // This will return { "logged_in": boolean }

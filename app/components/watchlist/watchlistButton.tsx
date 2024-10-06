@@ -1,17 +1,16 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
-import { IWatchlistItem } from "@/app/types/watchlist";
-import { AxiosError } from "axios";
 import { useWatchlist } from "@/app/context/watchlistContext";
 import {
   handleAddToWatchlist,
   handleRemoveFromWatchlist,
+  isMovieInWatchlist,
 } from "@/app/utils/watchlistUtils";
-import { useSession } from "next-auth/react";
-import { signOut } from "@/auth";
 import { Spinner } from "flowbite-react";
 import { FaCheck, FaPlus } from "react-icons/fa";
+import { checkIfUserLoggedIn } from "@/app/api/auth/auth";
+import { useSession } from "next-auth/react";
 
 const InWatchlist = () => (
   <>
@@ -38,7 +37,7 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   const [showMessage, setShowMessage] = useState(false);
   const watchlistIdRef = useRef("");
   const { watchlist, updateWatchlist } = useWatchlist();
-  const { data: session } = useSession();
+  const { status } = useSession();
 
   useEffect(() => {
     const checkWatchlistStatus = async () => {
@@ -46,27 +45,23 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
         const watchlists = await getWatchlist();
         updateWatchlist(watchlists);
         watchlistIdRef.current = watchlists.ID;
-        const isMovieInWatchlist =
-          watchlists &&
-          watchlists.Content.some(
-            (item: IWatchlistItem) => item.tmdb_id === contentId
-          );
-        setIsInWatchlist(isMovieInWatchlist);
+        setIsInWatchlist(isMovieInWatchlist(watchlist, contentId));
       } catch (error) {
-        const err = error as AxiosError;
-        if (session && err.response?.status === 401) {
-          await signOut();
-        }
-        setIsLoggedIn(false);
         console.error("Error fetching watchlist status", error);
       } finally {
         setLoading(false);
       }
     };
 
-    checkWatchlistStatus();
+    if (status === "authenticated") {
+      checkWatchlistStatus();
+      setIsLoggedIn(true);
+    } else if (status === "unauthenticated") {
+      setLoading(false);
+      setIsLoggedIn(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contentId, isLoggedIn, session]);
+  }, [contentId, isLoggedIn, status]);
 
   const handleAdd = () =>
     handleAddToWatchlist(
