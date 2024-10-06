@@ -1,3 +1,4 @@
+import { LoggedInResponse } from "@/app/types/auth";
 import axios from "axios";
 
 export const apiClient = axios.create({
@@ -25,6 +26,28 @@ export const login = async () => {
   }
 };
 
+// Function to log out the user
+export const logout = async () => {
+  try {
+    const response = await apiClient.post("/api/logout");
+    return response.data; // This will return { "message": "Logged out successfully" }
+  } catch (error) {
+    console.error(`Failed to log out user: ${error}`);
+    throw error; // Handle the error (e.g., redirect to the login page, etc.)
+  }
+};
+
 export const setAuthTokenAndLogin = async (token?: string) => {
   return await setAuthToken(token).then(async () => await login());
+};
+
+// Function to check if the user is logged in
+export const isLoggedIn = async (): Promise<LoggedInResponse> => {
+  try {
+    const response = await apiClient.get("/api/is_logged_in");
+    return response.data; // This will return { "logged_in": boolean }
+  } catch (error) {
+    console.error(`Failed to check if user is logged in: ${error}`);
+    throw error; // You can handle the error as needed (e.g., redirect to login)
+  }
 };
