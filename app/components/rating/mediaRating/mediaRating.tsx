@@ -8,7 +8,7 @@ import { TVShow } from "@/app/types/tvShow";
 import { useRatings } from "@/app/context/userRatingContext";
 import { findRating } from "@/app/utils/ratingUtils";
 import { AxiosError } from "axios";
-import { logout } from "@/app/api/auth/auth";
+import { logout, setAuthToken } from "@/app/api/auth/auth";
 import { useSession } from "next-auth/react";
 
 const MediaRating = ({
@@ -28,7 +28,7 @@ const MediaRating = ({
   );
   const [showMessage, setShowMessage] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { status } = useSession();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const fetchRating = async () => {
@@ -50,6 +50,7 @@ const MediaRating = ({
     };
 
     if (status === "authenticated") {
+      setAuthToken(session.accessToken);
       setIsLoggedIn(true);
       if (!ratings) fetchRating();
       else {

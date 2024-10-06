@@ -9,7 +9,7 @@ import {
 } from "@/app/utils/watchlistUtils";
 import { Spinner } from "flowbite-react";
 import { FaCheck, FaPlus } from "react-icons/fa";
-import { checkIfUserLoggedIn } from "@/app/api/auth/auth";
+import { setAuthToken } from "@/app/api/auth/auth";
 import { useSession } from "next-auth/react";
 
 const InWatchlist = () => (
@@ -37,7 +37,7 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   const [showMessage, setShowMessage] = useState(false);
   const watchlistIdRef = useRef("");
   const { watchlist, updateWatchlist } = useWatchlist();
-  const { status } = useSession();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const checkWatchlistStatus = async () => {
@@ -54,6 +54,7 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
     };
 
     if (status === "authenticated") {
+      setAuthToken(session.accessToken);
       checkWatchlistStatus();
       setIsLoggedIn(true);
     } else if (status === "unauthenticated") {
