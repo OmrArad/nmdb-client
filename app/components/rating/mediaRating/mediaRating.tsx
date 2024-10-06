@@ -7,7 +7,6 @@ import { Movie } from "@/app/types/movie";
 import { TVShow } from "@/app/types/tvShow";
 import { useRatings } from "@/app/context/userRatingContext";
 import { findRating } from "@/app/utils/ratingUtils";
-import { AxiosError } from "axios";
 import { logout, setAuthToken } from "@/app/api/auth/auth";
 import { useSession } from "next-auth/react";
 

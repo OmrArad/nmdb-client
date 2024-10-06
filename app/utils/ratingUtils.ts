@@ -24,11 +24,11 @@ export const handleRatingSubmit = async (
     setLoading(true);
     await addRating(contentId, rating, isMovie);
     console.log(`User rated the content: ${rating} stars`);
+    updateRatings(await getRatingsByUser());
+    setLoading(false);
   } catch (error) {
     console.error("Error adding rating", error);
   } finally {
-    updateRatings(await getRatingsByUser());
-    setLoading(false);
   }
 };
 
@@ -40,7 +40,7 @@ export const handleRatingSubmit = async (
 export const handleRemoveRatingSubmit = async (
   contentId: string,
   updateRatings: (SetStateAction: RatingsResponse) => void,
-  setUserRating?: (rating: number) => void
+  setUserRating: (rating: number) => void
 ) => {
   try {
     await removeRating(contentId);

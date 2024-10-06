@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from "react";
 import SearchBar from "./searchBar";
 import SearchResults from "./searchResults";
 import { apiClient } from "@/app/api/auth/auth";
-import { useSession } from "next-auth/react";
 import { AiOutlineClose } from "react-icons/ai"; // Import star icons
 
 const SearchSection = () => {
@@ -11,7 +10,6 @@ const SearchSection = () => {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const { data: session } = useSession();
 
   useEffect(() => {
     const storedQueries = sessionStorage.getItem("searchHistory");
