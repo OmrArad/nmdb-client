@@ -2,8 +2,8 @@ import React from "react";
 
 const RecommendationsSection = () => {
   return (
-    <div className="text-center p-8 text-white flex-1">
-      <h2 className="text-2xl font-bold mb-4">Streaming Recommendations.</h2>
+    <div className="text-center p-8 py-2 text-white flex-1">
+      <h2 className="text-2xl font-bold mb-3">Streaming Recommendations.</h2>
       <p className="mb-6">
         Interested to see what we think is your best go-to streaming service?
       </p>
