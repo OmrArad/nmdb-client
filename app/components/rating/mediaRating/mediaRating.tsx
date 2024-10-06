@@ -43,10 +43,6 @@ const MediaRating = ({
         setUserRating(contentRating?.rating || null);
       } catch (error) {
         setIsLoggedIn(false);
-        const err = error as AxiosError;
-        if (session && err.response?.status === 401) {
-          await signOut();
-        }
         console.error("Error fetching user ratings", error);
       } finally {
         setLoading(false);
@@ -59,7 +55,7 @@ const MediaRating = ({
       setUserRating(contentRating?.rating || null);
       setLoading(false);
     }
-  }, [contentId, isMovie, ratings, session, userRating]);
+  }, [contentId, isMovie, ratings]);
 
   const handleOpenPopup = () => {
     setShowMessage(false);
