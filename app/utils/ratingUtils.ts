@@ -24,11 +24,11 @@ export const handleRatingSubmit = async (
     setLoading(true);
     await addRating(contentId, rating, isMovie);
     console.log(`User rated the content: ${rating} stars`);
+    updateRatings(await getRatingsByUser());
+    setLoading(false);
   } catch (error) {
     console.error("Error adding rating", error);
   } finally {
-    updateRatings(await getRatingsByUser());
-    setLoading(false);
   }
 };
 
