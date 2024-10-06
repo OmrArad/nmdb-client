@@ -3,10 +3,18 @@ import React from "react";
 import Link from "next/link";
 import { Dropdown } from "flowbite-react";
 import { Session } from "next-auth";
-import { setAuthTokenAndLogin } from "@/app/api/auth/auth";
+import {
+  isLoggedIn,
+  setAuthToken,
+  setAuthTokenAndLogin,
+} from "@/app/api/auth/auth";
 import styles from "@/app/styles/NavButton.module.css";
 import clsx from "clsx";
 import UserImage from "./userImage";
+import { useWatchlist } from "@/app/context/watchlistContext";
+import { useRatings } from "@/app/context/userRatingContext";
+import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
+import { getRatingsByUser } from "@/app/api/ratings/ratingsServices";
 
 const links = [
   {
@@ -29,8 +37,28 @@ const UserDropdown = ({
   onLogoutClick: () => void;
   session: Session;
 }) => {
+  const { watchlist, updateWatchlist } = useWatchlist();
+  const { ratings, updateRatings } = useRatings();
   React.useEffect(() => {
-    setAuthTokenAndLogin(session?.accessToken);
+    setAuthToken(session?.accessToken);
+    const updateContext = async () => {
+      updateWatchlist(await getWatchlist());
+      updateRatings(await getRatingsByUser());
+    };
+    updateContext();
+    return;
+    const isUser = async () => {
+      const res = await isLoggedIn();
+      const isLogged = res.logged_in;
+
+      if (!isLogged) {
+        setAuthToken(session?.accessToken);
+        return;
+      } else {
+        setAuthTokenAndLogin(session?.accessToken);
+      }
+    };
+    isUser();
   }, [session?.accessToken]);
 
   const userDropdownTheme = () => {
