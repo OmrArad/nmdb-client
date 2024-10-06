@@ -10,7 +10,7 @@ const UserRatingDisplay: React.FC<UserRatingDisplayProps> = ({
 }) => {
   return (
     <div className="flex justify-center items-center">
-      <span className="font-bold">{userRating.toFixed(1)}</span>
+      <span className="font-bold">{userRating}</span>
       <div className="text-blue-400 rounded-full p-1">
         <FaStar size={15} />
       </div>

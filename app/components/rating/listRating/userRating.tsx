@@ -1,23 +1,24 @@
-import React, { useState } from "react";
-import { FaStar, FaRegStar } from "react-icons/fa";
-import { Spinner } from "flowbite-react";
+import React, { SetStateAction, useState } from "react";
 import RatingPopup from "@/app/components/rating/ratingPopup";
 import UserRatingDisplay from "./userRatingDisplay";
 import RatePrompt from "./ratePrompt";
-
+import { IWatchlistItem } from "@/app/types/watchlist";
 interface UserRatingProps {
+  media: IWatchlistItem;
+  isMovie: boolean;
   userRating: number | null;
-  mediaTitle: string;
-  onSubmit: (rating: number) => void;
-  onRemoveSubmit: () => void;
+  setUserRating: (value: SetStateAction<number | null>) => void;
+  setLoading: (value: SetStateAction<boolean>) => void;
 }
 
 const UserRating: React.FC<UserRatingProps> = ({
+  media,
+  isMovie = true,
   userRating,
-  mediaTitle,
-  onSubmit,
-  onRemoveSubmit,
+  setLoading,
+  setUserRating,
 }) => {
+  const { tmdb_id, title } = media;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleOpenPopup = () => {
@@ -40,14 +41,16 @@ const UserRating: React.FC<UserRatingProps> = ({
           <RatePrompt />
         )}
       </div>
-      {/* Rating Popup */}
+
       <RatingPopup
-        movieTitle={mediaTitle}
+        title={title}
+        contentId={tmdb_id}
+        isMovie={isMovie}
         isOpen={isPopupOpen}
         onClose={handleClosePopup}
-        onSubmit={onSubmit}
-        onRemoveSubmit={onRemoveSubmit}
         userRating={userRating}
+        setUserRating={setUserRating}
+        setLoading={setLoading}
       />
     </>
   );

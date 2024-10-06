@@ -1,17 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import RatingPopup from "../ratingPopup";
-import {
-  addRating,
-  getRatingsByUser,
-  removeRating,
-} from "@/app/api/ratings/ratingsServices";
+import { getRatingsByUser } from "@/app/api/ratings/ratingsServices";
 import { AxiosError } from "axios";
 import { signOut } from "@/auth";
 import { useSession } from "next-auth/react";
 import { Spinner } from "flowbite-react";
 import { Movie } from "@/app/types/movie";
 import { TVShow } from "@/app/types/tvShow";
+import { useRatings } from "@/app/context/userRatingContext";
+import { findRating } from "@/app/utils/ratingUtils";
 
 const MediaRating = ({
   contentId,
@@ -22,8 +20,12 @@ const MediaRating = ({
   isMovie: boolean;
   media: Movie | TVShow;
 }) => {
+  const { ratings } = useRatings();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [userRating, setUserRating] = useState<number | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [userRating, setUserRating] = useState<number | null>(
+    (ratings && findRating(ratings, contentId)?.rating) || null
+  );
   const [showMessage, setShowMessage] = useState(false);
   const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
@@ -37,13 +39,10 @@ const MediaRating = ({
           contentId,
           isMovie
         );
-        const contentRating = userRatings.ratings.find(
-          (r: { media_ID: string }) => r.media_ID === contentId
-        );
-        if (contentRating) {
-          setUserRating(contentRating.rating);
-        }
+        const contentRating = findRating(userRatings, contentId);
+        setUserRating(contentRating?.rating || null);
       } catch (error) {
+        setIsLoggedIn(false);
         const err = error as AxiosError;
         if (session && err.response?.status === 401) {
           await signOut();
@@ -54,8 +53,13 @@ const MediaRating = ({
       }
     };
 
-    fetchRating();
-  }, [contentId, session]);
+    if (!ratings) fetchRating();
+    else {
+      const contentRating = findRating(ratings, contentId);
+      setUserRating(contentRating?.rating || null);
+      setLoading(false);
+    }
+  }, [contentId, isMovie, ratings, session, userRating]);
 
   const handleOpenPopup = () => {
     setShowMessage(false);
@@ -66,40 +70,18 @@ const MediaRating = ({
     setIsPopupOpen(false);
   };
 
-  const handleRatingSubmit = async (rating: number) => {
-    try {
-      if (userRating === rating) {
-        console.log(`User's rating hasn't changed`);
-        return;
-      }
-      await addRating(contentId, rating, isMovie);
-      setUserRating(rating);
-      console.log(`User rated the movie: ${rating} stars`);
-    } catch (error) {
-      console.error("Error adding rating", error);
-    } finally {
-      setIsPopupOpen(false); // Close popup after submitting
-    }
-  };
-
-  const handleRemoveRatingSubmit = async () => {
-    try {
-      await removeRating(contentId);
-      setUserRating(0);
-      return;
-    } catch (error) {
-      console.error("Error removing rating", error);
-    }
-  };
-
   const handleDisabledButtonClick = () => {
     setShowMessage(true);
+  };
+
+  const handleRateClick = () => {
+    isLoggedIn ? handleOpenPopup() : handleDisabledButtonClick();
   };
 
   return (
     <div className="flex flex-col flex-grow items-stretch">
       <button
-        onClick={session?.user ? handleOpenPopup : handleDisabledButtonClick}
+        onClick={handleRateClick}
         className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-full"
       >
         {loading ? (
@@ -127,12 +109,14 @@ const MediaRating = ({
       )}
 
       <RatingPopup
-        movieTitle={isMovie ? (media as Movie).title : (media as TVShow).name}
+        title={isMovie ? (media as Movie).title : (media as TVShow).name}
+        contentId={media.id.toString()}
+        isMovie={isMovie}
         isOpen={isPopupOpen}
         onClose={handleClosePopup}
-        onSubmit={handleRatingSubmit}
-        onRemoveSubmit={handleRemoveRatingSubmit}
         userRating={userRating}
+        setUserRating={setUserRating}
+        setLoading={setLoading}
       />
     </div>
   );

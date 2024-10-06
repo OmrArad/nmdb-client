@@ -2,11 +2,11 @@
 "use client";
 import React, { useEffect } from "react";
 import RatingsItem from "./ratingsItem";
-import { useUserRatings } from "@/app/context/userRatingContext";
+import { useRatings } from "@/app/context/userRatingContext";
 import { getRatingsByUser } from "@/app/api/ratings/ratingsServices";
 
 const RatingsList = () => {
-  const { ratings, updateRatings } = useUserRatings();
+  const { ratings, updateRatings } = useRatings();
 
   useEffect(() => {
     const fetchRatings = async () => {
