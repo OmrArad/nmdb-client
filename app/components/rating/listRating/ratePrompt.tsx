@@ -1,9 +1,9 @@
 import React from "react";
 import { FaRegStar } from "react-icons/fa";
 
-type RatePromptProps = { showText: boolean };
+type RatePromptProps = { showText?: boolean };
 
-const RatePrompt: React.FC<RatePromptProps> = ({ showText }) => {
+const RatePrompt: React.FC<RatePromptProps> = ({ showText = true }) => {
   return (
     <div className="flex justify-center items-center">
       {showText && <span className="font-bold">Rate</span>}
