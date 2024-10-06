@@ -9,12 +9,12 @@ const TrendingSectionSkeleton = ({
   Trending: () => JSX.Element[];
 }) => {
   return (
-    <section className="flex flex-col w-full bg-white">
+    <section className="flex flex-col w-full bg-gray-50">
       <h2 className="text-2xl font-bold pt-5 px-5 text-gray-800">
         {sectionTitle}
       </h2>
       <section
-        className={`${styles.itemsList} flex flex-row w-full gap-4 overflow-auto items-center`}
+        className={`${styles.itemsList} flex flex-row w-full gap-4 overflow-auto items-start`}
       >
         <Trending />
       </section>

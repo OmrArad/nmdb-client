@@ -1,5 +1,5 @@
 import mockFeedData from "@/app/data/feed.json";
-import { parseContent } from "@/app/utils/parseFeedContent";
+import { parseContent } from "@/app/utils/feed/parseFeedContent";
 
 export type FeedData = {
   id: number;
