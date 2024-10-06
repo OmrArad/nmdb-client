@@ -115,7 +115,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
       </div>
       <div className="p-2">
         <Link href={mediaHref}>
-          <h3 className="text-sm text-left  font-bold mb-1  hover:text-blue-500 hover:translate-x-1 transition-transform transform duration-300 ease-in-out hover:scale-105">
+          <h3 className="text-sm text-left font-bold mb-1 hover:text-blue-500 hover:translate-x-1 transition-transform transform duration-300 ease-in-out hover:scale-105">
             {isMovie(media, kind) ? media.title : media.name}
           </h3>
         </Link>

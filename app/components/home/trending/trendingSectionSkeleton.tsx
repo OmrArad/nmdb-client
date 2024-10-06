@@ -14,7 +14,7 @@ const TrendingSectionSkeleton = ({
         {sectionTitle}
       </h2>
       <section
-        className={`${styles.itemsList} flex flex-row w-full gap-4 overflow-auto items-center`}
+        className={`${styles.itemsList} flex flex-row w-full gap-4 overflow-auto items-start`}
       >
         <Trending />
       </section>
