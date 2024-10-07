@@ -31,6 +31,38 @@ const mockServicesData = {
         { is_movie: 1, tmdb_id: "569547" },
       ],
     },
+    Netflix1: {
+      count: 3,
+      tmdb_ids: [
+        { is_movie: 1, tmdb_id: "704239" },
+        { is_movie: 1, tmdb_id: "646097" },
+        { is_movie: 1, tmdb_id: "569547" },
+      ],
+    },
+    Netflix2: {
+      count: 3,
+      tmdb_ids: [
+        { is_movie: 1, tmdb_id: "704239" },
+        { is_movie: 1, tmdb_id: "646097" },
+        { is_movie: 1, tmdb_id: "569547" },
+      ],
+    },
+    Netflix3: {
+      count: 3,
+      tmdb_ids: [
+        { is_movie: 1, tmdb_id: "704239" },
+        { is_movie: 1, tmdb_id: "646097" },
+        { is_movie: 1, tmdb_id: "569547" },
+      ],
+    },
+    Netflix4: {
+      count: 3,
+      tmdb_ids: [
+        { is_movie: 1, tmdb_id: "704239" },
+        { is_movie: 1, tmdb_id: "646097" },
+        { is_movie: 1, tmdb_id: "569547" },
+      ],
+    },
   },
 };
 
@@ -110,9 +142,9 @@ const WatchlistStreamingServices = ({
   };
 
   return (
-    <div className="streaming-services">
-      <h2 className="text-xl font-bold mb-4">Streaming Services</h2>
-      <div className="grid grid-cols-2 gap-4">
+    <div className="streaming-services pb-4">
+      <h2 className="text-lg font-bold mb-2">Where to watch?</h2>
+      <div className="grid grid-flow-col overflow-scroll gap-4">
         {Object.keys(services).map((serviceName) => {
           const service = services[serviceName];
           const isActive = activeService === serviceName;
@@ -122,12 +154,12 @@ const WatchlistStreamingServices = ({
             <div
               key={serviceName}
               onClick={() => handleFilterByService(serviceName)}
-              className={`cursor-pointer p-4 border rounded-lg transition-transform transform hover:scale-105 hover:brightness-95 ${
+              className={`cursor-pointer p-4 border rounded-lg transition transform duration-500 hover:border-blue-500 hover:bg-blue-300 ${
                 isActive ? "bg-blue-500 text-white" : "bg-gray-100"
               }`}
             >
               <div className="flex gap-2 justify-between items-center">
-                <span>{serviceName}</span>
+                <span className="w-max">{serviceName}</span>
                 {/* Display count as a circle with dynamic gradient color */}
                 <div
                   className="flex justify-center items-center rounded-full w-7 h-7 text-white border border-gray-400 brightness-90 "

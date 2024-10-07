@@ -37,12 +37,15 @@ const MainWatchlist = () => {
   }
 
   return (
-    <div className=" flex bg-gray-100 rounded-xl md:px-12 pt-12 gap-4">
-      <div className="flex flex-col">
+    <div className=" flex bg-gray-100 rounded-xl md:px-12 pt-12 gap-4 w-5/6">
+      <div className="flex flex-col w-full">
         <h1 className="text-2xl font-bold container mx-auto px-4 ">
           My Watchlist
         </h1>
         <div className="container mx-auto px-4 py-6 md:h-[calc(100vh-254px)] overflow-scroll">
+          <WatchlistStreamingServices
+            setFilteredWatchlist={setFilteredWatchlist}
+          />
           <ul>
             {filteredWatchlist.map((item) => (
               <li key={item.tmdb_id}>
@@ -56,7 +59,6 @@ const MainWatchlist = () => {
           ))}
         </div>
       </div>
-      <WatchlistStreamingServices setFilteredWatchlist={setFilteredWatchlist} />
     </div>
   );
 };
