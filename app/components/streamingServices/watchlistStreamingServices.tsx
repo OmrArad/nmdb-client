@@ -45,7 +45,7 @@ const WatchlistStreamingServices = ({
   const [minCount, setMinCount] = useState<number>(1);
   const [maxCount, setMaxCount] = useState<number>(3);
 
-  // Fetch watchlist
+  // Fetch watchlist using the working API
   useEffect(() => {
     const fetchWatchlist = async () => {
       try {
@@ -63,6 +63,29 @@ const WatchlistStreamingServices = ({
     setMinCount(Math.min(...counts));
     setMaxCount(Math.max(...counts));
   }, [services]);
+
+  // Function to calculate the gradient color from green to yellow to red
+  const getGradientColor = (count: number) => {
+    const ratio = (maxCount - count) / (maxCount - minCount); // Normalize the count between 0 and 1
+
+    let r, g, b;
+
+    if (ratio <= 0.5) {
+      // Interpolate from green to yellow
+      const greenToYellowRatio = ratio * 2; // Scale ratio to 0-1 for this range
+      r = Math.round(250 * greenToYellowRatio); // Red increases from 0 to 255
+      g = 190; // Green stays at 255 (full green)
+      b = 0; // No blue component
+    } else {
+      // Interpolate from yellow to red
+      const yellowToRedRatio = (ratio - 0.5) * 2; // Scale ratio to 0-1 for this range
+      r = 230; // Red stays at 255 (full red)
+      g = Math.round(250 * (1 - yellowToRedRatio)); // Green decreases from 255 to 0
+      b = 0; // No blue component
+    }
+
+    return `rgb(${r},${g},${b})`; // Return the RGB color
+  };
 
   // Handle filtering when a service is selected
   const handleFilterByService = (serviceName: string) => {
@@ -93,26 +116,22 @@ const WatchlistStreamingServices = ({
         {Object.keys(services).map((serviceName) => {
           const service = services[serviceName];
           const isActive = activeService === serviceName;
-          const itemCountClass =
-            service.count === maxCount
-              ? "bg-green-500"
-              : service.count === minCount
-              ? "bg-red-500"
-              : "bg-gray-500";
+          const gradientColor = getGradientColor(service.count);
 
           return (
             <div
               key={serviceName}
               onClick={() => handleFilterByService(serviceName)}
-              className={`cursor-pointer p-4 border rounded-lg transition-transform transform hover:scale-105 ${
+              className={`cursor-pointer p-4 border rounded-lg transition-transform transform hover:scale-105 hover:brightness-95 ${
                 isActive ? "bg-blue-500 text-white" : "bg-gray-100"
               }`}
             >
-              <div className="flex justify-between items-center">
+              <div className="flex gap-2 justify-between items-center">
                 <span>{serviceName}</span>
-                {/* Display count as a circle with dynamic color */}
+                {/* Display count as a circle with dynamic gradient color */}
                 <div
-                  className={`flex justify-center items-center rounded-full w-8 h-8 text-white ${itemCountClass}`}
+                  className="flex justify-center items-center rounded-full w-7 h-7 text-white border border-gray-400 brightness-90 "
+                  style={{ backgroundColor: gradientColor }}
                 >
                   {service.count}
                 </div>
