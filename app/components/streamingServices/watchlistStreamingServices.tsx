@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getWatchlist } from "@/app/api/watchlist/watchlistServices"; // Assuming you have a working watchlist API
+import { getGradientColor } from "@/app/utils/colorUtils";
 
 const mockServicesData = {
   providers: {
@@ -96,29 +97,6 @@ const WatchlistStreamingServices = ({
     setMaxCount(Math.max(...counts));
   }, [services]);
 
-  // Function to calculate the gradient color from green to yellow to red
-  const getGradientColor = (count: number) => {
-    const ratio = (maxCount - count) / (maxCount - minCount); // Normalize the count between 0 and 1
-
-    let r, g, b;
-
-    if (ratio <= 0.5) {
-      // Interpolate from green to yellow
-      const greenToYellowRatio = ratio * 2; // Scale ratio to 0-1 for this range
-      r = Math.round(250 * greenToYellowRatio); // Red increases from 0 to 255
-      g = 190; // Green stays at 255 (full green)
-      b = 0; // No blue component
-    } else {
-      // Interpolate from yellow to red
-      const yellowToRedRatio = (ratio - 0.5) * 2; // Scale ratio to 0-1 for this range
-      r = 230; // Red stays at 255 (full red)
-      g = Math.round(250 * (1 - yellowToRedRatio)); // Green decreases from 255 to 0
-      b = 0; // No blue component
-    }
-
-    return `rgb(${r},${g},${b})`; // Return the RGB color
-  };
-
   // Handle filtering when a service is selected
   const handleFilterByService = (serviceName: string) => {
     if (activeService === serviceName) {
@@ -162,7 +140,11 @@ const WatchlistStreamingServices = ({
         {Object.keys(services).map((serviceName) => {
           const service = services[serviceName];
           const isActive = activeService === serviceName;
-          const gradientColor = getGradientColor(service.count);
+          const gradientColor = getGradientColor(
+            service.count,
+            minCount,
+            maxCount
+          );
 
           return (
             <div
