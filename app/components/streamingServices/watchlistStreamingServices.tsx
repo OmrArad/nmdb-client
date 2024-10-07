@@ -142,9 +142,23 @@ const WatchlistStreamingServices = ({
   };
 
   return (
-    <div className="streaming-services pb-4">
-      <h2 className="text-lg font-bold mb-2">Where to watch?</h2>
-      <div className="grid grid-flow-col overflow-scroll gap-4">
+    <div className="streaming-services pb-1">
+      <div className="flex justify-between mb-2">
+        <h2 className="text-lg font-bold">Where to watch:</h2>
+        {/* Remove filter button */}
+        {activeService && (
+          <button
+            onClick={() => {
+              setActiveService(null);
+              setFilteredWatchlist(watchlist); // Show full watchlist when filter is removed
+            }}
+            className="text-red-500 font-bold hover:underline"
+          >
+            Remove Filter
+          </button>
+        )}
+      </div>
+      <div className="grid grid-flow-col overflow-scroll pb-3 gap-4">
         {Object.keys(services).map((serviceName) => {
           const service = services[serviceName];
           const isActive = activeService === serviceName;
@@ -154,7 +168,7 @@ const WatchlistStreamingServices = ({
             <div
               key={serviceName}
               onClick={() => handleFilterByService(serviceName)}
-              className={`cursor-pointer p-4 border rounded-lg transition transform duration-500 hover:border-blue-500 hover:bg-blue-300 ${
+              className={`cursor-pointer p-4 border rounded-lg transition transform duration-300 hover:border-blue-500 hover:bg-blue-300 border-gray-300  ${
                 isActive ? "bg-blue-500 text-white" : "bg-gray-100"
               }`}
             >
@@ -162,7 +176,7 @@ const WatchlistStreamingServices = ({
                 <span className="w-max">{serviceName}</span>
                 {/* Display count as a circle with dynamic gradient color */}
                 <div
-                  className="flex justify-center items-center rounded-full w-7 h-7 text-white border border-gray-400 brightness-90 "
+                  className="flex justify-center items-center rounded-full w-7 h-7 text-white border border-gray-400 brightness-90"
                   style={{ backgroundColor: gradientColor }}
                 >
                   {service.count}
@@ -172,19 +186,6 @@ const WatchlistStreamingServices = ({
           );
         })}
       </div>
-
-      {/* Remove filter button */}
-      {activeService && (
-        <button
-          onClick={() => {
-            setActiveService(null);
-            setFilteredWatchlist(watchlist); // Show full watchlist when filter is removed
-          }}
-          className="mt-4 bg-red-500 text-white p-2 rounded hover:bg-red-600"
-        >
-          Remove Filter
-        </button>
-      )}
     </div>
   );
 };
