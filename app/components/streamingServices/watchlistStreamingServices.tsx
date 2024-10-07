@@ -158,7 +158,7 @@ const WatchlistStreamingServices = ({
           </button>
         )}
       </div>
-      <div className="grid grid-flow-col overflow-scroll pb-3 gap-4">
+      <div className="grid grid-flow-col gap-4 overflow-x-auto pb-3 no-scrollbar">
         {Object.keys(services).map((serviceName) => {
           const service = services[serviceName];
           const isActive = activeService === serviceName;
