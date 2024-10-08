@@ -3,7 +3,7 @@ import StreamingServiceCard from "./streamingServiceCard";
 
 interface StreamingServiceListProps {
   services: any;
-  activeService: string | null;
+  activeServices: string[];
   getGradientColor: (
     count: number,
     minCount: number,
@@ -16,7 +16,7 @@ interface StreamingServiceListProps {
 
 const StreamingServiceList: React.FC<StreamingServiceListProps> = ({
   services,
-  activeService,
+  activeServices,
   getGradientColor,
   handleFilterByService,
   minCount,
@@ -26,7 +26,7 @@ const StreamingServiceList: React.FC<StreamingServiceListProps> = ({
     <div className="grid grid-flow-col gap-4 overflow-x-auto pb-3 no-scrollbar">
       {Object.keys(services).map((serviceName) => {
         const service = services[serviceName];
-        const isActive = activeService === serviceName;
+        const isActive = activeServices.includes(serviceName);
         const gradientColor = getGradientColor(
           service.count,
           minCount,

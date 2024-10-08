@@ -4,6 +4,20 @@ import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 import StreamingServiceList from "./streamingServiceList";
 import { getGradientColor } from "@/app/utils/colorUtils";
 
+type TMDBItem = {
+  is_movie: number;
+  tmdb_id: string;
+};
+
+type StreamingService = {
+  count: number;
+  tmdb_ids: TMDBItem[];
+};
+
+type Services = {
+  [key: string]: StreamingService;
+};
+
 const mockServicesData = {
   providers: {
     "Amazon Prime Video": {
@@ -73,8 +87,11 @@ const WatchlistStreamingServices = ({
 }: {
   setFilteredWatchlist: (filteredWatchlist: any[]) => void;
 }) => {
-  const [services, setServices] = useState<any>(mockServicesData.providers);
+  const [services, setServices] = useState<Services>(
+    mockServicesData.providers
+  );
   const [activeService, setActiveService] = useState<string | null>(null);
+  const [activeServices, setActiveServices] = useState<string[]>([]);
   const [watchlist, setWatchlist] = useState<any[]>([]); // Store the actual watchlist
   const [minCount, setMinCount] = useState<number>(1);
   const [maxCount, setMaxCount] = useState<number>(3);
@@ -98,26 +115,39 @@ const WatchlistStreamingServices = ({
     setMaxCount(Math.max(...counts));
   }, [services]);
 
-  // Handle filtering when a service is selected
   const handleFilterByService = (serviceName: string) => {
-    if (activeService === serviceName) {
-      // Unselect the service if already active
-      setActiveService(null);
-      setFilteredWatchlist(watchlist); // Show full watchlist if no service is selected
-    } else {
-      setActiveService(serviceName);
+    const isAlreadyActive = activeServices.includes(serviceName);
 
-      const service = services[serviceName];
+    if (isAlreadyActive) {
+      // Remove service if already selected
+      const updatedServices = activeServices.filter(
+        (service) => service !== serviceName
+      );
+      setActiveServices(updatedServices);
 
-      if (service) {
-        const filteredItems = watchlist.filter((item) =>
-          service.tmdb_ids.some(
-            (tmdbItem: any) => tmdbItem.tmdb_id === item.tmdb_id
-          )
-        );
-        setFilteredWatchlist(filteredItems);
+      // If no services are active, show full watchlist
+      if (updatedServices.length === 0) {
+        setFilteredWatchlist(watchlist);
+      } else {
+        filterByActiveServices(updatedServices);
       }
+    } else {
+      // Add service if not selected
+      const updatedServices = [...activeServices, serviceName];
+      setActiveServices(updatedServices);
+      filterByActiveServices(updatedServices);
     }
+  };
+
+  const filterByActiveServices = (activeServices: string[]) => {
+    const filteredItems = watchlist.filter((item) =>
+      activeServices.some((serviceName) =>
+        services[serviceName].tmdb_ids.some(
+          (tmdbItem: any) => tmdbItem.tmdb_id === item.tmdb_id
+        )
+      )
+    );
+    setFilteredWatchlist(filteredItems);
   };
 
   return (
@@ -125,22 +155,22 @@ const WatchlistStreamingServices = ({
       <div className="flex justify-between mb-2">
         <h2 className="text-lg font-bold">Where to watch:</h2>
         {/* Remove filter button */}
-        {activeService && (
+        {activeServices.length > 0 && (
           <button
             onClick={() => {
-              setActiveService(null);
+              setActiveServices([]);
               setFilteredWatchlist(watchlist); // Show full watchlist when filter is removed
             }}
             className="text-red-500 font-bold hover:underline"
           >
-            Remove Filter
+            Remove All Filters
           </button>
         )}
       </div>
 
       <StreamingServiceList
         services={services}
-        activeService={activeService}
+        activeServices={activeServices}
         getGradientColor={getGradientColor}
         handleFilterByService={handleFilterByService}
         minCount={minCount}
