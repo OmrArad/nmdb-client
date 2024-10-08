@@ -9,7 +9,9 @@ import { MediaAppearance } from "@/app/types/actor";
 import { useRatings } from "@/app/context/userRatingContext";
 import { findRating } from "@/app/utils/ratingUtils";
 interface UserRatingProps {
-  media: IWatchlistItem;
+  media?: IWatchlistItem;
+  mediaId: string;
+  title: string;
   isMovie: boolean;
   setLoading: (value: SetStateAction<boolean>) => void;
   darkTheme?: boolean;
@@ -18,12 +20,13 @@ interface UserRatingProps {
 
 const UserRating: React.FC<UserRatingProps> = ({
   media,
+  mediaId: tmdb_id,
+  title,
   isMovie = true,
   setLoading,
   darkTheme = false,
   showText = true,
 }) => {
-  const { tmdb_id, title } = media;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [userRating, setUserRating] = useState<number | null>(null);
   const { ratings } = useRatings();
@@ -32,7 +35,7 @@ const UserRating: React.FC<UserRatingProps> = ({
     const _userRatings =
       (ratings && findRating(ratings, tmdb_id)?.rating) || null;
     setUserRating(_userRatings);
-  }, [userRating, ratings]);
+  }, [userRating, ratings, tmdb_id]);
 
   const handleOpenPopup = () => {
     setIsPopupOpen(true);

@@ -21,7 +21,13 @@ const Ratings: React.FC<RatingComponentProps> = ({ isMovie, media }) => {
       {loading ? (
         <Spinner />
       ) : (
-        <UserRating media={media} isMovie={isMovie} setLoading={setLoading} />
+        <UserRating
+          media={media}
+          mediaId={media.tmdb_id}
+          title={media.title}
+          isMovie={isMovie}
+          setLoading={setLoading}
+        />
       )}
     </div>
   );

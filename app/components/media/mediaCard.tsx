@@ -7,6 +7,8 @@ import { TVShow } from "@/app/types/tvShow";
 import { MediaAppearance } from "@/app/types/actor";
 import WatchlistBookmark from "@/app/components/watchlist/watchlistBookmark";
 import { useWatchlist } from "@/app/context/watchlistContext";
+import { FaStar } from "react-icons/fa";
+import UserRating from "../rating/listRating/userRating";
 
 type MediaCardProps = {
   media: Movie | TVShow | MediaAppearance;
@@ -42,6 +44,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
   const { id, vote_average, poster_path } = media;
   const { watchlist, updateWatchlist } = useWatchlist();
   const [isInWatchlist, setIsInWatchlist] = useState(false);
+  const [_, setLoading] = useState(true);
 
   const mediaKind = kind === "movie" ? "movies" : kind;
   const mediaHref = {
@@ -59,9 +62,11 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
   return (
     <div className="min-w-[calc(150px)] w-[calc(150px)] min-h-[calc(21rem)] bg-white rounded-sm overflow-hidden relative">
       <Link href={mediaHref}>
-        <div className="absolute top-0 right-0 bg-yellow-400 rounded-bl-lg py-1 px-2 text-sm font-bold cursor-default">
-          {vote_average.toFixed(1)}
-        </div>
+        {isMediaAppearence(type, media) && (
+          <div className="absolute top-0 right-0 bg-yellow-400 rounded-bl-lg py-1 px-2 text-sm font-bold cursor-default">
+            {vote_average.toFixed(1)}
+          </div>
+        )}
 
         <div className="h-[calc(225px)] bg-gray-200">
           <Image
@@ -82,7 +87,24 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
           </div>
         </div>
       </Link>
-      <div className="p-3">
+
+      {!isMediaAppearence(type, media) && (
+        <div className="flex items-center justify-between bottom-0 rounded-br-md  py-1 px-2 text-sm font-bold cursor-default bg-neutral-800">
+          <div className="flex items-center text-neutral-300 gap-1">
+            <span className="cursor-text">{vote_average.toFixed(1)}</span>
+            <FaStar className="text-yellow-400" />
+          </div>
+          <UserRating
+            // media={media}
+            mediaId={media.id.toString()}
+            title={isMovie(media, kind) ? media.title : media.name}
+            isMovie={isMovie(media, kind)}
+            setLoading={setLoading}
+            darkTheme={true}
+          />
+        </div>
+      )}
+      <div className="p-2">
         <Link href={mediaHref}>
           <h3 className="text-sm text-left font-bold mb-1 hover:text-blue-500">
             {isMovie(media, kind) ? media.title : media.name}

@@ -12,17 +12,15 @@ export default function Home({
   return (
     <>
       <div className="flex md:flex-row flex-col">
-        <RatingsProvider>
-          <main className="flex flex-1 flex-col h-full items-strech md:w-2/3">
-            <section className="flex flex-col justify-between md:flex-row">
-              <SessionProvider session={session}>
-                <SearchSection />
-              </SessionProvider>
-              <RecommendationsSection />
-            </section>
-            <TrendingSection />
-          </main>
-        </RatingsProvider>
+        <main className="flex flex-1 flex-col h-full items-strech md:w-2/3">
+          <section className="flex flex-col justify-between md:flex-row">
+            <SessionProvider session={session}>
+              <SearchSection />
+            </SessionProvider>
+            <RecommendationsSection />
+          </section>
+          <TrendingSection />
+        </main>
       </div>
     </>
   );
