@@ -22,9 +22,12 @@ const StreamingServiceCard: React.FC<StreamingServiceCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`flex justify-around cursor-pointer p-4 border rounded-lg transition transform duration-300 hover:border-blue-500 hover:bg-blue-300 border-gray-300 ${
-        isActive ? "bg-blue-500 text-white" : "bg-gray-100"
+      className={`flex justify-around cursor-pointer p-4 border rounded-lg transition transform duration-300 hover:border-blue-500 hover:shadow-lg border-gray-300 ${
+        isActive
+          ? "bg-blue-500 text-white hover:border-gray-300 hover:bg-gray-400"
+          : "bg-gray-100"
       }`}
+      onMouseEnter={() => (isActive ? "bg-gray-400" : "")}
     >
       <div className="flex gap-3 justify-between items-center w-max">
         {logoSrc ? (
