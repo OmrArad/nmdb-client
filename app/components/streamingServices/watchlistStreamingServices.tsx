@@ -33,38 +33,38 @@ const mockServicesData = {
         { is_movie: 1, tmdb_id: "569547" },
       ],
     },
-    Netflix1: {
-      count: 3,
-      tmdb_ids: [
-        { is_movie: 1, tmdb_id: "704239" },
-        { is_movie: 1, tmdb_id: "646097" },
-        { is_movie: 1, tmdb_id: "569547" },
-      ],
-    },
-    Netflix2: {
-      count: 3,
-      tmdb_ids: [
-        { is_movie: 1, tmdb_id: "704239" },
-        { is_movie: 1, tmdb_id: "646097" },
-        { is_movie: 1, tmdb_id: "569547" },
-      ],
-    },
-    Netflix3: {
-      count: 3,
-      tmdb_ids: [
-        { is_movie: 1, tmdb_id: "704239" },
-        { is_movie: 1, tmdb_id: "646097" },
-        { is_movie: 1, tmdb_id: "569547" },
-      ],
-    },
-    Netflix4: {
-      count: 3,
-      tmdb_ids: [
-        { is_movie: 1, tmdb_id: "704239" },
-        { is_movie: 1, tmdb_id: "646097" },
-        { is_movie: 1, tmdb_id: "569547" },
-      ],
-    },
+    // Netflix1: {
+    //   count: 3,
+    //   tmdb_ids: [
+    //     { is_movie: 1, tmdb_id: "704239" },
+    //     { is_movie: 1, tmdb_id: "646097" },
+    //     { is_movie: 1, tmdb_id: "569547" },
+    //   ],
+    // },
+    // Netflix2: {
+    //   count: 3,
+    //   tmdb_ids: [
+    //     { is_movie: 1, tmdb_id: "704239" },
+    //     { is_movie: 1, tmdb_id: "646097" },
+    //     { is_movie: 1, tmdb_id: "569547" },
+    //   ],
+    // },
+    // Netflix3: {
+    //   count: 3,
+    //   tmdb_ids: [
+    //     { is_movie: 1, tmdb_id: "704239" },
+    //     { is_movie: 1, tmdb_id: "646097" },
+    //     { is_movie: 1, tmdb_id: "569547" },
+    //   ],
+    // },
+    // Netflix4: {
+    //   count: 3,
+    //   tmdb_ids: [
+    //     { is_movie: 1, tmdb_id: "704239" },
+    //     { is_movie: 1, tmdb_id: "646097" },
+    //     { is_movie: 1, tmdb_id: "569547" },
+    //   ],
+    // },
   },
 };
 
