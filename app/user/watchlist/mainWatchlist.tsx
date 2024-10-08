@@ -1,14 +1,17 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 import WatchlistItem from "../../components/watchlist/watchlistItem";
 import { useWatchlist } from "@/app/context/watchlistContext";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import WatchlistStreamingServices from "@/app/components/streamingServices/watchlistStreamingServices";
 
 const MainWatchlist = () => {
   const { watchlist, updateWatchlist } = useWatchlist();
+  const [filteredWatchlist, setFilteredWatchlist] = useState<any[]>([]);
   const { data: session, status } = useSession();
+  console.log(watchlist?.ID);
 
   useEffect(() => {
     const fetchWatchlist = async () => {
@@ -34,14 +37,27 @@ const MainWatchlist = () => {
   }
 
   return (
-    <div className="bg-gray-100 rounded-xl md:px-12 md:w-5/6">
-      <h1 className="text-2xl font-bold container mx-auto px-4 pt-12">
-        My Watchlist
-      </h1>
-      <div className="container mx-auto px-4 py-6 md:h-[calc(100vh-254px)] overflow-scroll">
-        {watchlist.Content?.map((media) => (
-          <WatchlistItem key={media.watchlist_item_id} media={media} />
-        ))}
+    <div className=" flex bg-gray-100 rounded-xl md:px-12 pt-12 gap-4 w-5/6">
+      <div className="flex flex-col w-full">
+        <h1 className="text-2xl font-bold container mx-auto px-4 ">
+          My Watchlist
+        </h1>
+        <div className="container mx-auto px-4 py-6 md:h-[calc(100vh-254px)] overflow-scroll">
+          <WatchlistStreamingServices
+            setFilteredWatchlist={setFilteredWatchlist}
+          />
+          <ul>
+            {filteredWatchlist.map((item) => (
+              <li key={item.tmdb_id}>
+                TMDB ID: {item.tmdb_id} - {item.title || item.name} (Movie:{" "}
+                {item.is_movie ? "Yes" : "No"})
+              </li>
+            ))}
+          </ul>
+          {watchlist.Content?.map((media) => (
+            <WatchlistItem key={media.watchlist_item_id} media={media} />
+          ))}
+        </div>
       </div>
     </div>
   );
