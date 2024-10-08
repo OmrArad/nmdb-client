@@ -114,7 +114,7 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
         </button>
 
         {/* Remove Rating Button */}
-        {user_rating && (
+        {user_rating > 0 && (
           <button
             onClick={handleRemoveRateClick}
             className="text-blue-500 hover:bg-gray-800 rounded-full px-6 py-2 mt-4 w-full"
