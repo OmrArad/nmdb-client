@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getWatchlist } from "@/app/api/watchlist/watchlistServices"; // Assuming you have a working watchlist API
+import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
+import StreamingServiceList from "./streamingServiceList";
 import { getGradientColor } from "@/app/utils/colorUtils";
 
 const mockServicesData = {
@@ -136,38 +137,15 @@ const WatchlistStreamingServices = ({
           </button>
         )}
       </div>
-      <div className="grid grid-flow-col gap-4 overflow-x-auto pb-3 no-scrollbar">
-        {Object.keys(services).map((serviceName) => {
-          const service = services[serviceName];
-          const isActive = activeService === serviceName;
-          const gradientColor = getGradientColor(
-            service.count,
-            minCount,
-            maxCount
-          );
 
-          return (
-            <div
-              key={serviceName}
-              onClick={() => handleFilterByService(serviceName)}
-              className={`cursor-pointer p-4 border rounded-lg transition transform duration-300 hover:border-blue-500 hover:bg-blue-300 border-gray-300  ${
-                isActive ? "bg-blue-500 text-white" : "bg-gray-100"
-              }`}
-            >
-              <div className="flex gap-2 justify-between items-center">
-                <span className="w-max">{serviceName}</span>
-                {/* Display count as a circle with dynamic gradient color */}
-                <div
-                  className="flex justify-center items-center rounded-full w-7 h-7 text-white border border-gray-400 brightness-90"
-                  style={{ backgroundColor: gradientColor }}
-                >
-                  {service.count}
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <StreamingServiceList
+        services={services}
+        activeService={activeService}
+        getGradientColor={getGradientColor}
+        handleFilterByService={handleFilterByService}
+        minCount={minCount}
+        maxCount={maxCount}
+      />
     </div>
   );
 };
