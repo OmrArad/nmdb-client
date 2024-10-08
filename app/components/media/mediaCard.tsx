@@ -7,11 +7,6 @@ import { TVShow } from "@/app/types/tvShow";
 import { MediaAppearance } from "@/app/types/actor";
 import WatchlistBookmark from "@/app/components/watchlist/watchlistBookmark";
 import { useWatchlist } from "@/app/context/watchlistContext";
-import RatingPopup from "@/app/components/rating/ratingPopup";
-import UserRating from "../rating/listRating/userRating";
-import { useRatings } from "@/app/context/userRatingContext";
-import { findRating } from "@/app/utils/ratingUtils";
-import { FaStar } from "react-icons/fa";
 
 type MediaCardProps = {
   media: Movie | TVShow | MediaAppearance;
@@ -46,24 +41,12 @@ const root = "http://localhost:3000";
 const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
   const { id, vote_average, poster_path } = media;
   const { watchlist, updateWatchlist } = useWatchlist();
-  const { ratings } = useRatings();
   const [isInWatchlist, setIsInWatchlist] = useState(false);
-
-  // State for handling rating popup visibility
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [userRating, setUserRating] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
 
   const mediaKind = kind === "movie" ? "movies" : kind;
   const mediaHref = {
     pathname: `${root}/${mediaKind}/${id}`,
   };
-
-  useEffect(() => {
-    const user_rating =
-      (ratings && findRating(ratings, id.toString())?.rating) || 0;
-    setUserRating(user_rating);
-  }, [id, ratings]);
 
   // Check if the media is in the watchlist
   useEffect(() => {
@@ -73,15 +56,16 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
     setIsInWatchlist(mediaExistsInWatchlist || false);
   }, [watchlist, id]);
 
-  const handleOpenPopup = () => setIsPopupOpen(true);
-  const handleClosePopup = () => setIsPopupOpen(false);
-
   return (
-    <div className="min-w-[calc(150px)] w-[calc(150px)] min-h-[calc(21rem)] rounded-sm overflow-hidden relative">
+    <div className="min-w-[calc(150px)] w-[calc(150px)] min-h-[calc(21rem)] bg-white rounded-sm overflow-hidden relative">
       <Link href={mediaHref}>
-        <div className="h-[calc(225px)]">
+        <div className="absolute top-0 right-0 bg-yellow-400 rounded-bl-lg py-1 px-2 text-sm font-bold cursor-default">
+          {vote_average.toFixed(1)}
+        </div>
+
+        <div className="h-[calc(225px)] bg-gray-200">
           <Image
-            className="brightness-95 hover:brightness-100 transition-transform transform duration-300 ease-in-out "
+            className="rounded-sm shadow-2xl hover:shadow-gray-500"
             alt="poster"
             src={`${urlPrefix}/${poster_path}`}
             width={150}
@@ -98,22 +82,9 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
           </div>
         </div>
       </Link>
-
-      <div className="flex items-center justify-between bottom-0 rounded-br-md  py-1 px-2 text-sm font-bold cursor-default bg-neutral-800">
-        <div className="flex items-center text-neutral-300 gap-1">
-          <span className="cursor-text">{vote_average.toFixed(1)}</span>
-          <FaStar className="text-yellow-400" />
-        </div>
-        <UserRating
-          media={media}
-          isMovie={isMovie(media, kind)}
-          setLoading={setLoading}
-          darkTheme={true}
-        />
-      </div>
-      <div className="p-2">
+      <div className="p-3">
         <Link href={mediaHref}>
-          <h3 className="text-sm text-left font-bold mb-1 hover:text-blue-500 hover:translate-x-1 transition-transform transform duration-300 ease-in-out hover:scale-105">
+          <h3 className="text-sm text-left font-bold mb-1 hover:text-blue-500">
             {isMovie(media, kind) ? media.title : media.name}
           </h3>
         </Link>
@@ -132,17 +103,6 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
           )}
         </p>
       </div>
-
-      {/* <RatingPopup
-        title={isMovie(media, kind) ? media.title : media.name!}
-        contentId={media.id.toString()}
-        isMovie={isMovie(media, kind)}
-        isOpen={isPopupOpen}
-        onClose={handleClosePopup}
-        userRating={userRating}
-        setUserRating={setUserRating}
-        setLoading={setLoading}
-      /> */}
     </div>
   );
 };
