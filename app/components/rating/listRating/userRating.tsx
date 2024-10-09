@@ -16,6 +16,7 @@ interface UserRatingProps {
   setLoading: (value: SetStateAction<boolean>) => void;
   darkTheme?: boolean;
   showText?: boolean;
+  classname?: string;
 }
 
 const UserRating: React.FC<UserRatingProps> = ({
@@ -26,6 +27,7 @@ const UserRating: React.FC<UserRatingProps> = ({
   setLoading,
   darkTheme = false,
   showText = true,
+  classname = "",
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [userRating, setUserRating] = useState<number | null>(null);
@@ -56,7 +58,7 @@ const UserRating: React.FC<UserRatingProps> = ({
       <div
         className={`cursor-pointer rounded-sm rounded-br-md px-1 border hover:shadow-sm transition-transform transform duration-300 ease-in-out hover:scale-105 ${
           darkTheme ? darkThemeClass : lightThemeClass
-        }`}
+        } ${classname}`}
         onClick={handleOpenPopup}
       >
         {userRating ? (
