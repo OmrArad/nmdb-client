@@ -21,9 +21,12 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
     tmdb_rating,
     user_rating,
     tmdb_id,
+    video_links,
   } = media;
 
   const navLink = `/movies/${tmdb_id}`;
+  console.log("the video  links are" , video_links)
+  const urlPrefixYoutube = "https://www.youtube.com/embed";
 
   const handleNavigate = () => {
     router.push(navLink);
@@ -50,6 +53,18 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
         />
 
         <div>
+          {/* YouTube video */}
+        <div className="mt-4">
+          <iframe
+            width="300"
+            height="169"
+            src={`${urlPrefixYoutube}/${media.video_links}`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen={true}
+          ></iframe>
+        </div>
           <div className="flex-col justify-between">
             <div className="flex justify-between items-center">
               <div className="flex flex-col">

@@ -17,6 +17,7 @@ export default async function UserButton() {
   const session = await auth();
   const user = session?.user;
   const res = await setAuthTokenAndLogin(session?.accessToken);
+  console.log(session?.accessToken);
 
   return (
     <>

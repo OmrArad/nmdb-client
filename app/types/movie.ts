@@ -10,6 +10,7 @@ interface BaseMovie {
   release_date: string;
   title: string;
   video: boolean;
+  video_links: string[];
   vote_average: number;
   vote_count: number;
 }
