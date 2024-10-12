@@ -52,6 +52,7 @@ export async function MediaDetails({
   );
 
   console.log("media videos is" , media.video_links[0])
+  console.log("new media director is", media.director ? media.director.name : "N/A")
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -107,12 +108,13 @@ export async function MediaDetails({
           <h2 className="text-2xl font-bold mb-2">Overview</h2>
           <TextExpander text={media.overview} initialClampLines={5} />
           <p className="font-bold mt-4">
-            Directed by: <span className="font-normal">media.director</span>
+            Directed by: <span className="font-normal">{media.director ? media.director.name : 'N/A'}</span>
           </p>
           <p className="font-bold">
-            Screenplay by: <span className="font-normal">movie.screenplay</span>
+            Screenplay by: <span className="font-normal">{media.screenwriter ? media.screenwriter.name : 'N/A'}</span>
           </p>
           <div className="flex mt-4">
+
             <CastList cast={cast} />
           </div>
           <div className="mt-4">

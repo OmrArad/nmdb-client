@@ -2,7 +2,9 @@
 import { useEffect, useState } from "react";
 import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 import StreamingServiceList from "./streamingServiceList";
+import { getWatchlistStreamingServices } from "@/app/api/streaming/streamingServices";
 import { getGradientColor } from "@/app/utils/colorUtils";
+import { get } from "http";
 
 type TMDBItem = {
   is_movie: number;
@@ -93,6 +95,7 @@ const WatchlistStreamingServices = ({
   const [activeService, setActiveService] = useState<string | null>(null);
   const [activeServices, setActiveServices] = useState<string[]>([]);
   const [watchlist, setWatchlist] = useState<any[]>([]); // Store the actual watchlist
+  const [streamingServices, setStreamingServices] = useState<Services | null>(null);
   const [minCount, setMinCount] = useState<number>(1);
   const [maxCount, setMaxCount] = useState<number>(3);
 
@@ -101,7 +104,9 @@ const WatchlistStreamingServices = ({
     const fetchWatchlist = async () => {
       try {
         const watchlistData = await getWatchlist();
+        const streamingServices = await getWatchlistStreamingServices();
         setWatchlist(watchlistData.Content); // Ensure this matches your watchlist structure
+        setStreamingServices(streamingServices.providers);
       } catch (error) {
         console.error("Failed to fetch watchlist", error);
       }

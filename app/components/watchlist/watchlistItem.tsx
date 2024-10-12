@@ -25,7 +25,6 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
   } = media;
 
   const navLink = `/movies/${tmdb_id}`;
-  console.log("the video  links are" , video_links)
   const urlPrefixYoutube = "https://www.youtube.com/embed";
 
   const handleNavigate = () => {

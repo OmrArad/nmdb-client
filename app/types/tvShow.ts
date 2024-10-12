@@ -1,3 +1,5 @@
+import { CrewMember } from './crew';
+
 export interface TVShow {
   backdrop_path: string | null;
   id: number;
@@ -40,4 +42,6 @@ export interface DetailedTVSeries extends TVShow {
   status: string;
   tagline: string;
   type: string;
+  director: CrewMember | null;
+  screenwriter: CrewMember | null;
 }
