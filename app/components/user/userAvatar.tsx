@@ -10,7 +10,7 @@ const UserAvatar = ({
   handleLogout: () => void;
   session: Session;
 }) => {
-  return <UserDropdown onLogoutClick={handleLogout} _session={session} />;
+  return <UserDropdown onLogoutClick={handleLogout} _session={session} userData={null}/>;
 };
 
 export default UserAvatar;

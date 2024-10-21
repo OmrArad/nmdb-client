@@ -77,3 +77,21 @@ export const removeFromWatchlist = async (
     throw error;
   }
 };
+
+
+// Check if a movie/tv show is in the watchlist
+export const isInWatchlist = async (
+  content_id: string,
+  is_movie: boolean,
+  watchlist_id?: string
+) => {
+  try {
+    const response = await apiClient.post("/api/watchlists/is_in_watchlist", {
+      data: { watchlist_id, content_id, is_movie },
+    });
+    // Return true or false if successful, otherwise return an error
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

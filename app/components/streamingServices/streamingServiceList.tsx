@@ -1,8 +1,9 @@
 "use client";
+import { Services } from "@/app/types/streaming";
 import StreamingServiceCard from "./streamingServiceCard";
 
 interface StreamingServiceListProps {
-  services: any;
+  services: Services;
   activeServices: string[];
   getGradientColor: (
     count: number,
@@ -22,6 +23,7 @@ const StreamingServiceList: React.FC<StreamingServiceListProps> = ({
   minCount,
   maxCount,
 }) => {
+  console.log({services})
   return (
     <div className="grid grid-flow-col gap-4 overflow-x-auto pb-3 no-scrollbar">
       {Object.keys(services).map((serviceName) => {

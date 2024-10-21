@@ -8,7 +8,6 @@ import clsx from "clsx";
 import UserImage from "./userImage";
 import { useWatchlist } from "@/app/context/watchlistContext";
 import { useRatings } from "@/app/context/userRatingContext";
-import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 import { getRatingsByUser } from "@/app/api/ratings/ratingsServices";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
@@ -30,9 +29,11 @@ const style =
 const UserDropdown = ({
   onLogoutClick,
   _session,
+  userData
 }: {
   onLogoutClick: () => void;
   _session: Session;
+  userData: any, 
 }) => {
   const { updateWatchlist } = useWatchlist();
   const { updateRatings } = useRatings();
@@ -40,7 +41,7 @@ const UserDropdown = ({
   const [isUpdated, setIsUpdated] = useState(false);
   React.useEffect(() => {
     const updateContext = async () => {
-      updateWatchlist(await getWatchlist());
+      updateWatchlist(userData.main_watchlist.Content);
       updateRatings(await getRatingsByUser());
     };
 

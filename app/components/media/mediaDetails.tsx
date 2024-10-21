@@ -18,6 +18,7 @@ export async function MediaDetails({
   isMovie: boolean;
 }) {
   const urlPrefixOriginal = "https://image.tmdb.org/t/p/w500";
+  const urlPrefixYoutube = "https://www.youtube.com/embed";
   let media: DetailedMovie | DetailedTVSeries;
   let cast: CastMember[];
   let title: string;
@@ -50,6 +51,9 @@ export async function MediaDetails({
     </div>
   );
 
+  console.log("media videos is" , media.video_links[0])
+  console.log("new media director is", media.director ? media.director.name : "N/A")
+
   return (
     <div className="flex flex-col md:flex-row">
       <div className="w-full md:w-1/5">
@@ -60,6 +64,7 @@ export async function MediaDetails({
           width={300}
           height={450}
         />
+
         <SessionProvider>
           <WatchlistButton contentId={mediaId} />
         </SessionProvider>
@@ -69,6 +74,18 @@ export async function MediaDetails({
         >
           Click here for more reviews
         </a>
+        {/* YouTube video */}
+        <div className="mt-4">
+          <iframe
+            width="300"
+            height="169"
+            src={`${urlPrefixYoutube}/${media.video_links[0]}`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
       </div>
       <div className="w-full flex flex-col">
         <div className="flex flex-row justify-between items-center ml-8 relative">
@@ -91,12 +108,13 @@ export async function MediaDetails({
           <h2 className="text-2xl font-bold mb-2">Overview</h2>
           <TextExpander text={media.overview} initialClampLines={5} />
           <p className="font-bold mt-4">
-            Directed by: <span className="font-normal">media.director</span>
+            Directed by: <span className="font-normal">{media.director ? media.director.name : 'N/A'}</span>
           </p>
           <p className="font-bold">
-            Screenplay by: <span className="font-normal">movie.screenplay</span>
+            Screenplay by: <span className="font-normal">{media.screenwriter ? media.screenwriter.name : 'N/A'}</span>
           </p>
           <div className="flex mt-4">
+
             <CastList cast={cast} />
           </div>
           <div className="mt-4">

@@ -10,6 +10,7 @@ export type IWatchlistItem = {
   release_date: string;
   tmdb_rating: number | null;
   user_rating: number | null;
+  video_links: string[];
 };
 
 // Do not change to lower case

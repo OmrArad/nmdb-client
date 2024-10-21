@@ -1,3 +1,5 @@
+import { CrewMember } from "./crew";
+
 interface BaseMovie {
   adult: boolean;
   backdrop_path: string | null;
@@ -10,6 +12,7 @@ interface BaseMovie {
   release_date: string;
   title: string;
   video: boolean;
+  video_links: string[];
   vote_average: number;
   vote_count: number;
 }
@@ -33,6 +36,8 @@ export interface DetailedMovie extends BaseMovie {
   spoken_languages: SpokenLanguage[];
   status: string;
   tagline: string;
+  director: CrewMember | null;
+  screenwriter: CrewMember | null;
 }
 
 export type Movie = TrendingMovie | DetailedMovie;
