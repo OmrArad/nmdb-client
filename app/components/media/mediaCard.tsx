@@ -70,7 +70,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
 
         <div className="h-[calc(225px)] bg-gray-200">
           <Image
-            className="rounded-sm shadow-2xl hover:shadow-gray-500"
+            className="rounded-sm shadow-2xl hover:brightness-105"
             alt="poster"
             src={`${urlPrefix}/${poster_path}`}
             width={150}
