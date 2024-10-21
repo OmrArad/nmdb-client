@@ -13,11 +13,6 @@ export const getWatchlistStreamingServices = async (
   const response = await apiClient.post<StreamingServices>(
     "/api/watchlists/streaming_recommendation", 
     body,
-    {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
   );
 
   return response.data;

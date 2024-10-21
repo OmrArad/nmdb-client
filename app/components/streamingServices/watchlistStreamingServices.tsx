@@ -4,21 +4,7 @@ import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 import StreamingServiceList from "./streamingServiceList";
 import { getWatchlistStreamingServices } from "@/app/api/streaming/streamingServices";
 import { getGradientColor } from "@/app/utils/colorUtils";
-import { get } from "http";
-
-type TMDBItem = {
-  is_movie: number;
-  tmdb_id: string;
-};
-
-type StreamingService = {
-  count: number;
-  tmdb_ids: TMDBItem[];
-};
-
-type Services = {
-  [key: string]: StreamingService;
-};
+import { Services } from "@/app/types/streaming";
 
 const mockServicesData = {
   providers: {
@@ -89,13 +75,9 @@ const WatchlistStreamingServices = ({
 }: {
   setFilteredWatchlist: (filteredWatchlist: any[]) => void;
 }) => {
-  const [services, setServices] = useState<Services>(
-    mockServicesData.providers
-  );
-  const [activeService, setActiveService] = useState<string | null>(null);
   const [activeServices, setActiveServices] = useState<string[]>([]);
   const [watchlist, setWatchlist] = useState<any[]>([]); // Store the actual watchlist
-  const [streamingServices, setStreamingServices] = useState<Services | null>(null);
+  const [services, setServices] = useState<Services | null>(null);
   const [minCount, setMinCount] = useState<number>(1);
   const [maxCount, setMaxCount] = useState<number>(3);
 
@@ -105,8 +87,9 @@ const WatchlistStreamingServices = ({
       try {
         const watchlistData = await getWatchlist();
         const streamingServices = await getWatchlistStreamingServices();
+        console.log("streaming:", streamingServices);
         setWatchlist(watchlistData.Content); // Ensure this matches your watchlist structure
-        setStreamingServices(streamingServices.providers);
+        setServices(streamingServices.providers);
       } catch (error) {
         console.error("Failed to fetch watchlist", error);
       }
@@ -115,9 +98,11 @@ const WatchlistStreamingServices = ({
     fetchWatchlist();
 
     // Calculate the minimum and maximum counts
-    const counts = Object.values(services).map((service: any) => service.count);
-    setMinCount(Math.min(...counts));
-    setMaxCount(Math.max(...counts));
+    if (services) {
+      const counts = Object.values(services).map((service: any) => service.count);
+      setMinCount(Math.min(...counts));
+      setMaxCount(Math.max(...counts));
+    }
   }, [services]);
 
   const handleFilterByService = (serviceName: string) => {
@@ -147,7 +132,7 @@ const WatchlistStreamingServices = ({
   const filterByActiveServices = (activeServices: string[]) => {
     const filteredItems = watchlist.filter((item) =>
       activeServices.some((serviceName) =>
-        services[serviceName].tmdb_ids.some(
+        services && services[serviceName].tmdb_ids.some(
           (tmdbItem: any) => tmdbItem.tmdb_id === item.tmdb_id
         )
       )
@@ -156,6 +141,7 @@ const WatchlistStreamingServices = ({
   };
 
   return (
+    services ? (
     <div className="streaming-services pb-1">
       <div className="flex justify-between mb-2">
         <h2 className="text-lg font-bold">Where to watch:</h2>
@@ -182,7 +168,7 @@ const WatchlistStreamingServices = ({
         maxCount={maxCount}
       />
     </div>
-  );
-};
+  ) : (<></>)
+)};
 
 export default WatchlistStreamingServices;
