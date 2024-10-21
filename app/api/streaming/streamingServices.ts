@@ -1,4 +1,4 @@
-import { StreamingService } from "@/app/types/streaming";
+import { StreamingServices } from "@/app/types/streaming";
 import { apiClient } from "../auth/auth";
 
 export const getWatchlistStreamingServices = async (
