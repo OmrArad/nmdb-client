@@ -12,6 +12,7 @@ import { CastMember } from "@/app/types/cast";
 import MediaCard from "@/app/components/media/mediaCard";
 import { TrendingMovie } from "@/app/types/movie";
 import { TrendingTVShow } from "@/app/types/tvShow";
+import { RecommendationsSlider } from "./RecommendationsSlider";
 
 export async function MediaDetails({
   mediaId,
@@ -125,23 +126,10 @@ export async function MediaDetails({
     <h2 className="text-2xl font-bold mb-4">
       Similar {isMovie ? "Movies" : "TV Shows"}
     </h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {media.recommendations.results.map((item, index) => {
-        const mediaType = isMovie ? "Movie" : "TVShow";
-        const kind = isMovie ? "movie" : "tv";
-        
-        const typedItem = isMovie ? (item as TrendingMovie) : (item as TrendingTVShow);
-
-        return (
-          <MediaCard
-            key={index}
-            type={mediaType}
-            kind={kind}
-            media={typedItem}
-          />
-        );
-      })}
-    </div>
+    <RecommendationsSlider
+      recommendations={media.recommendations.results}
+      isMovie={isMovie}
+    />
   </div>
 ) : (
   <div className="mt-4">
@@ -155,6 +143,7 @@ export async function MediaDetails({
     </p>
   </div>
 )}
+
 
 
 
