@@ -6,10 +6,13 @@ import { useWatchlist } from "@/app/context/watchlistContext";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import WatchlistStreamingServices from "@/app/components/streamingServices/watchlistStreamingServices";
+import { IWatchlistItem } from "@/app/types/watchlist";
 
 const MainWatchlist = () => {
   const { watchlist, updateWatchlist } = useWatchlist();
-  const [filteredWatchlist, setFilteredWatchlist] = useState<any[]>([]);
+  const [filteredWatchlist, setFilteredWatchlist] = useState<IWatchlistItem[]>(
+    []
+  );
   const { data: session, status } = useSession();
   console.log(watchlist?.ID);
 

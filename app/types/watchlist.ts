@@ -3,6 +3,7 @@ import { SetStateAction } from "react";
 export type IWatchlistItem = {
   watchlist_item_id: string;
   title: string;
+  name?: string;
   genres: string[];
   poster_path: string | null;
   tmdb_id: string;
@@ -11,6 +12,7 @@ export type IWatchlistItem = {
   tmdb_rating: number | null;
   user_rating: number | null;
   video_links: string[];
+  is_movie?: boolean;
 };
 
 // Do not change to lower case
