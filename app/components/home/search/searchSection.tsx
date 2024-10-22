@@ -75,17 +75,26 @@ const SearchSection = () => {
   }, [isOverlayOpen]);
 
   return (
-    <div className="text-white text-left p-8 flex-1">
-      <h1 className="text-3xl font-bold mb-4">Welcome.</h1>
-      <h2 className="text-xl mb-6">
+    <div className="text-white text-left p-8 pt-2 pb-4 flex-1 xl:max-w-4xl max-w-lg">
+      <h1 className="text-2xl font-bold mb-3">Welcome.</h1>
+      <h2 className="text-xl mb-7">
         Explore your favorite movies and TV shows
       </h2>
 
       <SearchBar onSearch={handleSearch} />
 
-      {searchHistory.length > 0 && (
-        <div className="mt-4">
-          <div className="flex flex-row gap-4 justify-between">
+      <div className="mt-4">
+        <div
+          className="mt-4"
+          style={{
+            height: searchHistory.length > 0 ? "auto" : "48px",
+          }}
+        >
+          <div
+            className={`flex flex-row gap-4 justify-between ${
+              searchHistory.length === 0 ? "invisible" : "visible"
+            }`}
+          >
             <h3 className="text-lg font-semibold">Previous Searches</h3>
             <button
               onClick={clearSearchHistory}
@@ -94,7 +103,11 @@ const SearchSection = () => {
               Clear Search History
             </button>
           </div>
-          <ul className="flex flex-row gap-4">
+          <ul
+            className={`flex flex-row flex-wrap gap-4 overflow-y-scroll ${
+              searchHistory.length === 0 ? "invisible" : "visible"
+            }`}
+          >
             {searchHistory.map((query, index) => (
               <li
                 key={index}
@@ -106,7 +119,7 @@ const SearchSection = () => {
             ))}
           </ul>
         </div>
-      )}
+      </div>
 
       {isOverlayOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
