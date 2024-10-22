@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 import { useWatchlist } from "@/app/context/watchlistContext";
 import {
   handleAddToWatchlist,
