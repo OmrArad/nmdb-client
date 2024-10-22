@@ -96,7 +96,7 @@ const WatchlistStreamingServices = ({
       }
     };
 
-    if (watchlist) fetchStreamingServicesForWatchlist();
+    if (watchlist && !services) fetchStreamingServicesForWatchlist();
 
     // Calculate the minimum and maximum counts
     if (services) {
