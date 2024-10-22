@@ -50,7 +50,7 @@ export const handleAddToWatchlist = async (
   }
 };
 
-export const isMovieInWatchlist = (
+export const isMediaInWatchlist = (
   watchlists: IWatchlist | null,
   contentId: string
 ): boolean => {
