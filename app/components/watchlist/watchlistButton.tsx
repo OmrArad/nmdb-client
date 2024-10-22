@@ -5,7 +5,7 @@ import { useWatchlist } from "@/app/context/watchlistContext";
 import {
   handleAddToWatchlist,
   handleRemoveFromWatchlist,
-  isMovieInWatchlist,
+  isMediaInWatchlist,
 } from "@/app/utils/watchlistUtils";
 import { Spinner } from "flowbite-react";
 import { FaCheck, FaPlus } from "react-icons/fa";
@@ -35,19 +35,15 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [loading, setLoading] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
-  const watchlistIdRef = useRef("");
   const { watchlist, updateWatchlist } = useWatchlist();
   const { data: session, status } = useSession();
 
   useEffect(() => {
     const checkWatchlistStatus = async () => {
       try {
-        const watchlists = await getWatchlist();
-        updateWatchlist(watchlists);
-        watchlistIdRef.current = watchlists.ID;
-        setIsInWatchlist(isMovieInWatchlist(watchlist, contentId));
+        setIsInWatchlist(isMediaInWatchlist(watchlist, contentId));
       } catch (error) {
-        console.error("Error fetching watchlist status", error);
+        console.error("Error checking watchlist status", error);
       } finally {
         setLoading(false);
       }
@@ -61,8 +57,7 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
       setLoading(false);
       setIsLoggedIn(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contentId, isLoggedIn, status]);
+  }, [contentId, isLoggedIn, session?.accessToken, status, watchlist]);
 
   const handleAdd = () =>
     handleAddToWatchlist(
