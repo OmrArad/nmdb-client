@@ -87,7 +87,6 @@ const WatchlistStreamingServices = ({
     const fetchStreamingServicesForWatchlist = async () => {
       try {
         const streamingServices = await getWatchlistStreamingServices();
-        console.log("streaming:", streamingServices);
         setServices(streamingServices.providers);
       } catch (error) {
         console.error(
@@ -97,7 +96,7 @@ const WatchlistStreamingServices = ({
       }
     };
 
-    if (watchlist) fetchStreamingServicesForWatchlist();
+    if (watchlist && !services) fetchStreamingServicesForWatchlist();
 
     // Calculate the minimum and maximum counts
     if (services) {
@@ -177,7 +176,13 @@ const WatchlistStreamingServices = ({
       />
     </div>
   ) : (
-    <></>
+    <div className="streaming-services pb-1">
+      <div className="flex justify-between mb-2">
+        <h2 className="text-lg text-gray-500">
+          We did not find any relevant streaming services for your watchlist
+        </h2>
+      </div>
+    </div>
   );
 };
 

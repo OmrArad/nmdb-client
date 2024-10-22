@@ -15,6 +15,8 @@ const MainWatchlist = () => {
   );
   const { data: session, status } = useSession();
   console.log(watchlist?.ID);
+  const filteredWatchlistItems =
+    filteredWatchlist.length > 0 ? filteredWatchlist : watchlist?.Content || [];
 
   useEffect(() => {
     const fetchWatchlist = async () => {
@@ -49,15 +51,7 @@ const MainWatchlist = () => {
           <WatchlistStreamingServices
             setFilteredWatchlist={setFilteredWatchlist}
           />
-          <ul>
-            {filteredWatchlist.map((item) => (
-              <li key={item.tmdb_id}>
-                TMDB ID: {item.tmdb_id} - {item.title || item.name} (Movie:{" "}
-                {item.is_movie ? "Yes" : "No"})
-              </li>
-            ))}
-          </ul>
-          {watchlist.Content?.map((media) => (
+          {filteredWatchlistItems.map((media) => (
             <WatchlistItem key={media.watchlist_item_id} media={media} />
           ))}
         </div>
