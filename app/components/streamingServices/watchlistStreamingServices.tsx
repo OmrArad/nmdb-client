@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 import StreamingServiceList from "./streamingServiceList";
 import { getWatchlistStreamingServices } from "@/app/api/streaming/streamingServices";
 import { getGradientColor } from "@/app/utils/colorUtils";
 import { Services } from "@/app/types/streaming";
+import { useWatchlist } from "@/app/context/watchlistContext";
+import { IWatchlistItem } from "@/app/types/watchlist";
 
 const mockServicesData = {
   providers: {
@@ -73,37 +74,40 @@ const mockServicesData = {
 const WatchlistStreamingServices = ({
   setFilteredWatchlist,
 }: {
-  setFilteredWatchlist: (filteredWatchlist: any[]) => void;
+  setFilteredWatchlist: (filteredWatchlist: IWatchlistItem[]) => void;
 }) => {
+  const { watchlist } = useWatchlist();
   const [activeServices, setActiveServices] = useState<string[]>([]);
-  const [watchlist, setWatchlist] = useState<any[]>([]); // Store the actual watchlist
   const [services, setServices] = useState<Services | null>(null);
   const [minCount, setMinCount] = useState<number>(1);
   const [maxCount, setMaxCount] = useState<number>(3);
 
   // Fetch watchlist using the working API
   useEffect(() => {
-    const fetchWatchlist = async () => {
+    const fetchStreamingServicesForWatchlist = async () => {
       try {
-        const watchlistData = await getWatchlist();
         const streamingServices = await getWatchlistStreamingServices();
         console.log("streaming:", streamingServices);
-        setWatchlist(watchlistData.Content); // Ensure this matches your watchlist structure
         setServices(streamingServices.providers);
       } catch (error) {
-        console.error("Failed to fetch watchlist", error);
+        console.error(
+          "Failed to fetch Streaming Services For watchlist",
+          error
+        );
       }
     };
 
-    fetchWatchlist();
+    if (watchlist) fetchStreamingServicesForWatchlist();
 
     // Calculate the minimum and maximum counts
     if (services) {
-      const counts = Object.values(services).map((service: any) => service.count);
+      const counts = Object.values(services).map(
+        (service: any) => service.count
+      );
       setMinCount(Math.min(...counts));
       setMaxCount(Math.max(...counts));
     }
-  }, [services]);
+  }, [services, watchlist]);
 
   const handleFilterByService = (serviceName: string) => {
     const isAlreadyActive = activeServices.includes(serviceName);
@@ -116,8 +120,8 @@ const WatchlistStreamingServices = ({
       setActiveServices(updatedServices);
 
       // If no services are active, show full watchlist
-      if (updatedServices.length === 0) {
-        setFilteredWatchlist(watchlist);
+      if (watchlist && updatedServices.length === 0) {
+        setFilteredWatchlist(watchlist.Content);
       } else {
         filterByActiveServices(updatedServices);
       }
@@ -130,18 +134,22 @@ const WatchlistStreamingServices = ({
   };
 
   const filterByActiveServices = (activeServices: string[]) => {
-    const filteredItems = watchlist.filter((item) =>
-      activeServices.some((serviceName) =>
-        services && services[serviceName].tmdb_ids.some(
-          (tmdbItem: any) => tmdbItem.tmdb_id === item.tmdb_id
-        )
-      )
-    );
+    const filteredItems =
+      (watchlist &&
+        watchlist.Content.filter((item) =>
+          activeServices.some(
+            (serviceName) =>
+              services &&
+              services[serviceName].tmdb_ids.some(
+                (tmdbItem: any) => tmdbItem.tmdb_id === item.tmdb_id
+              )
+          )
+        )) ||
+      [];
     setFilteredWatchlist(filteredItems);
   };
 
-  return (
-    services ? (
+  return watchlist && services ? (
     <div className="streaming-services pb-1">
       <div className="flex justify-between mb-2">
         <h2 className="text-lg font-bold">Where to watch:</h2>
@@ -150,7 +158,7 @@ const WatchlistStreamingServices = ({
           <button
             onClick={() => {
               setActiveServices([]);
-              setFilteredWatchlist(watchlist); // Show full watchlist when filter is removed
+              setFilteredWatchlist(watchlist.Content); // Show full watchlist when filter is removed
             }}
             className="text-red-500 font-bold hover:underline"
           >
@@ -168,7 +176,9 @@ const WatchlistStreamingServices = ({
         maxCount={maxCount}
       />
     </div>
-  ) : (<></>)
-)};
+  ) : (
+    <></>
+  );
+};
 
 export default WatchlistStreamingServices;
