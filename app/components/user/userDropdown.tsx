@@ -41,9 +41,9 @@ const UserDropdown = ({
   const [isUpdated, setIsUpdated] = useState(false);
   React.useEffect(() => {
     const updateContext = async () => {
-      console.log("ratings: ", userData.ratings_list.ratings);
+      console.log("ratings: ", userData.ratings_list);
       updateWatchlist(userData.main_watchlist.Content);
-      updateRatings(userData.ratings_list.ratings);
+      updateRatings(userData.ratings_list.Content);
     };
 
     if (status === "authenticated") {
