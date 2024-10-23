@@ -7,32 +7,21 @@ import { useWatchlist } from "@/app/context/watchlistContext";
 import { useRouter } from "next/navigation";
 import WatchlistBookmark from "./watchlistBookmark";
 import Ratings from "@/app/components/rating/listRating/ratings";
-import { FaYoutube } from "react-icons/fa";
+import TrailerButton from "../trailer/trailerButton";
+import VideoPopup from "../trailer/videoPopup";
 
 const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
   const { watchlist, updateWatchlist } = useWatchlist();
   const [isInWatchlist, setIsInWatchlist] = useState(true);
-  const [isVideoOpen, setIsVideoOpen] = useState(false); // State to manage popup
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const router = useRouter();
 
-  const {
-    title,
-    poster_path,
-    release_date,
-    overview,
-    tmdb_rating,
-    user_rating,
-    tmdb_id,
-    video_links,
-  } = media;
+  const { title, poster_path, release_date, overview, tmdb_id, video_links } =
+    media;
 
   const navLink = `/movies/${tmdb_id}`;
-  const urlPrefixYoutube = "https://www.youtube.com/embed";
 
-  const handleNavigate = () => {
-    router.push(navLink);
-  };
-
+  const handleNavigate = () => router.push(navLink);
   const openVideoPopup = () => setIsVideoOpen(true);
   const closeVideoPopup = () => setIsVideoOpen(false);
 
@@ -71,41 +60,16 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
               <Ratings isMovie={true} media={media} />
             </div>
             <p className="text-sm mt-2">{overview}</p>
-            {/* Trailer button to open popup */}
+
             {video_links?.length > 0 && (
-              <button
-                onClick={openVideoPopup}
-                className="flex gap-2 mt-2 text-red-500 text-sm font-bold px-0.5 py-0.5 rounded-lg hover:scale-110 transition"
-              >
-                <FaYoutube size={20} color="red" />
-                Watch Trailer
-              </button>
+              <TrailerButton onClick={openVideoPopup} />
             )}
           </div>
         </div>
       </div>
 
-      {/* Popup for YouTube Video */}
-      {isVideoOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="relative w-[90%] max-w-2xl">
-            <button
-              onClick={closeVideoPopup}
-              className="absolute -top-10 -right-0.5 text-white text-xl rounded-full p-0.5 hover:scale-150"
-            >
-              &times;
-            </button>
-            <iframe
-              width="100%"
-              height="315"
-              src={`${urlPrefixYoutube}/${media.video_links}`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </div>
+      {isVideoOpen && media.video_links && (
+        <VideoPopup videoKey={media.video_links} onClose={closeVideoPopup} />
       )}
     </div>
   );
