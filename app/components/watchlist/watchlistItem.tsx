@@ -7,13 +7,11 @@ import { useWatchlist } from "@/app/context/watchlistContext";
 import { useRouter } from "next/navigation";
 import WatchlistBookmark from "./watchlistBookmark";
 import Ratings from "@/app/components/rating/listRating/ratings";
-import TrailerButton from "../trailer/trailerButton";
-import VideoPopup from "../trailer/videoPopup";
+import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
 
 const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
   const { watchlist, updateWatchlist } = useWatchlist();
   const [isInWatchlist, setIsInWatchlist] = useState(true);
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const router = useRouter();
 
   const { title, poster_path, release_date, overview, tmdb_id, video_links } =
@@ -22,8 +20,6 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
   const navLink = `/movies/${tmdb_id}`;
 
   const handleNavigate = () => router.push(navLink);
-  const openVideoPopup = () => setIsVideoOpen(true);
-  const closeVideoPopup = () => setIsVideoOpen(false);
 
   return (
     <div className="bg-gray-100 border border-gray-300 rounded-xl overflow-hidden shadow-lg mb-4 relative">
@@ -62,15 +58,11 @@ const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
             <p className="text-sm mt-2">{overview}</p>
 
             {video_links?.length > 0 && (
-              <TrailerButton onClick={openVideoPopup} />
+              <TrailerButtonClientWrapper videoKey={media.video_links} />
             )}
           </div>
         </div>
       </div>
-
-      {isVideoOpen && media.video_links && (
-        <VideoPopup videoKey={media.video_links} onClose={closeVideoPopup} />
-      )}
     </div>
   );
 };
