@@ -1,10 +1,10 @@
 "use client";
-import { RatingsResponse } from "@/app/types/ratings";
+import { RatedContentItem } from "@/app/types/ratings";
 import React, { ReactNode, createContext, useContext, useState } from "react";
 
 interface ratingsContextType {
-  ratings: RatingsResponse | null;
-  updateRatings: (ratingsData: RatingsResponse) => void;
+  ratings: RatedContentItem[] | null;
+  updateRatings: (ratingsData: RatedContentItem[]) => void;
 }
 
 const ratingsContext = createContext<ratingsContextType | undefined>(undefined);
@@ -18,10 +18,10 @@ export const useRatings = () => {
 };
 
 export const RatingsProvider = ({ children }: { children: ReactNode }) => {
-  const [ratings, setRatings] = useState<RatingsResponse | null>(null);
+  const [ratings, setRatings] = useState<RatedContentItem[] | null>(null);
 
   // Memoize the updateRatings function
-  const updateRatings = React.useCallback((ratingsData: RatingsResponse) => {
+  const updateRatings = React.useCallback((ratingsData: RatedContentItem[]) => {
     setRatings(ratingsData);
   }, []);
 

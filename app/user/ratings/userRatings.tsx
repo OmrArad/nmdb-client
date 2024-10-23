@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import RatingsItem from "./ratingsItem";
 import { useRatings } from "@/app/context/userRatingContext";
-import { getRatingsByUser } from "@/app/api/ratings/ratingsServices";
+import { getUserRatingsList } from "@/app/api/ratings/ratingsServices";
 
 const RatingsList = () => {
   const { ratings, updateRatings } = useRatings();
@@ -11,8 +11,8 @@ const RatingsList = () => {
   useEffect(() => {
     const fetchRatings = async () => {
       try {
-        const ratingsData = await getRatingsByUser(); // Fetch for logged-in user
-        updateRatings(ratingsData);
+        const ratingsData = await getUserRatingsList(); // Fetch for logged-in user
+        updateRatings(ratingsData.content);
       } catch (error) {
         console.error("Failed to load ratings", error);
       }
@@ -33,8 +33,8 @@ const RatingsList = () => {
         My Ratings
       </h1>
       <div className="container mx-auto px-4 py-6 md:h-[calc(100vh-254px)] overflow-scroll">
-        {ratings.ratings?.map((rating) => (
-          <RatingsItem key={rating.ID} rating={rating} />
+        {ratings?.map((rating) => (
+          <RatingsItem key={rating.item_id} rating={rating} />
         ))}
       </div>
     </div>

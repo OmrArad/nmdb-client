@@ -33,11 +33,12 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
   const [rating, setRating] = useState<number>(0); // Manage the current rating
   const [hoverRating, setHoverRating] = useState<number>(0);
 
-  const user_rating = (ratings && findRating(ratings, contentId)?.rating) || 0;
+  const user_rating =
+    (ratings && findRating(ratings, contentId)?.user_rating) || 0;
 
   useEffect(() => {
     const user_rating =
-      (ratings && findRating(ratings, contentId)?.rating) || 0;
+      (ratings && findRating(ratings, contentId)?.user_rating) || 0;
     setRating(user_rating);
   }, [contentId, ratings]);
 

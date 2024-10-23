@@ -11,6 +11,7 @@ import { DetailedTVSeries } from "@/app/types/tvShow";
 import { CastMember } from "@/app/types/cast";
 import MediaCard from "@/app/components/media/mediaCard";
 import { RecommendationsSlider } from "./RecommendationsSlider";
+import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
 
 export async function MediaDetails({
   mediaId,
@@ -44,7 +45,10 @@ export async function MediaDetails({
 
   const genreNames = media.genres.map((genre) => genre.name).join(", ");
   console.log("media object is", media);
-  console.log("media recommendations length is", media.recommendations ? media.recommendations.length : 0)
+  console.log(
+    "media recommendations length is",
+    media.recommendations ? media.recommendations.length : 0
+  );
 
   const IMDbRating = () => (
     <div className="p-1">
@@ -54,6 +58,12 @@ export async function MediaDetails({
       </span>
       <span>{media.vote_average ? "/10" : ""}</span>
     </div>
+  );
+
+  console.log("media videos is", media.video_links[0]);
+  console.log(
+    "new media director is",
+    media.director ? media.director.name : "N/A"
   );
 
   return (
@@ -66,28 +76,16 @@ export async function MediaDetails({
           width={300}
           height={450}
         />
-
         <SessionProvider>
           <WatchlistButton contentId={mediaId} />
         </SessionProvider>
         <a
           href="#reviews"
-          className="text-indigo-600 hover:text-indigo-800 visited:text-purple-600 mt-4"
+          className="text-indigo-600 hover:text-indigo-800 visited:text-purple-600 pt-4"
         >
           Click here for more reviews
         </a>
-        {/* YouTube video */}
-        <div className="mt-4">
-          <iframe
-            width="300"
-            height="169"
-            src={`${urlPrefixYoutube}/${media.video_links[0]}`}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
+        <TrailerButtonClientWrapper videoKey={media.video_links} />
       </div>
       <div className="w-full flex flex-col">
         <div className="flex flex-row justify-between items-center ml-8 relative">
