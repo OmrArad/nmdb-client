@@ -9,6 +9,7 @@ import { getTVCast, getTVShow } from "@/app/api/tv/tvServices";
 import { DetailedMovie } from "@/app/types/movie";
 import { DetailedTVSeries } from "@/app/types/tvShow";
 import { CastMember } from "@/app/types/cast";
+import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
 
 export async function MediaDetails({
   mediaId,
@@ -51,8 +52,11 @@ export async function MediaDetails({
     </div>
   );
 
-  console.log("media videos is" , media.video_links[0])
-  console.log("new media director is", media.director ? media.director.name : "N/A")
+  console.log("media videos is", media.video_links[0]);
+  console.log(
+    "new media director is",
+    media.director ? media.director.name : "N/A"
+  );
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -64,28 +68,16 @@ export async function MediaDetails({
           width={300}
           height={450}
         />
-
         <SessionProvider>
           <WatchlistButton contentId={mediaId} />
         </SessionProvider>
         <a
           href="#reviews"
-          className="text-indigo-600 hover:text-indigo-800 visited:text-purple-600 mt-4"
+          className="text-indigo-600 hover:text-indigo-800 visited:text-purple-600 pt-4"
         >
           Click here for more reviews
         </a>
-        {/* YouTube video */}
-        <div className="mt-4">
-          <iframe
-            width="300"
-            height="169"
-            src={`${urlPrefixYoutube}/${media.video_links[0]}`}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
+        <TrailerButtonClientWrapper videoKey={media.video_links} />
       </div>
       <div className="w-full flex flex-col">
         <div className="flex flex-row justify-between items-center ml-8 relative">
@@ -108,13 +100,18 @@ export async function MediaDetails({
           <h2 className="text-2xl font-bold mb-2">Overview</h2>
           <TextExpander text={media.overview} initialClampLines={5} />
           <p className="font-bold mt-4">
-            Directed by: <span className="font-normal">{media.director ? media.director.name : 'N/A'}</span>
+            Directed by:{" "}
+            <span className="font-normal">
+              {media.director ? media.director.name : "N/A"}
+            </span>
           </p>
           <p className="font-bold">
-            Screenplay by: <span className="font-normal">{media.screenwriter ? media.screenwriter.name : 'N/A'}</span>
+            Screenplay by:{" "}
+            <span className="font-normal">
+              {media.screenwriter ? media.screenwriter.name : "N/A"}
+            </span>
           </p>
           <div className="flex mt-4">
-
             <CastList cast={cast} />
           </div>
           <div className="mt-4">
