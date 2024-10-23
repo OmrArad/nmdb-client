@@ -83,6 +83,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
               setIsInWatchlist={setIsInWatchlist}
               updateWatchlist={updateWatchlist}
               watchlist={watchlist}
+              isMovie={isMovie(media, kind)}
             />
           </div>
         </div>

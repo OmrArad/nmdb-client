@@ -31,14 +31,15 @@ export const handleAddToWatchlist = async (
   watchlist: IWatchlist | null,
   updateWatchlist: (newWatchlist: IWatchlist) => void,
   mediaId: string,
-  setIsInWatchlist: (value: SetStateAction<boolean>) => void
+  setIsInWatchlist: (value: SetStateAction<boolean>) => void,
+  isMovie: boolean
 ) => {
   try {
     if (!watchlist) {
       watchlist = await getWatchlist();
       updateWatchlist(watchlist);
     }
-    await addToWatchlist(watchlist.ID, mediaId, true);
+    await addToWatchlist(watchlist.ID, mediaId, isMovie);
     setIsInWatchlist(true);
     // const updatedWatchlist = watchlist!;
     // updatedWatchlist?.Content.push(contentId)

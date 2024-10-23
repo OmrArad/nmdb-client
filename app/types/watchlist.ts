@@ -12,7 +12,7 @@ export type IWatchlistItem = {
   tmdb_rating: number | null;
   user_rating: number | null;
   video_links: string[];
-  is_movie?: boolean;
+  is_movie: boolean;
 };
 
 // Do not change to lower case

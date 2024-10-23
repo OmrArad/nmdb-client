@@ -18,8 +18,15 @@ const WatchlistItem = ({
   media: IWatchlistItem | RatedContentItem;
   shouldCheckisInWatchlistStatus?: boolean;
 }) => {
-  const { title, poster_path, release_date, overview, tmdb_id, video_links } =
-    media;
+  const {
+    title,
+    poster_path,
+    release_date,
+    overview,
+    tmdb_id,
+    video_links,
+    is_movie,
+  } = media;
 
   const { watchlist, updateWatchlist } = useWatchlist();
   const [isInWatchlist, setIsInWatchlist] = useState(
@@ -30,7 +37,7 @@ const WatchlistItem = ({
   const router = useRouter();
 
   console.log(isMediaInWatchlist(watchlist, tmdb_id));
-  const navLink = `/movies/${tmdb_id}`;
+  const navLink = is_movie ? `/movies/${tmdb_id}` : `/tv/${tmdb_id}`;
 
   const handleNavigate = () => router.push(navLink);
 
@@ -52,6 +59,7 @@ const WatchlistItem = ({
           watchlist={watchlist}
           isInWatchlist={isInWatchlist}
           shouldShowIcon={false}
+          isMovie={is_movie}
         />
 
         <div className="flex-col">
@@ -66,7 +74,7 @@ const WatchlistItem = ({
                 </Link>
                 <p className="text-gray-400">{release_date}</p>
               </div>
-              <Ratings isMovie={true} media={media} />
+              <Ratings isMovie={is_movie} media={media} />
             </div>
             <p className="text-sm mt-2">{overview}</p>
 
