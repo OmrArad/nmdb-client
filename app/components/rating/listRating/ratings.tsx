@@ -4,10 +4,11 @@ import { Spinner } from "flowbite-react";
 import { IWatchlistItem } from "@/app/types/watchlist";
 import TMDBRating from "./tmdbRating";
 import UserRating from "./userRating";
+import { RatedContentItem } from "@/app/types/ratings";
 
 interface RatingComponentProps {
   isMovie: boolean;
-  media: IWatchlistItem;
+  media: IWatchlistItem | RatedContentItem;
 }
 
 const Ratings: React.FC<RatingComponentProps> = ({ isMovie, media }) => {

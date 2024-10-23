@@ -8,8 +8,13 @@ import { useRouter } from "next/navigation";
 import WatchlistBookmark from "./watchlistBookmark";
 import Ratings from "@/app/components/rating/listRating/ratings";
 import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
+import { RatedContentItem } from "@/app/types/ratings";
 
-const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
+const WatchlistItem = ({
+  media,
+}: {
+  media: IWatchlistItem | RatedContentItem;
+}) => {
   const { watchlist, updateWatchlist } = useWatchlist();
   const [isInWatchlist, setIsInWatchlist] = useState(true);
   const router = useRouter();

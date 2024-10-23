@@ -9,7 +9,7 @@ import WatchlistStreamingServices from "@/app/components/streamingServices/watch
 import { IWatchlistItem } from "@/app/types/watchlist";
 
 const MainWatchlist = () => {
-  const { watchlist, updateWatchlist } = useWatchlist();
+  const { watchlist } = useWatchlist();
   const [filteredWatchlist, setFilteredWatchlist] = useState<IWatchlistItem[]>(
     []
   );
@@ -21,8 +21,8 @@ const MainWatchlist = () => {
   useEffect(() => {
     const fetchWatchlist = async () => {
       try {
-        const watchlistData = await getWatchlist();
-        updateWatchlist(watchlistData);
+        // const watchlistData = await getWatchlist();
+        // updateWatchlist(watchlistData);
       } catch (error) {
         console.error("Failed to load watchlist", error);
       }
