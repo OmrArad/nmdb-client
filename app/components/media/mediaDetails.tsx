@@ -53,10 +53,6 @@ export async function MediaDetails({
   );
 
   console.log("media videos is", media.video_links[0]);
-  console.log(
-    "new media director is",
-    media.director ? media.director.name : "N/A"
-  );
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -78,6 +74,26 @@ export async function MediaDetails({
           Click here for more reviews
         </a>
         <TrailerButtonClientWrapper videoKey={media.video_links} />
+
+{/* Streaming services section */}
+{media.streaming_services.length > 0 && (
+  <div className="flex items-center mt-4">
+    <p className="font-bold mr-2 text-lg">Available on:</p>
+    <div className="flex overflow-x-auto whitespace-nowrap space-x-2 scrollbar-hide">
+      {media.streaming_services.map((service) => (
+        <span key={service.name} className="inline-block">
+          <img 
+            src={`https://image.tmdb.org/t/p/w200${service.logo_path}`} 
+            alt={service.name} 
+            className="h-8 w-auto"
+          />
+        </span>
+      ))}
+    </div>
+  </div>
+)}
+
+
       </div>
       <div className="w-full flex flex-col">
         <div className="flex flex-row justify-between items-center ml-8 relative">
@@ -113,19 +129,6 @@ export async function MediaDetails({
           </p>
           <div className="flex mt-4">
             <CastList cast={cast} />
-          </div>
-          <div className="mt-4">
-            <p>
-              Available on:
-              {/* {movie.streamingServices.map((service) => (
-                  <span
-                    key={service}
-                    className="inline-block bg-black text-white p-1 mx-2"
-                  >
-                    {service}
-                  </span>
-                ))} */}
-            </p>
           </div>
         </div>
       </div>
