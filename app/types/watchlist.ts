@@ -19,7 +19,7 @@ export type IWatchlistItem = {
 export type IWatchlist = {
   Content: IWatchlistItem[];
   ID: string;
-  Name: string;
+  Name?: string;
 };
 
 export type IWatchlistHandlerProps = {
@@ -28,3 +28,27 @@ export type IWatchlistHandlerProps = {
   mediaId: string;
   setIsInWatchlist: (value: SetStateAction<boolean>) => void;
 };
+
+// Type for individual content items in the watchlist
+export interface WatchlistContentItem {
+  tmdb_id: string;
+  is_movie: boolean;
+  title?: string;
+  name?: string;
+}
+
+// Type for the watchlist content array
+export interface WatchlistContent {
+  Content: WatchlistContentItem[];
+  ID: string;
+}
+
+// Type for the main watchlist structure
+export interface MainWatchlist {
+  Content: IWatchlist;
+  ID: string;
+}
+// export interface MainWatchlist {
+//   Content: WatchlistContent;
+//   ID: string;
+// }
