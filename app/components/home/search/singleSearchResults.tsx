@@ -81,6 +81,7 @@ const SingleSearchResult: React.FC<SearchResultProps> = ({ result }) => {
               setIsInWatchlist={setIsInWatchlist}
               updateWatchlist={updateWatchlist}
               watchlist={watchlist}
+              isMovie={title ? true : false}
             />
           </div>
         </div>

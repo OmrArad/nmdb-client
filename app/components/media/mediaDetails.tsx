@@ -69,7 +69,7 @@ export async function MediaDetails({
           height={450}
         />
         <SessionProvider>
-          <WatchlistButton contentId={mediaId} />
+          <WatchlistButton contentId={mediaId} isMovie={isMovie} />
         </SessionProvider>
         <a
           href="#reviews"
