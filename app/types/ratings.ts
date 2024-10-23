@@ -56,5 +56,5 @@ export interface UserRatingsListResponse {
 }
 
 export type UserDataRatings = {
-  ratings: RatedContentItem[];
+  Content: RatedContentItem[];
 };
