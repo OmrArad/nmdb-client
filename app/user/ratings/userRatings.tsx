@@ -4,13 +4,10 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRatings } from "@/app/context/userRatingContext";
 import { RatedContentItem } from "@/app/types/ratings";
-import WatchlistStreamingServices from "@/app/components/streamingServices/watchlistStreamingServices";
 import WatchlistItem from "@/app/components/watchlist/watchlistItem";
-import { IWatchlistItem } from "@/app/types/watchlist";
-import { getUserRatingsList } from "@/app/api/ratings/ratingsServices";
 
 const UserRatings = () => {
-  const { ratings, updateRatings } = useRatings();
+  const { ratings } = useRatings();
   const [filteredRatings, setFilteredRatings] = useState<RatedContentItem[]>(
     ratings || []
   );
@@ -19,23 +16,10 @@ const UserRatings = () => {
     filteredRatings.length > 0 ? filteredRatings : ratings || [];
 
   useEffect(() => {
-    const fetchRatings = async () => {
-      try {
-        // const RatingsData = await getUserRatingsList();
-        // updateRatings(RatingsData.content);
-      } catch (error) {
-        console.error("Failed to load Ratings", error);
-      }
-    };
-
-    if (!ratings && status === "authenticated") {
-      fetchRatings();
-    }
     if (status === "unauthenticated") {
       redirect("/");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ratings, session]);
+  }, [ratings, session, status]);
 
   if (!ratings) {
     return <p>Loading Ratings...</p>;
@@ -52,7 +36,11 @@ const UserRatings = () => {
             setFilteredWatchlist={setFilteredRatings}
           /> */}
           {filteredRatingsItems.map((media) => (
-            <WatchlistItem key={media.item_id} media={media} />
+            <WatchlistItem
+              key={media.item_id}
+              media={media}
+              shouldCheckisInWatchlistStatus={true}
+            />
           ))}
         </div>
       </div>
