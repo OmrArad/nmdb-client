@@ -46,7 +46,7 @@ export interface RatedContentItem {
   tmdb_rating: number;
   user_id: string;
   user_rating: number;
-  video_links: VideoLink[];
+  video_links: string[];
 }
 
 export interface UserRatingsListResponse {

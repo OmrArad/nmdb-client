@@ -21,6 +21,10 @@ const links = [
     name: "Watchlist",
     href: "/user/watchlist",
   },
+  {
+    name: "Ratings List",
+    href: "/user/ratings",
+  },
 ];
 
 const style =
@@ -51,7 +55,7 @@ const UserDropdown = ({
       setIsUpdated(true);
       if (!isUpdated) updateContext();
     }
-  }, [session]);
+  }, [session, status, userData.main_watchlist.Content, userData.ratings_list]);
 
   const userDropdownTheme = () => {
     return (

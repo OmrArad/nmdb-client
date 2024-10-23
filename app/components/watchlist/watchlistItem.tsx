@@ -8,15 +8,28 @@ import { useRouter } from "next/navigation";
 import WatchlistBookmark from "./watchlistBookmark";
 import Ratings from "@/app/components/rating/listRating/ratings";
 import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
+import { RatedContentItem } from "@/app/types/ratings";
+import { isMediaInWatchlist } from "@/app/utils/watchlistUtils";
 
-const WatchlistItem = ({ media }: { media: IWatchlistItem }) => {
-  const { watchlist, updateWatchlist } = useWatchlist();
-  const [isInWatchlist, setIsInWatchlist] = useState(true);
-  const router = useRouter();
-
+const WatchlistItem = ({
+  media,
+  shouldCheckisInWatchlistStatus = false,
+}: {
+  media: IWatchlistItem | RatedContentItem;
+  shouldCheckisInWatchlistStatus?: boolean;
+}) => {
   const { title, poster_path, release_date, overview, tmdb_id, video_links } =
     media;
 
+  const { watchlist, updateWatchlist } = useWatchlist();
+  const [isInWatchlist, setIsInWatchlist] = useState(
+    shouldCheckisInWatchlistStatus
+      ? isMediaInWatchlist(watchlist, tmdb_id)
+      : true
+  );
+  const router = useRouter();
+
+  console.log(isMediaInWatchlist(watchlist, tmdb_id));
   const navLink = `/movies/${tmdb_id}`;
 
   const handleNavigate = () => router.push(navLink);
