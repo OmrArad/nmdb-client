@@ -10,8 +10,6 @@ import { DetailedMovie } from "@/app/types/movie";
 import { DetailedTVSeries } from "@/app/types/tvShow";
 import { CastMember } from "@/app/types/cast";
 import MediaCard from "@/app/components/media/mediaCard";
-import { TrendingMovie } from "@/app/types/movie";
-import { TrendingTVShow } from "@/app/types/tvShow";
 import { RecommendationsSlider } from "./RecommendationsSlider";
 
 export async function MediaDetails({
@@ -46,6 +44,7 @@ export async function MediaDetails({
 
   const genreNames = media.genres.map((genre) => genre.name).join(", ");
   console.log("media object is", media);
+  console.log("media recommendations length is", media.recommendations ? media.recommendations.length : 0)
 
   const IMDbRating = () => (
     <div className="p-1">
@@ -111,44 +110,46 @@ export async function MediaDetails({
           <h2 className="text-2xl font-bold mb-2">Overview</h2>
           <TextExpander text={media.overview} initialClampLines={5} />
           <p className="font-bold mt-4">
-            Directed by: <span className="font-normal">{media.director ? media.director.name : 'N/A'}</span>
+            Directed by:{" "}
+            <span className="font-normal">
+              {media.director ? media.director.name : "N/A"}
+            </span>
           </p>
           <p className="font-bold">
-            Screenplay by: <span className="font-normal">{media.screenwriter ? media.screenwriter.name : 'N/A'}</span>
+            Screenplay by:{" "}
+            <span className="font-normal">
+              {media.screenwriter ? media.screenwriter.name : "N/A"}
+            </span>
           </p>
           <div className="flex mt-4">
             <CastList cast={cast} />
           </div>
 
-{/* Recommended Section */}
-{media.recommendations && Array.isArray(media.recommendations.results) && media.recommendations.results.length > 0 ? (
-  <div className="mt-4">
-    <h2 className="text-2xl font-bold mb-4">
-      Similar {isMovie ? "Movies" : "TV Shows"}
-    </h2>
-    <RecommendationsSlider
-      recommendations={media.recommendations.results}
-      isMovie={isMovie}
-    />
-  </div>
-) : (
-  <div className="mt-4">
-    <h2 className="text-2xl font-bold mb-4">
-      No Recommendations Available
-    </h2>
-    <p>
-      {media.recommendations === undefined 
-        ? "Recommendations data is currently unavailable."
-        : "It seems there are no recommendations to display at this time."}
-    </p>
-  </div>
-)}
-
-
-
-
-
-
+          {/* Recommended Section */}
+          {media.recommendations &&
+          Array.isArray(media.recommendations) &&
+          media.recommendations.length > 0 ? (
+            <div className="mt-4">
+              <h2 className="text-2xl font-bold mb-4">
+                Similar {isMovie ? "Movies" : "TV Shows"}
+              </h2>
+              <RecommendationsSlider
+                recommendations={media.recommendations}
+                isMovie={isMovie}
+              />
+            </div>
+          ) : (
+            <div className="mt-4">
+              <h2 className="text-2xl font-bold mb-4">
+                No Recommendations Available
+              </h2>
+              <p>
+                {media.recommendations === undefined
+                  ? "Recommendations data is currently unavailable."
+                  : "It seems there are no recommendations to display at this time."}
+              </p>
+            </div>
+          )}
 
           <div className="mt-4">
             <p>Available on:</p>
