@@ -1,4 +1,4 @@
-import { RatingsResponse } from "@/app/types/ratings";
+import { RatingsResponse, UserRatingsListResponse } from "@/app/types/ratings";
 import { apiClient } from "../auth/auth";
 
 export const addRating = async (
@@ -17,6 +17,19 @@ export const addRating = async (
     throw error;
   }
 };
+
+export const getUserRatingsList =
+  async (): Promise<UserRatingsListResponse> => {
+    try {
+      const response = await apiClient.get<UserRatingsListResponse>(
+        "/api/users/ratings_list"
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Failed to fetch user ratings list", error);
+      throw error;
+    }
+  };
 
 export const getRatingsByUser = async (
   userId?: string,

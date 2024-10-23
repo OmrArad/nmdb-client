@@ -1,15 +1,15 @@
 // components/RatingsItem.tsx
-import { RatingItem } from "@/app/types/ratings";
+import { RatedContentItem } from "@/app/types/ratings";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const RatingsItem = ({ rating }: { rating: RatingItem }) => {
+const RatingsItem = ({ rating }: { rating: RatedContentItem }) => {
   const {
-    media_ID: content_id,
-    rating: userRating,
+    tmdb_id: content_id,
+    user_rating: userRating,
     is_movie,
-    rating_date: timestamp,
+    release_date,
   } = rating;
 
   // Add navigation to the media page (movie or TV show)
@@ -39,7 +39,7 @@ const RatingsItem = ({ rating }: { rating: RatingItem }) => {
             </span>
           </div>
           <p className="text-gray-400">
-            {new Date(timestamp).toLocaleDateString()}
+            {new Date(release_date).toLocaleDateString()}
           </p>
         </div>
       </div>

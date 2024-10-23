@@ -35,7 +35,7 @@ const UserRating: React.FC<UserRatingProps> = ({
 
   useEffect(() => {
     const _userRatings =
-      (ratings && findRating(ratings, tmdb_id)?.rating) || null;
+      (ratings && findRating(ratings, tmdb_id)?.user_rating) || null;
     setUserRating(_userRatings);
   }, [userRating, ratings, tmdb_id]);
 
