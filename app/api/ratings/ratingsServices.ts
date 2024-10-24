@@ -42,7 +42,7 @@ export const getRatingsByUser = async (
     is_movie: isMovie,
   });
 
-  const response = await apiClient.get<RatingsResponse>("/api/users/ratings", {
+  const response = await apiClient.get<RatingsResponse>("/api/users/ratings_list", {
     data: body,
   });
   return response.data;

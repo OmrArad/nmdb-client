@@ -22,10 +22,10 @@ export const handleRatingSubmit = async (
 ) => {
   try {
     setLoading(true);
-    await addRating(contentId, rating, isMovie);
+    const ratingRespone = await addRating(contentId, rating, isMovie);
     console.log(`User rated the content: ${rating} stars`);
-    const ratingRespone = await getUserRatingsList();
-    updateRatings(ratingRespone.content);
+    console.log("Rating response", ratingRespone);
+    updateRatings(ratingRespone.new_ratings[0].Content);
     setLoading(false);
   } catch (error) {
     console.error("Error adding rating", error);
@@ -44,10 +44,10 @@ export const handleRemoveRatingSubmit = async (
   setUserRating: (rating: number) => void
 ) => {
   try {
-    await removeRating(contentId);
+    const ratingsResponse = await removeRating(contentId);
+    console.log("new ratings are", ratingsResponse)
     // setUserRating(0);
-    const ratingsRespone = await getUserRatingsList();
-    updateRatings(ratingsRespone.content);
+    updateRatings(ratingsResponse.new_ratings[0].Content);
   } catch (error) {
     console.error("Error removing rating", error);
   }
