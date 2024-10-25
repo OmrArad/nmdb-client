@@ -41,7 +41,6 @@ export async function MediaDetails({
   }
 
   const genreNames = media.genres.map((genre) => genre.name).join(", ");
-
   const IMDbRating = () => (
     <div className=" p-1">
       IMDb Rating:{" "}
@@ -76,15 +75,18 @@ export async function MediaDetails({
         <TrailerButtonClientWrapper videoKey={media.video_links} />
 
 {/* Streaming services section */}
-{media.streaming_services.length > 0 && (
+{/* Check if there are streaming services available for the selected country code - currently it's 'US' by default */}
+{media.streaming_services["US"].length > 0 && (
   <div className="flex items-center mt-4">
     <p className="font-bold mr-2 text-lg">Available on:</p>
     <div className="flex overflow-x-auto whitespace-nowrap space-x-2 scrollbar-hide">
-      {media.streaming_services.map((service) => (
+      {/* If we'll implement a countries slider, make sure to change the country code here to the selected one */}
+      {media.streaming_services["US"] && media.streaming_services["US"].map((service) => (
         <span key={service.name} className="inline-block">
           <img 
             src={`https://image.tmdb.org/t/p/w200${service.logo_path}`} 
             alt={service.name} 
+            title={service.name}
             className="h-8 w-auto"
           />
         </span>
@@ -92,6 +94,7 @@ export async function MediaDetails({
     </div>
   </div>
 )}
+
 
 
       </div>

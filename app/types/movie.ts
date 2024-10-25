@@ -39,7 +39,7 @@ export interface DetailedMovie extends BaseMovie {
   tagline: string;
   director: CrewMember | null;
   screenwriter: CrewMember | null;
-  streaming_services: StreamingServiceData[];
+  streaming_services: { [countryCode: string]: StreamingServiceData[]; };
 }
 
 export type Movie = TrendingMovie | DetailedMovie;
