@@ -31,9 +31,6 @@ const RecommendationWatchlistItem = ({
     is_movie,
   } = media;
 
-  const [recommendationWatchlist, setRecommendationWatchlist] =
-    useState<IRecommendedWatchlistItem[]>();
-  const [loading, setLoading] = useState(true);
   // const [isInWatchlist, setIsInWatchlist] = useState(
   //   shouldCheckisInWatchlistStatus
   //     ? isMediaInWatchlist(recommendationWatchlist, tmdb_id)
@@ -44,25 +41,6 @@ const RecommendationWatchlistItem = ({
   const navLink = is_movie ? `/movies/${tmdb_id}` : `/tv/${tmdb_id}`;
 
   const handleNavigate = () => router.push(navLink);
-
-  useEffect(() => {
-    const fetchRecommendations = async () => {
-      try {
-        const data = await getRecommendationWatchlist();
-        setRecommendationWatchlist(data.Content);
-      } catch (error) {
-        console.error("Error fetching recommendations:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRecommendations();
-  }, []);
-
-  if (loading) {
-    return <p>Loading recommendations...</p>;
-  }
 
   return (
     <div className="bg-gray-100 border border-gray-300 rounded-xl overflow-hidden shadow-lg mb-4 relative">

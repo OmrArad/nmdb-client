@@ -41,7 +41,7 @@ const LikedRecommendations = () => {
   }
 
   return (
-    <div className="flex bg-gray-100 rounded-xl md:px-12 pt-12 gap-4 w-5/6">
+    <div className="flex bg-gray-100 rounded-xl md:px-12 pt-12 gap-4 w-5/6 h-[calc(800px)]">
       <div className="flex flex-col w-full">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold container mx-auto px-4">
