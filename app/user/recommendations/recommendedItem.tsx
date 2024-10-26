@@ -2,28 +2,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { IWatchlistItem } from "@/app/types/watchlist";
 import { useWatchlist } from "@/app/context/watchlistContext";
 import { useRouter } from "next/navigation";
-import WatchlistBookmark from "./watchlistBookmark";
 import Ratings from "@/app/components/rating/listRating/ratings";
-import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
-import { RatedContentItem } from "@/app/types/ratings";
 import { isMediaInWatchlist } from "@/app/utils/watchlistUtils";
-import {
-  IRecommendedItem,
-  IRecommendedWatchlistItem,
-} from "@/app/types/recommendations";
+import { IRecommendedItem } from "@/app/types/recommendations";
+import WatchlistBookmark from "@/app/components/watchlist/watchlistBookmark";
+import TrailerButtonClientWrapper from "@/app/components/trailer/trailerButtonClientWrapper";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import { sendRecommendationFeedback } from "@/app/api/recommendations/recommendationFeedbackServices";
 
-const WatchlistItem = ({
+const RecommendedItem = ({
   media,
   shouldCheckisInWatchlistStatus = false,
 }: {
-  media:
-    | IWatchlistItem
-    | RatedContentItem
-    | IRecommendedItem
-    | IRecommendedWatchlistItem;
+  media: IRecommendedItem;
   shouldCheckisInWatchlistStatus?: boolean;
 }) => {
   const {
@@ -36,6 +29,7 @@ const WatchlistItem = ({
     is_movie,
   } = media;
 
+  const [feedbackGiven, setFeedbackGiven] = useState<boolean | null>(null); // Track like/dislike state
   const { watchlist, updateWatchlist } = useWatchlist();
   const [isInWatchlist, setIsInWatchlist] = useState(
     shouldCheckisInWatchlistStatus
@@ -44,10 +38,26 @@ const WatchlistItem = ({
   );
   const router = useRouter();
 
-  console.log(isMediaInWatchlist(watchlist, tmdb_id));
   const navLink = is_movie ? `/movies/${tmdb_id}` : `/tv/${tmdb_id}`;
 
   const handleNavigate = () => router.push(navLink);
+
+  const handleFeedback = async (isLiked: boolean) => {
+    try {
+      const recommendationWatchlist = await sendRecommendationFeedback(
+        is_movie,
+        media.tmdb_id,
+        isLiked,
+        media.recommended_by
+      );
+
+      console.log("recommendationWatchlist: ", recommendationWatchlist);
+
+      setFeedbackGiven(isLiked); // Update UI to reflect feedback
+    } catch (error) {
+      console.error("Error sending feedback", error);
+    }
+  };
 
   return (
     <div className="bg-gray-100 border border-gray-300 rounded-xl overflow-hidden shadow-lg mb-4 relative">
@@ -89,6 +99,34 @@ const WatchlistItem = ({
             {video_links?.length > 0 && (
               <TrailerButtonClientWrapper videoKey={media.video_links} />
             )}
+
+            <div className="flex gap-2 mt-4">
+              <button
+                className={`flex items-center gap-1 px-4 py-2 rounded-lg transition hover:scale-105 hover:bg-green-500 hover:bg-opacity-50 ${
+                  feedbackGiven === true
+                    ? "bg-green-500 text-white"
+                    : "bg-gray-200"
+                }`}
+                onClick={() => handleFeedback(true)}
+                disabled={feedbackGiven !== null}
+              >
+                <FaThumbsUp />
+                Like
+              </button>
+
+              <button
+                className={`flex items-center gap-1 px-4 py-2 rounded-lg transition hover:scale-105 hover:bg-red-500 hover:bg-opacity-50 ${
+                  feedbackGiven === false
+                    ? "bg-red-500 text-white"
+                    : "bg-gray-200"
+                }`}
+                onClick={() => handleFeedback(false)}
+                disabled={feedbackGiven !== null}
+              >
+                <FaThumbsDown />
+                Dislike
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -96,4 +134,4 @@ const WatchlistItem = ({
   );
 };
 
-export default WatchlistItem;
+export default RecommendedItem;

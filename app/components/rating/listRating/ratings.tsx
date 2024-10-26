@@ -5,10 +5,18 @@ import { IWatchlistItem } from "@/app/types/watchlist";
 import TMDBRating from "./tmdbRating";
 import UserRating from "./userRating";
 import { RatedContentItem } from "@/app/types/ratings";
+import {
+  IRecommendedItem,
+  IRecommendedWatchlistItem,
+} from "@/app/types/recommendations";
 
 interface RatingComponentProps {
   isMovie: boolean;
-  media: IWatchlistItem | RatedContentItem;
+  media:
+    | IWatchlistItem
+    | RatedContentItem
+    | IRecommendedItem
+    | IRecommendedWatchlistItem;
 }
 
 const Ratings: React.FC<RatingComponentProps> = ({ isMovie, media }) => {
