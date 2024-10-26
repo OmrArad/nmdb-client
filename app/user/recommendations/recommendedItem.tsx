@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useWatchlist } from "@/app/context/watchlistContext";
 import { useRouter } from "next/navigation";
 import Ratings from "@/app/components/rating/listRating/ratings";
@@ -14,10 +14,10 @@ import { sendRecommendationFeedback } from "@/app/api/recommendations/recommenda
 
 const RecommendedItem = ({
   media,
-  shouldCheckisInWatchlistStatus = false,
+  resetFeedbackOnRefresh,
 }: {
   media: IRecommendedItem;
-  shouldCheckisInWatchlistStatus?: boolean;
+  resetFeedbackOnRefresh: boolean;
 }) => {
   const {
     title,
@@ -32,9 +32,7 @@ const RecommendedItem = ({
   const [feedbackGiven, setFeedbackGiven] = useState<boolean | null>(null);
   const { watchlist, updateWatchlist } = useWatchlist();
   const [isInWatchlist, setIsInWatchlist] = useState(
-    shouldCheckisInWatchlistStatus
-      ? isMediaInWatchlist(watchlist, tmdb_id)
-      : true
+    isMediaInWatchlist(watchlist, tmdb_id)
   );
   const router = useRouter();
 
@@ -44,6 +42,7 @@ const RecommendedItem = ({
 
   const handleFeedback = async (isLiked: boolean) => {
     try {
+      setFeedbackGiven(isLiked);
       const recommendationWatchlist = await sendRecommendationFeedback(
         is_movie,
         media.tmdb_id,
@@ -56,8 +55,16 @@ const RecommendedItem = ({
       setFeedbackGiven(isLiked);
     } catch (error) {
       console.error("Error sending feedback", error);
+      setFeedbackGiven(null);
     }
   };
+
+  // Reset feedback state if required on refresh
+  useEffect(() => {
+    if (resetFeedbackOnRefresh) {
+      setFeedbackGiven(null);
+    }
+  }, [resetFeedbackOnRefresh, media]);
 
   return (
     <div className="bg-gray-100 border border-gray-300 rounded-xl overflow-hidden shadow-lg mb-4 relative">

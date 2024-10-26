@@ -10,7 +10,9 @@ import { FaFilm } from "react-icons/fa"; // Icon for button
 
 const UserRecommendations = () => {
   const { ratings } = useRatings();
-  const [recommendations, setRecommendations] = useState<IRecommendedItem[]>([]);
+  const [recommendations, setRecommendations] = useState<IRecommendedItem[]>(
+    []
+  );
   const [loading, setLoading] = useState(false);
   const { data: session, status } = useSession();
 
@@ -55,9 +57,12 @@ const UserRecommendations = () => {
       <div className="flex flex-col items-center justify-center h-96 bg-white rounded-lg shadow-lg p-6">
         {!recommendations.length && !loading && (
           <>
-            <h2 className="text-xl font-semibold mb-4">Discover Your Next Favorite!</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Discover Your Next Favorite!
+            </h2>
             <p className="text-gray-600 mb-6">
-              Click the button below to get personalized content recommendations based on your ratings.
+              Click the button below to get personalized content recommendations
+              based on your ratings.
             </p>
             <button
               onClick={handleGetRecommendations}
@@ -73,7 +78,7 @@ const UserRecommendations = () => {
           <div className="flex flex-col justify-center items-center w-full max-w-lg h-48">
             <div className="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin mb-4"></div>
             <p className="text-gray-600 text-center">
-              We're working on finding the best content for you...
+              We are working on finding the best content for you...
             </p>
           </div>
         ) : (
@@ -94,7 +99,7 @@ const UserRecommendations = () => {
                   <RecommendedItem
                     key={media.item_id}
                     media={media}
-                    shouldCheckisInWatchlistStatus={true}
+                    resetFeedbackOnRefresh
                   />
                 ))}
               </div>
