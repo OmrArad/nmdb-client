@@ -22,8 +22,16 @@ const links = [
     href: "/user/watchlist",
   },
   {
-    name: "Ratings List",
+    name: "Ratings",
     href: "/user/ratings",
+  },
+  {
+    name: "Recommendations",
+    href: "/user/recommendations",
+  },
+  {
+    name: "Liked",
+    href: "/user/likedRecommendations",
   },
 ];
 

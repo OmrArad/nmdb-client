@@ -9,8 +9,16 @@ import { MediaAppearance } from "@/app/types/actor";
 import { useRatings } from "@/app/context/userRatingContext";
 import { findRating } from "@/app/utils/ratingUtils";
 import { RatedContentItem } from "@/app/types/ratings";
+import {
+  IRecommendedItem,
+  IRecommendedWatchlistItem,
+} from "@/app/types/recommendations";
 interface UserRatingProps {
-  media?: IWatchlistItem | RatedContentItem;
+  media?:
+    | IWatchlistItem
+    | RatedContentItem
+    | IRecommendedItem
+    | IRecommendedWatchlistItem;
   mediaId: string;
   title: string;
   isMovie: boolean;

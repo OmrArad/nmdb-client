@@ -1,4 +1,3 @@
-import { RatingsProvider } from "@/app/context/userRatingContext";
 import RatingsList from "./userRatings";
 
 const RatingsPage = () => {
