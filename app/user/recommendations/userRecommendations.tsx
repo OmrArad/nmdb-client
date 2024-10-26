@@ -54,7 +54,7 @@ const UserRecommendations = () => {
     <div className="flex flex-col items-center bg-gray-100 rounded-xl md:px-12 pt-12 gap-4 w-5/6">
       <h1 className="text-3xl font-bold mb-4">My Recommendations</h1>
 
-      <div className="flex flex-col items-center justify-center h-96 bg-white rounded-lg shadow-lg p-6">
+      <div className="flex flex-col items-center h-[calc(700px)] justify-center bg-white rounded-lg shadow-lg p-6">
         {!recommendations.length && !loading && (
           <>
             <h2 className="text-xl font-semibold mb-4">
