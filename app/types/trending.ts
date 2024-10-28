@@ -8,9 +8,9 @@ export type TrendingMovies = {
   total_results: number;
 };
 
-interface TrendingTVShows {
+export type TrendingTVShows ={
   page: number;
   results: TrendingTVShow[];
   total_pages: number;
   total_results: number;
-}
+};

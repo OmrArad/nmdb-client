@@ -1,14 +1,16 @@
 import { getMovie, getMovieCast } from "@/app/api/movie/movieServices";
+import { getTVCast, getTVShow } from "@/app/api/tv/tvServices";
 import Image from "next/image";
 import { CastList } from "../cast/castList";
 import { WatchlistButton } from "../watchlist/watchlistButton";
 import { TextExpander } from "../textExpander";
 import MediaRating from "../rating/mediaRating/mediaRating";
 import { SessionProvider } from "next-auth/react";
-import { getTVCast, getTVShow } from "@/app/api/tv/tvServices";
 import { DetailedMovie } from "@/app/types/movie";
 import { DetailedTVSeries } from "@/app/types/tvShow";
 import { CastMember } from "@/app/types/cast";
+import MediaCard from "@/app/components/media/mediaCard";
+import { RecommendationsSlider } from "./RecommendationsSlider";
 import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
 
 export async function MediaDetails({
@@ -26,6 +28,7 @@ export async function MediaDetails({
   let runtime: number | number[];
   let release_date: string;
 
+  // Fetch media and cast based on whether it's a movie or TV show
   if (isMovie) {
     media = await getMovie(mediaId);
     cast = await getMovieCast(mediaId);
@@ -42,9 +45,9 @@ export async function MediaDetails({
 
   const genreNames = media.genres.map((genre) => genre.name).join(", ");
   const IMDbRating = () => (
-    <div className=" p-1">
+    <div className="p-1">
       IMDb Rating:{" "}
-      <span className="text-yellow-500 text-xl font-bold ">
+      <span className="text-yellow-500 text-xl font-bold">
         {media.vote_average ? media.vote_average.toFixed(1) : "NR"}
       </span>
       <span>{media.vote_average ? "/10" : ""}</span>
@@ -52,7 +55,6 @@ export async function MediaDetails({
   );
 
   console.log("media videos is", media.video_links[0]);
-
   return (
     <div className="flex flex-col md:flex-row">
       <div className="w-full md:w-1/5">
@@ -101,7 +103,7 @@ export async function MediaDetails({
       <div className="w-full flex flex-col">
         <div className="flex flex-row justify-between items-center ml-8 relative">
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
-          <div className="flex flex-col md:absolute top-0 right-0  gap-2">
+          <div className="flex flex-col md:absolute top-0 right-0 gap-2">
             <SessionProvider>
               <MediaRating
                 contentId={mediaId}
@@ -132,6 +134,37 @@ export async function MediaDetails({
           </p>
           <div className="flex mt-4">
             <CastList cast={cast} />
+          </div>
+
+          {/* Recommended Section */}
+          {media.recommendations &&
+          Array.isArray(media.recommendations) &&
+          media.recommendations.length > 0 ? (
+            <div className="mt-4">
+              <h2 className="text-2xl font-bold mb-4">
+                Similar {isMovie ? "Movies" : "TV Shows"}
+              </h2>
+              <RecommendationsSlider
+                recommendations={media.recommendations}
+                isMovie={isMovie}
+              />
+            </div>
+          ) : (
+            <div className="mt-4">
+              <h2 className="text-2xl font-bold mb-4">
+                No Recommendations Available
+              </h2>
+              <p>
+                {media.recommendations === undefined
+                  ? "Recommendations data is currently unavailable."
+                  : "It seems there are no recommendations to display at this time."}
+              </p>
+            </div>
+          )}
+
+          <div className="mt-4">
+            <p>Available on:</p>
+            {/* You can display available streaming services here if needed */}
           </div>
         </div>
       </div>

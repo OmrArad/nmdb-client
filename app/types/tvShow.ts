@@ -45,5 +45,6 @@ export interface DetailedTVSeries extends TVShow {
   type: string;
   director: CrewMember | null;
   screenwriter: CrewMember | null;
+  recommendations: TrendingTVShow[] | null;
   streaming_services: { [countryCode: string]: StreamingServiceData[]; };
 }
