@@ -8,9 +8,9 @@ import clsx from "clsx";
 import UserImage from "./userImage";
 import { useWatchlist } from "@/app/context/watchlistContext";
 import { useRatings } from "@/app/context/userRatingContext";
-import { getRatingsByUser } from "@/app/api/ratings/ratingsServices";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
+import { UserData } from "@/app/types/auth";
 
 const links = [
   {
@@ -21,6 +21,18 @@ const links = [
     name: "Watchlist",
     href: "/user/watchlist",
   },
+  {
+    name: "Ratings",
+    href: "/user/ratings",
+  },
+  {
+    name: "Recommendations",
+    href: "/user/recommendations",
+  },
+  {
+    name: "Liked",
+    href: "/user/likedRecommendations",
+  },
 ];
 
 const style =
@@ -29,11 +41,11 @@ const style =
 const UserDropdown = ({
   onLogoutClick,
   _session,
-  userData
+  userData,
 }: {
   onLogoutClick: () => void;
   _session: Session;
-  userData: any, 
+  userData: UserData;
 }) => {
   const { updateWatchlist } = useWatchlist();
   const { updateRatings } = useRatings();
@@ -41,8 +53,9 @@ const UserDropdown = ({
   const [isUpdated, setIsUpdated] = useState(false);
   React.useEffect(() => {
     const updateContext = async () => {
+      console.log("ratings: ", userData.ratings_list);
       updateWatchlist(userData.main_watchlist.Content);
-      updateRatings(await getRatingsByUser());
+      updateRatings(userData.ratings_list.Content);
     };
 
     if (status === "authenticated") {
@@ -50,7 +63,7 @@ const UserDropdown = ({
       setIsUpdated(true);
       if (!isUpdated) updateContext();
     }
-  }, [session]);
+  }, [session, status, userData.main_watchlist.Content, userData.ratings_list]);
 
   const userDropdownTheme = () => {
     return (

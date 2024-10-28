@@ -1,29 +1,24 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import { IWatchlistItem } from "@/app/types/watchlist";
+import React, { useEffect, useState } from "react";
 import { useWatchlist } from "@/app/context/watchlistContext";
 import { useRouter } from "next/navigation";
-import WatchlistBookmark from "./watchlistBookmark";
 import Ratings from "@/app/components/rating/listRating/ratings";
-import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
-import { RatedContentItem } from "@/app/types/ratings";
 import { isMediaInWatchlist } from "@/app/utils/watchlistUtils";
+import WatchlistBookmark from "@/app/components/watchlist/watchlistBookmark";
+import TrailerButtonClientWrapper from "@/app/components/trailer/trailerButtonClientWrapper";
 import {
-  IRecommendedItem,
   IRecommendedWatchlistItem,
+  RecommendationWatchlistResponse,
 } from "@/app/types/recommendations";
+import { getRecommendationWatchlist } from "@/app/api/recommendations/recommendationsServices";
 
-const WatchlistItem = ({
+const RecommendationWatchlistItem = ({
   media,
   shouldCheckisInWatchlistStatus = false,
 }: {
-  media:
-    | IWatchlistItem
-    | RatedContentItem
-    | IRecommendedItem
-    | IRecommendedWatchlistItem;
+  media: IRecommendedWatchlistItem;
   shouldCheckisInWatchlistStatus?: boolean;
 }) => {
   const {
@@ -36,15 +31,13 @@ const WatchlistItem = ({
     is_movie,
   } = media;
 
-  const { watchlist, updateWatchlist } = useWatchlist();
-  const [isInWatchlist, setIsInWatchlist] = useState(
-    shouldCheckisInWatchlistStatus
-      ? isMediaInWatchlist(watchlist, tmdb_id)
-      : true
-  );
+  // const [isInWatchlist, setIsInWatchlist] = useState(
+  //   shouldCheckisInWatchlistStatus
+  //     ? isMediaInWatchlist(recommendationWatchlist, tmdb_id)
+  //     : true
+  // );
   const router = useRouter();
 
-  console.log(isMediaInWatchlist(watchlist, tmdb_id));
   const navLink = is_movie ? `/movies/${tmdb_id}` : `/tv/${tmdb_id}`;
 
   const handleNavigate = () => router.push(navLink);
@@ -60,15 +53,16 @@ const WatchlistItem = ({
           height={144}
           onClick={handleNavigate}
         />
-        <WatchlistBookmark
+        {/* TODO: adjust watchlist bookmark to work with recommendation watchlist */}
+        {/* <WatchlistBookmark
           mediaId={tmdb_id}
           setIsInWatchlist={setIsInWatchlist}
           updateWatchlist={updateWatchlist}
-          watchlist={watchlist}
-          isInWatchlist={isInWatchlist}
+          watchlist={recommendationWatchlist}
+          isInWatchlist={true}
           shouldShowIcon={false}
           isMovie={is_movie}
-        />
+        /> */}
 
         <div className="flex-col">
           <div className="flex-col justify-between mt-4">
@@ -96,4 +90,4 @@ const WatchlistItem = ({
   );
 };
 
-export default WatchlistItem;
+export default RecommendationWatchlistItem;

@@ -1,4 +1,5 @@
 import { CrewMember } from './crew';
+import { StreamingServiceData } from './streaming';
 
 export interface TVShow {
   backdrop_path: string | null;
@@ -45,4 +46,5 @@ export interface DetailedTVSeries extends TVShow {
   director: CrewMember | null;
   screenwriter: CrewMember | null;
   recommendations: TrendingTVShow[] | null;
+  streaming_services: { [countryCode: string]: StreamingServiceData[]; };
 }

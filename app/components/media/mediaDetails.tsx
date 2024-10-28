@@ -11,6 +11,7 @@ import { DetailedTVSeries } from "@/app/types/tvShow";
 import { CastMember } from "@/app/types/cast";
 import MediaCard from "@/app/components/media/mediaCard";
 import { RecommendationsSlider } from "./RecommendationsSlider";
+import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
 
 export async function MediaDetails({
   mediaId,
@@ -43,9 +44,6 @@ export async function MediaDetails({
   }
 
   const genreNames = media.genres.map((genre) => genre.name).join(", ");
-  console.log("media object is", media);
-  console.log("media recommendations length is", media.recommendations ? media.recommendations.length : 0)
-
   const IMDbRating = () => (
     <div className="p-1">
       IMDb Rating:{" "}
@@ -56,6 +54,7 @@ export async function MediaDetails({
     </div>
   );
 
+  console.log("media videos is", media.video_links[0]);
   return (
     <div className="flex flex-col md:flex-row">
       <div className="w-full md:w-1/5">
@@ -66,28 +65,40 @@ export async function MediaDetails({
           width={300}
           height={450}
         />
-
         <SessionProvider>
-          <WatchlistButton contentId={mediaId} />
+          <WatchlistButton contentId={mediaId} isMovie={isMovie} />
         </SessionProvider>
         <a
           href="#reviews"
-          className="text-indigo-600 hover:text-indigo-800 visited:text-purple-600 mt-4"
+          className="text-indigo-600 hover:text-indigo-800 visited:text-purple-600 pt-4"
         >
           Click here for more reviews
         </a>
-        {/* YouTube video */}
-        <div className="mt-4">
-          <iframe
-            width="300"
-            height="169"
-            src={`${urlPrefixYoutube}/${media.video_links[0]}`}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
+        <TrailerButtonClientWrapper videoKey={media.video_links} />
+
+{/* Streaming services section */}
+{/* Check if there are streaming services available for the selected country code - currently it's 'US' by default */}
+{media.streaming_services["US"].length > 0 && (
+  <div className="flex items-center mt-4">
+    <p className="font-bold mr-2 text-lg">Available on:</p>
+    <div className="flex overflow-x-auto whitespace-nowrap space-x-2 scrollbar-hide">
+      {/* If we'll implement a countries slider, make sure to change the country code here to the selected one */}
+      {media.streaming_services["US"] && media.streaming_services["US"].map((service) => (
+        <span key={service.name} className="inline-block">
+          <img 
+            src={`https://image.tmdb.org/t/p/w200${service.logo_path}`} 
+            alt={service.name} 
+            title={service.name}
+            className="h-8 w-auto"
+          />
+        </span>
+      ))}
+    </div>
+  </div>
+)}
+
+
+
       </div>
       <div className="w-full flex flex-col">
         <div className="flex flex-row justify-between items-center ml-8 relative">

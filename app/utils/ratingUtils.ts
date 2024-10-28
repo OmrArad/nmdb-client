@@ -1,10 +1,10 @@
 import {
   addRating,
-  getRatingsByUser,
+  getUserRatingsList,
   removeRating,
 } from "@/app/api/ratings/ratingsServices";
 import { SetStateAction } from "react";
-import { RatingsResponse } from "../types/ratings";
+import { RatedContentItem } from "../types/ratings";
 
 /**
  * Submits a new user rating.
@@ -17,14 +17,15 @@ export const handleRatingSubmit = async (
   rating: number,
   contentId: string,
   isMovie: boolean,
-  updateRatings: (SetStateAction: RatingsResponse) => void,
+  updateRatings: (SetStateAction: RatedContentItem[]) => void,
   setLoading: (value: SetStateAction<boolean>) => void
 ) => {
   try {
     setLoading(true);
-    await addRating(contentId, rating, isMovie);
+    const ratingRespone = await addRating(contentId, rating, isMovie);
     console.log(`User rated the content: ${rating} stars`);
-    updateRatings(await getRatingsByUser());
+    console.log("Rating response", ratingRespone);
+    updateRatings(ratingRespone.new_ratings[0].Content);
     setLoading(false);
   } catch (error) {
     console.error("Error adding rating", error);
@@ -39,19 +40,20 @@ export const handleRatingSubmit = async (
  */
 export const handleRemoveRatingSubmit = async (
   contentId: string,
-  updateRatings: (SetStateAction: RatingsResponse) => void,
+  updateRatings: (SetStateAction: RatedContentItem[]) => void,
   setUserRating: (rating: number) => void
 ) => {
   try {
-    await removeRating(contentId);
+    const ratingsResponse = await removeRating(contentId);
+    console.log("new ratings are", ratingsResponse)
     // setUserRating(0);
-    updateRatings(await getRatingsByUser());
+    updateRatings(ratingsResponse.new_ratings[0].Content);
   } catch (error) {
     console.error("Error removing rating", error);
   }
 };
 
-export const findRating = (userRatings: RatingsResponse, contentId: string) =>
-  userRatings.ratings.find(
-    (r: { media_ID: string }) => r.media_ID === contentId
-  );
+export const findRating = (
+  userRatings: RatedContentItem[] | null,
+  contentId: string
+) => userRatings?.find((rating) => rating.tmdb_id === contentId);

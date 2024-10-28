@@ -4,11 +4,13 @@ import Link from "next/link";
 
 const UserDashboard = () => {
   const navItems = [
-    { name: "Overview", path: "/user/overview" },
-    { name: "Discussions", path: "/user/discussions" },
-    { name: "Lists", path: "/user/lists" },
-    { name: "Ratings", path: "/user/ratings" },
+    // { name: "Overview", path: "/user/overview" },
+    // { name: "Discussions", path: "/user/discussions" },
+    // { name: "Lists", path: "/user/lists" },
     { name: "Watchlist", path: "/user/watchlist" },
+    { name: "Ratings", path: "/user/ratings" },
+    { name: "Recommendations", path: "/user/recommendations" },
+    { name: "Liked Recommendations", path: "/user/likedRecommendations" },
   ];
 
   return (

@@ -1,13 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import RatingPopup from "../ratingPopup";
-import { getRatingsByUser } from "@/app/api/ratings/ratingsServices";
 import { Spinner } from "flowbite-react";
 import { Movie } from "@/app/types/movie";
 import { TVShow } from "@/app/types/tvShow";
 import { useRatings } from "@/app/context/userRatingContext";
 import { findRating } from "@/app/utils/ratingUtils";
-import { logout, setAuthToken } from "@/app/api/auth/auth";
+import { setAuthToken } from "@/app/api/auth/auth";
 import { useSession } from "next-auth/react";
 
 const MediaRating = ({
@@ -23,7 +22,7 @@ const MediaRating = ({
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [userRating, setUserRating] = useState<number | null>(
-    (ratings && findRating(ratings, contentId)?.rating) || null
+    (ratings && findRating(ratings, contentId)?.user_rating) || null
   );
   const [showMessage, setShowMessage] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -32,17 +31,10 @@ const MediaRating = ({
   useEffect(() => {
     const fetchRating = async () => {
       try {
-        // TODO: get rating using contentId
-        const userRatings = await getRatingsByUser(
-          undefined,
-          contentId,
-          isMovie
-        );
-        const contentRating = findRating(userRatings, contentId);
-        setUserRating(contentRating?.rating || null);
+        const contentRating = findRating(ratings, contentId);
+        setUserRating(contentRating?.user_rating || null);
       } catch (error) {
-        console.error("Error fetching user ratings", error);
-        await logout();
+        console.error("Error setting user ratings", error);
       } finally {
         setLoading(false);
       }
@@ -54,14 +46,14 @@ const MediaRating = ({
       if (!ratings) fetchRating();
       else {
         const contentRating = findRating(ratings, contentId);
-        setUserRating(contentRating?.rating || null);
+        setUserRating(contentRating?.user_rating || null);
         setLoading(false);
       }
     } else if (status === "unauthenticated") {
       setLoading(false);
       setIsLoggedIn(false);
     }
-  }, [contentId, isMovie, ratings, status]);
+  }, [contentId, isMovie, ratings, session?.accessToken, status]);
 
   const handleOpenPopup = () => {
     setShowMessage(false);

@@ -18,11 +18,16 @@ export default async function UserButton() {
   const user = session?.user;
   const userData = await setAuthTokenAndLogin(session?.accessToken);
   console.log("user button: ", userData);
+  console.log("token: ", session?.accessToken);
 
   return (
     <>
       {user && userData ? (
-        <UserDropdown onLogoutClick={handleLogout} _session={session} userData={userData} />
+        <UserDropdown
+          onLogoutClick={handleLogout}
+          _session={session}
+          userData={userData}
+        />
       ) : (
         <SignInButton handleLogin={handleLogin} />
       )}

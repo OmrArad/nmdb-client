@@ -29,7 +29,13 @@ const SpinnerComponent = () => (
   </div>
 );
 
-export const WatchlistButton = ({ contentId }: { contentId: string }) => {
+export const WatchlistButton = ({
+  contentId,
+  isMovie,
+}: {
+  contentId: string;
+  isMovie: boolean;
+}) => {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -63,7 +69,8 @@ export const WatchlistButton = ({ contentId }: { contentId: string }) => {
       watchlist,
       updateWatchlist,
       contentId,
-      setIsInWatchlist
+      setIsInWatchlist,
+      isMovie
     );
 
   const handleRemove = () =>

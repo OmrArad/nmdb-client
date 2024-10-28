@@ -8,8 +8,17 @@ import { Movie } from "@/app/types/movie";
 import { MediaAppearance } from "@/app/types/actor";
 import { useRatings } from "@/app/context/userRatingContext";
 import { findRating } from "@/app/utils/ratingUtils";
+import { RatedContentItem } from "@/app/types/ratings";
+import {
+  IRecommendedItem,
+  IRecommendedWatchlistItem,
+} from "@/app/types/recommendations";
 interface UserRatingProps {
-  media?: IWatchlistItem;
+  media?:
+    | IWatchlistItem
+    | RatedContentItem
+    | IRecommendedItem
+    | IRecommendedWatchlistItem;
   mediaId: string;
   title: string;
   isMovie: boolean;
@@ -35,7 +44,7 @@ const UserRating: React.FC<UserRatingProps> = ({
 
   useEffect(() => {
     const _userRatings =
-      (ratings && findRating(ratings, tmdb_id)?.rating) || null;
+      (ratings && findRating(ratings, tmdb_id)?.user_rating) || null;
     setUserRating(_userRatings);
   }, [userRating, ratings, tmdb_id]);
 

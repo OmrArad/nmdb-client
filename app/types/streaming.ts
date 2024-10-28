@@ -20,3 +20,11 @@ export interface StreamingService {
   count: number;
   tmdb_ids: TMDBItem[]; // Adjust types as necessary
 }
+
+// Define the structure of the streaming service data
+export interface StreamingServiceData {
+  display_priority: number;
+  logo_path: string;
+  name: string;
+  provider_id: number;
+}

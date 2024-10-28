@@ -12,6 +12,7 @@ interface WatchlistBookmarkProps {
   watchlist: IWatchlist | null;
   updateWatchlist: (watchlist: IWatchlist) => void;
   mediaId: string;
+  isMovie: boolean;
   setIsInWatchlist: (value: SetStateAction<boolean>) => void;
   shouldShowTooltip?: boolean;
   shouldShowIcon?: boolean;
@@ -34,6 +35,7 @@ const WatchlistBookmark = ({
   watchlist,
   updateWatchlist,
   mediaId,
+  isMovie,
   setIsInWatchlist,
   shouldShowTooltip = false,
   shouldShowIcon = true,
@@ -61,7 +63,8 @@ const WatchlistBookmark = ({
       watchlist!,
       updateWatchlist,
       mediaId,
-      setIsInWatchlist
+      setIsInWatchlist,
+      isMovie
     );
 
   const handleClick = (event: React.MouseEvent) => {

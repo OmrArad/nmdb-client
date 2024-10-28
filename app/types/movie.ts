@@ -1,5 +1,6 @@
 import { CrewMember } from "./crew";
 import { TrendingMovies } from "./trending";
+import { StreamingService, StreamingServiceData } from "./streaming";
 
 interface BaseMovie {
   adult: boolean;
@@ -40,6 +41,7 @@ export interface DetailedMovie extends BaseMovie {
   director: CrewMember | null;
   screenwriter: CrewMember | null;
   recommendations: TrendingMovie[] | null;
+  streaming_services: { [countryCode: string]: StreamingServiceData[]; };
 }
 
 export type Movie = TrendingMovie | DetailedMovie;
