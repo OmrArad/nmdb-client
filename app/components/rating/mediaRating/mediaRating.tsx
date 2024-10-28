@@ -76,7 +76,7 @@ const MediaRating = ({
     <div className="flex flex-col flex-grow items-stretch">
       <button
         onClick={handleRateClick}
-        className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-full"
+        className="bg-blue-500 hover:bg-blue-600 text-white w-[160.21px] h-[40px] rounded-full"
       >
         {loading ? (
           <div className="flex justify-center">
