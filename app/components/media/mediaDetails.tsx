@@ -54,7 +54,7 @@ export async function MediaDetails({
     </div>
   );
 
-  console.log("media videos is", media.video_links[0]);
+
   return (
     <div className="flex flex-col md:flex-row bg-white p-6 rounded-md shadow-md">
       <div className="w-full md:w-1/5">
@@ -74,7 +74,7 @@ export async function MediaDetails({
         >
           Click here for more reviews
         </a>
-        <TrailerButtonClientWrapper videoKey={media.video_links} />
+        {media.video_links && media.video_links.length > 0 && (<TrailerButtonClientWrapper videoKey={media.video_links} />)}
 
         {/* Streaming services section */}
         {media.streaming_services["US"] && media.streaming_services["US"].length > 0 && (
@@ -114,18 +114,24 @@ export async function MediaDetails({
         <h2 className="text-2xl font-bold mb-2">Overview</h2>
         <TextExpander text={media.overview} initialClampLines={5} />
         
-        <p className="font-bold mt-4">
-          Directed by:{" "}
-          <span className="font-normal">
-            {media.director ? media.director.name : "N/A"}
-          </span>
-        </p>
-        <p className="font-bold">
-          Screenplay by:{" "}
-          <span className="font-normal">
-            {media.screenwriter ? media.screenwriter.name : "N/A"}
-          </span>
-        </p>
+        {isMovie && (
+  <>
+    <p className="font-bold mt-4">
+      Directed by:{" "}
+      <span className="font-normal">
+        {media.director ? media.director.name : "N/A"}
+      </span>
+    </p>
+
+    <p className="font-bold">
+      Screenplay by:{" "}
+      <span className="font-normal">
+        {media.screenwriter ? media.screenwriter.name : "N/A"}
+      </span>
+    </p>
+  </>
+)}
+
         
         <div className="flex mt-4">
           <CastList cast={cast} />
