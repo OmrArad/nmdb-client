@@ -56,7 +56,7 @@ export async function MediaDetails({
 
   console.log("media videos is", media.video_links[0]);
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col md:flex-row bg-white p-6 rounded-md shadow-md">
       <div className="w-full md:w-1/5">
         <Image
           className="mb-3 rounded"
@@ -76,97 +76,81 @@ export async function MediaDetails({
         </a>
         <TrailerButtonClientWrapper videoKey={media.video_links} />
 
-{/* Streaming services section */}
-{/* Check if there are streaming services available for the selected country code - currently it's 'US' by default */}
-{media.streaming_services["US"].length > 0 && (
-  <div className="flex items-center mt-4">
-    <p className="font-bold mr-2 text-lg">Available on:</p>
-    <div className="flex overflow-x-auto whitespace-nowrap space-x-2 scrollbar-hide">
-      {/* If we'll implement a countries slider, make sure to change the country code here to the selected one */}
-      {media.streaming_services["US"] && media.streaming_services["US"].map((service) => (
-        <span key={service.name} className="inline-block">
-          <img 
-            src={`https://image.tmdb.org/t/p/w200${service.logo_path}`} 
-            alt={service.name} 
-            title={service.name}
-            className="h-8 w-auto"
-          />
-        </span>
-      ))}
-    </div>
-  </div>
-)}
-
-
-
+        {/* Streaming services section */}
+        {media.streaming_services["US"] && media.streaming_services["US"].length > 0 && (
+          <div className="flex items-center mt-4">
+            <p className="font-bold mr-2 text-lg">Available on:</p>
+            <div className="flex overflow-x-auto whitespace-nowrap space-x-2 scrollbar-hide">
+              {media.streaming_services["US"].map((service) => (
+                <span key={service.provider_id || service.name} className="inline-block">
+                  <img 
+                    src={`https://image.tmdb.org/t/p/w200${service.logo_path}`} 
+                    alt={service.name} 
+                    title={service.name}
+                    className="h-8 w-auto"
+                  />
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-      <div className="w-full flex flex-col">
-        <div className="flex flex-row justify-between items-center ml-8 relative">
+      
+      <div className="w-full md:w-4/5 md:pl-6 flex flex-col">
+        <div className="flex flex-row justify-between items-start mb-4">
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
-          <div className="flex flex-col md:absolute top-0 right-0 gap-2">
+          <div className="flex flex-col items-end space-y-2">
             <SessionProvider>
-              <MediaRating
-                contentId={mediaId}
-                isMovie={isMovie}
-                media={media}
-              />
+              <MediaRating contentId={mediaId} isMovie={isMovie} media={media} />
             </SessionProvider>
             <IMDbRating />
           </div>
         </div>
-        <div className="w-full md:w-2/3 md:pl-8">
-          <p className="mb-2">
-            {genreNames} | {runtime} | Released: {release_date}
-          </p>
-          <h2 className="text-2xl font-bold mb-2">Overview</h2>
-          <TextExpander text={media.overview} initialClampLines={5} />
-          <p className="font-bold mt-4">
-            Directed by:{" "}
-            <span className="font-normal">
-              {media.director ? media.director.name : "N/A"}
-            </span>
-          </p>
-          <p className="font-bold">
-            Screenplay by:{" "}
-            <span className="font-normal">
-              {media.screenwriter ? media.screenwriter.name : "N/A"}
-            </span>
-          </p>
-          <div className="flex mt-4">
-            <CastList cast={cast} />
-          </div>
-
-          {/* Recommended Section */}
-          {media.recommendations &&
-          Array.isArray(media.recommendations) &&
-          media.recommendations.length > 0 ? (
-            <div className="mt-4">
-              <h2 className="text-2xl font-bold mb-4">
-                Similar {isMovie ? "Movies" : "TV Shows"}
-              </h2>
-              <RecommendationsSlider
-                recommendations={media.recommendations}
-                isMovie={isMovie}
-              />
-            </div>
-          ) : (
-            <div className="mt-4">
-              <h2 className="text-2xl font-bold mb-4">
-                No Recommendations Available
-              </h2>
-              <p>
-                {media.recommendations === undefined
-                  ? "Recommendations data is currently unavailable."
-                  : "It seems there are no recommendations to display at this time."}
-              </p>
-            </div>
-          )}
-
-          <div className="mt-4">
-            <p>Available on:</p>
-            {/* You can display available streaming services here if needed */}
-          </div>
+        
+        <p className="mb-2 text-gray-700">
+          {genreNames} | {runtime} mins | Released: {release_date}
+        </p>
+        
+        <h2 className="text-2xl font-bold mb-2">Overview</h2>
+        <TextExpander text={media.overview} initialClampLines={5} />
+        
+        <p className="font-bold mt-4">
+          Directed by:{" "}
+          <span className="font-normal">
+            {media.director ? media.director.name : "N/A"}
+          </span>
+        </p>
+        <p className="font-bold">
+          Screenplay by:{" "}
+          <span className="font-normal">
+            {media.screenwriter ? media.screenwriter.name : "N/A"}
+          </span>
+        </p>
+        
+        <div className="flex mt-4">
+          <CastList cast={cast} />
         </div>
+
+        {/* Recommended Section */}
+        {media.recommendations && Array.isArray(media.recommendations) && media.recommendations.length > 0 ? (
+          <div className="mt-4">
+            <h2 className="text-2xl font-bold mb-4">
+              Similar {isMovie ? "Movies" : "TV Shows"}
+            </h2>
+            <RecommendationsSlider recommendations={media.recommendations} isMovie={isMovie} />
+          </div>
+        ) : (
+          <div className="mt-4">
+            <h2 className="text-2xl font-bold mb-4">
+              No Recommendations Available
+            </h2>
+            <p>
+              {media.recommendations === undefined
+                ? "Recommendations data is currently unavailable."
+                : "It seems there are no recommendations to display at this time."}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
