@@ -20,7 +20,7 @@ interface CustomDropdownProps {
 // Helper function to truncate region names
 const truncateString = (str: string, maxLength: number) => {
   if (str.length <= maxLength) return str;
-  return str.slice(0, maxLength - 3) + "..."; // Adjust for ellipsis length
+  return str.slice(0, maxLength - 3) + "...";
 };
 
 const CustomDropdown: React.FC<CustomDropdownProps> = ({
@@ -52,7 +52,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
             <span className="truncate" style={{ maxWidth: '150px' }}>
               {truncateString(
                 regions.find((region) => region.country_code === selectedRegion)?.name || "",
-                16 // Adjusted max length for better truncation
+                16
               )}
             </span>
           </span>
@@ -92,7 +92,7 @@ type Genre = {
 
 type AdvancedSearchModalProps = {
   onClose: () => void;
-  onAdvancedSearch: (criteria: Record<string, string>) => void;
+  onAdvancedSearch: (criteria: Record<string, string | string[]>) => void;
 };
 
 const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
@@ -103,11 +103,10 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
   const [selectedRegion, setSelectedRegion] = useState("AD"); // Default region set to Andorra
   const [selectedProvider, setSelectedProvider] = useState("");
   const [releaseYear, setReleaseYear] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState("");
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]); // Modified to handle multiple genres
   const [voteAverage, setVoteAverage] = useState("");
-  const [title, setTitle] = useState("");
-  const [mediaType, setMediaType] = useState("mixed"); // New state for media type
-  const [genres, setGenres] = useState<Genre[]>([]); // State to hold genres based on media type
+  const [mediaType, setMediaType] = useState("mixed");
+  const [genres, setGenres] = useState<Genre[]>([]);
 
   useEffect(() => {
     const fetchProviders = async () => {
@@ -128,27 +127,34 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
   // Set genres based on the selected media type
   useEffect(() => {
     if (mediaType === "tv") {
-      setGenres(tvGenres.genres); // Set TV genres from the imported module
-      setSelectedGenre(""); // Clear selected genre
+      setGenres(tvGenres.genres);
+      setSelectedGenres([]); // Clear selected genres
     } else if (mediaType === "movies") {
-      setGenres(movieGenres.genres); // Set movie genres from the JSON file
-      setSelectedGenre(""); // Clear selected genre
+      setGenres(movieGenres.genres);
+      setSelectedGenres([]);
     } else {
-      setGenres([]); // Clear genres for mixed
+      setGenres([]);
     }
   }, [mediaType]);
+
+  const handleGenreChange = (genreId: string) => {
+    setSelectedGenres((prevGenres) =>
+      prevGenres.includes(genreId)
+        ? prevGenres.filter((id) => id !== genreId)
+        : [...prevGenres, genreId]
+    );
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const criteria: Record<string, string> = {};
-    if (title) criteria.title = title;
+    const criteria: Record<string, string | string[]> = {};
     if (selectedRegion && selectedProvider) {
       criteria.region = selectedRegion;
       criteria.provider = selectedProvider;
     }
     if (releaseYear) criteria.year = releaseYear;
-    if (selectedGenre) criteria.genre = selectedGenre; // Send the genre ID here
+    if (selectedGenres.length > 0) criteria.genres = selectedGenres;
     if (voteAverage) criteria.vote_average = voteAverage;
 
     if (selectedRegion && !selectedProvider) {
@@ -160,152 +166,138 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-      <div className="bg-gray-900 rounded-lg w-96 p-6 relative">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-white"
-        >
-          <AiOutlineClose size={20} />
-        </button>
-        <h2 className="text-xl font-bold mb-4">Advanced Search</h2>
-        <form onSubmit={handleSearch}>
-          {/* Title Field */}
-          <label className="block text-white mb-2">Title:</label>
+<div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+  <div className="bg-gray-900 rounded-lg max-w-2xl w-full p-4 relative">
+    <button
+      onClick={onClose}
+      className="absolute top-2 right-2 text-white"
+    >
+      <AiOutlineClose size={20} />
+    </button>
+    <h2 className="text-xl font-bold mb-3">Advanced Search</h2>
+    <form onSubmit={handleSearch}>
+      <fieldset className="mb-3">
+        <legend className="text-white mb-2">Media Type:</legend>
+        <label className="flex items-center">
           <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full mb-4 p-2 rounded text-gray-700"
-            placeholder="Enter title"
+            type="radio"
+            value="tv"
+            checked={mediaType === "tv"}
+            onChange={(e) => {
+              setMediaType(e.target.value);
+              setSelectedGenres([]); 
+            }}
+            className="mr-2"
           />
+          TV Series
+        </label>
+        <label className="flex items-center">
+          <input
+            type="radio"
+            value="movies"
+            checked={mediaType === "movies"}
+            onChange={(e) => {
+              setMediaType(e.target.value);
+              setSelectedGenres([]); 
+            }}
+            className="mr-2"
+          />
+          Movies
+        </label>
+        <label className="flex items-center">
+          <input
+            type="radio"
+            value="mixed"
+            checked={mediaType === "mixed"}
+            onChange={(e) => {
+              setMediaType(e.target.value);
+              setSelectedGenres([]);
+            }}
+            className="mr-2"
+          />
+          Mixed
+        </label>
+      </fieldset>
 
-          {/* Media Type Selection */}
-          <fieldset className="mb-4">
-            <legend className="text-white mb-2">Media Type:</legend>
-            <label className="flex items-center">
-              <input
-                type="radio"
-                value="tv"
-                checked={mediaType === "tv"}
-                onChange={(e) => {
-                  setMediaType(e.target.value);
-                  setSelectedGenre(""); // Clear selected genre when switching media type
-                }}
-                className="mr-2"
-              />
-              TV Series
-            </label>
-            <label className="flex items-center">
-              <input
-                type="radio"
-                value="movies"
-                checked={mediaType === "movies"}
-                onChange={(e) => {
-                  setMediaType(e.target.value);
-                  setSelectedGenre(""); // Clear selected genre when switching media type
-                }}
-                className="mr-2"
-              />
-              Movies
-            </label>
-            <label className="flex items-center">
-              <input
-                type="radio"
-                value="mixed"
-                checked={mediaType === "mixed"}
-                onChange={(e) => {
-                  setMediaType(e.target.value);
-                  setSelectedGenre(""); // Clear selected genre when switching media type
-                }}
-                className="mr-2"
-              />
-              Mixed
-            </label>
-          </fieldset>
-
-          {/* Streaming and Digital Section */}
-          <div className="mb-4">
-            <h3 className="text-white mb-2">Streaming and Digital Providers:</h3>
-            <div className="flex justify-between">
-              <div className="w-1/2 pr-2">
-                <label className="block text-white mb-2">Select Region:</label>
-                <CustomDropdown
-                  regions={regionsData.regions}
-                  selectedRegion={selectedRegion}
-                  setSelectedRegion={setSelectedRegion}
-                />
-              </div>
-
-              <div className="w-1/2 pl-2">
-                <label className="block text-white mb-2">Select Provider:</label>
-                <select
-                  value={selectedProvider}
-                  onChange={(e) => setSelectedProvider(e.target.value)}
-                  className="w-full p-2 rounded text-gray-700"
-                >
-                  <option value="">Select a provider</option>
-                  {providers.map((provider) => (
-                    <option key={provider.provider_id} value={provider.provider_id}>
-                      {provider.provider_name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
+      {/* Streaming and Digital Section */}
+      <div className="mb-3">
+        <h3 className="text-white mb-2">Streaming and Digital Providers:</h3>
+        <div className="flex justify-between">
+          <div className="w-1/2 pr-2">
+            <label className="block text-white mb-1">Select Region:</label>
+            <CustomDropdown
+              regions={regionsData.regions}
+              selectedRegion={selectedRegion}
+              setSelectedRegion={setSelectedRegion}
+            />
           </div>
 
-          {/* Release Year Field */}
-          <label className="block text-white mb-2">Release Year:</label>
-          <input
-            type="text"
-            value={releaseYear}
-            onChange={(e) => setReleaseYear(e.target.value)}
-            className="w-full mb-4 p-2 rounded text-gray-700"
-            placeholder="Enter release year"
-          />
-
-          {/* Genre Selection */}
-          {genres.length > 0 && (
-            <div className="mb-4">
-              <label className="block text-white mb-2">Select Genre:</label>
-              <select
-                value={selectedGenre}
-                onChange={(e) => setSelectedGenre(e.target.value)}
-                className="w-full p-2 rounded text-gray-700"
-              >
-                <option value="">Select a genre</option>
-                {genres.map((genre) => (
-                  <option key={genre.id} value={genre.id}>
-                    {genre.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          {/* Vote Average Field */}
-          <label className="block text-white mb-2">Vote Average:</label>
-          <input
-            type="number"
-            value={voteAverage}
-            onChange={(e) => setVoteAverage(e.target.value)}
-            className="w-full mb-4 p-2 rounded text-gray-700"
-            placeholder="Enter vote average"
-            min="0"
-            step="0.1"
-          />
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="bg-blue-500 text-white rounded p-2 w-full hover:bg-blue-600"
-          >
-            Search
-          </button>
-        </form>
+          <div className="w-1/2 pl-2">
+            <label className="block text-white mb-1">Select Provider:</label>
+            <select
+              value={selectedProvider}
+              onChange={(e) => setSelectedProvider(e.target.value)}
+              className="w-full p-2 rounded text-gray-700"
+            >
+              <option value="">Select a provider</option>
+              {providers.map((provider) => (
+                <option key={provider.provider_id} value={provider.provider_id}>
+                  {provider.provider_name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <label className="block text-white mb-1">Release Year:</label>
+      <input
+        type="text"
+        value={releaseYear}
+        onChange={(e) => setReleaseYear(e.target.value)}
+        className="w-full mb-3 p-2 rounded text-gray-700"
+        placeholder="Enter release year"
+      />
+
+      {genres.length > 0 && (
+        <div className="mb-3">
+          <label className="block text-white mb-1">Select Genres:</label>
+          <div className="flex flex-wrap overflow-y-auto max-h-32">
+            {genres.map((genre) => (
+              <label key={genre.id} className="flex items-center mr-4 mb-2">
+                <input
+                  type="checkbox"
+                  value={genre.id.toString()}
+                  onChange={() => handleGenreChange(genre.id.toString())}
+                  checked={selectedGenres.includes(genre.id.toString())}
+                  className="mr-2"
+                />
+                {genre.name}
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <label className="block text-white mb-1">Minimum Vote Average:</label>
+      <input
+        type="text"
+        value={voteAverage}
+        onChange={(e) => setVoteAverage(e.target.value)}
+        className="w-full mb-3 p-2 rounded text-gray-700"
+        placeholder="Enter minimum vote average"
+      />
+
+      <button
+        type="submit"
+        className="w-full p-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
+      >
+        Search
+      </button>
+    </form>
+  </div>
+</div>
+
   );
 };
 
