@@ -45,7 +45,7 @@ const LikedRecommendations = () => {
       <div className="flex flex-col w-full">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold container mx-auto px-4">
-            My Recommendations
+            Liked Recommendations
           </h1>
         </div>
         <div className="container mx-auto px-4 py-6 md:h-[calc(100vh-254px)] overflow-scroll">

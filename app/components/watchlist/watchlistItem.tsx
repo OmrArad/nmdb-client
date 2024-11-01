@@ -10,6 +10,7 @@ import Ratings from "@/app/components/rating/listRating/ratings";
 import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
 import { RatedContentItem } from "@/app/types/ratings";
 import { isMediaInWatchlist } from "@/app/utils/watchlistUtils";
+import {FaFilm, FaTv } from "react-icons/fa";
 import {
   IRecommendedItem,
   IRecommendedWatchlistItem,
@@ -74,6 +75,10 @@ const WatchlistItem = ({
           <div className="flex-col justify-between mt-4">
             <div className="flex justify-between items-center">
               <div className="flex flex-col">
+              <span className="text-sm font-semibold text-gray-500 flex items-center gap-1">
+                {is_movie ? <FaFilm /> : <FaTv />} {/* Icon */}
+                {is_movie ? "Movie" : "TV Show"}
+              </span>
                 <Link
                   href={navLink}
                   className="text-xl font-bold transition-transform transform hover:scale-105"
