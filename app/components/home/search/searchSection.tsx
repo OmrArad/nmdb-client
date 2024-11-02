@@ -39,13 +39,10 @@ const SearchSection = () => {
     }
   };
 
-  const handleAdvancedSearch = async (criteria: Record<string, string>) => {
-    const query = Object.entries(criteria)
-      .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
-      .join("&");
-
+  const handleAdvancedSearch = async (criteria: Record<string, string | string[]>) => {
     try {
-      const response = await apiClient.get(`/api/advanced_search?${query}`);
+      const response = await apiClient.post("/api/advanced_search",criteria);
+      console.log("criteria",criteria);
       const data = await response.data;
       setResults(data);
       setIsOverlayOpen(true);

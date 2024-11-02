@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import regionsData from "@/app/utils/regions.json"; // Ensure this file is structured correctly
+import regionsData from "@/app/utils/regions.json";
+import Providers from "@/app/utils/regions_providers.json";
 import ReactCountryFlag from "react-country-flag";
 import handleAdvancedSearch from "@/app/components/home/search/searchSection";
 import tvGenres from "@/app/utils/TVGenres.json"; // Import TV genres
@@ -107,22 +108,6 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
   const [voteAverage, setVoteAverage] = useState("");
   const [mediaType, setMediaType] = useState("mixed");
   const [genres, setGenres] = useState<Genre[]>([]);
-
-  useEffect(() => {
-    const fetchProviders = async () => {
-      if (!selectedRegion) return;
-
-      try {
-        const response = await fetch(`/api/available-providers?region=${selectedRegion}`);
-        const data = await response.json();
-        setProviders(data.results || []);
-      } catch (error) {
-        console.error("Failed to fetch providers:", error);
-      }
-    };
-
-    fetchProviders();
-  }, [selectedRegion]);
 
   // Set genres based on the selected media type
   useEffect(() => {
@@ -240,9 +225,9 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
               className="w-full p-2 rounded text-gray-700"
             >
               <option value="">Select a provider</option>
-              {providers.map((provider) => (
-                <option key={provider.provider_id} value={provider.provider_id}>
-                  {provider.provider_name}
+              { Object.entries((Providers as Record<string, Record<string, string>>)[selectedRegion] || {}).map(([provider_id, provider_name]) => (
+                <option key={provider_id} value={provider_id}>
+                  {provider_name}
                 </option>
               ))}
             </select>
@@ -291,6 +276,7 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
       <button
         type="submit"
         className="w-full p-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
+        onClick = {handleAdvancedSearch}
       >
         Search
       </button>
