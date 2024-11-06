@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
+import AdvancedSearchModal from "../search/advancedSearchModal";
 
 const RecommendationsSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
 
   const recommendations = [
     {
@@ -25,13 +27,15 @@ const RecommendationsSection = () => {
       ],
     },
     {
-      title: "DUMMY Trending Popular Shows",
-      label: "Watch Popular Shows",
-      href: "user/popular-shows",
+      title: "Use our Discovery Wizard",
+      label: "Discover Content",
+      href: "user/popular-shows", // Keep this for reference, but we won't use it
       text: [
-        "Discover the most popular shows trending right now!",
-        "Find your next favorite series!",
+        "Discover content according to multiple filters!",
+        "Find your next favorite series or movie!",
       ],
+      // Special flag to open modal
+      openModal: true,
     },
     {
       title: "DUMMY New Movie Releases",
@@ -67,6 +71,12 @@ const RecommendationsSection = () => {
     setCurrentSlide(index);
   };
 
+  const handleButtonClick = (item: any) => {
+    if (item.openModal) {
+      setIsAdvancedSearchOpen(true);
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
@@ -87,12 +97,12 @@ const RecommendationsSection = () => {
                   <div key={idx}>{line}</div>
                 ))}
               </div>
-              <Link
+              <button
                 className="w-full hover:bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 mt-2 h-12 hover:text-black font-medium py-3 px-4 rounded-2xl transition duration-300 border hover:border-2 bg-custom-gradient-1 inline-flex items-center justify-center"
-                href={item.href}
+                onClick={() => handleButtonClick(item)} // Trigger modal open on click
               >
                 {item.label}
-              </Link>
+              </button>
 
               {/* Transparent arrow buttons for navigation */}
               <button
@@ -127,6 +137,17 @@ const RecommendationsSection = () => {
           ))}
         </div>
       </div>
+
+      {/* Render AdvancedSearchModal conditionally */}
+      {isAdvancedSearchOpen && (
+        <AdvancedSearchModal
+          onClose={() => setIsAdvancedSearchOpen(false)}
+          onAdvancedSearch={(criteria) => {
+            console.log("Advanced search criteria:", criteria);
+            setIsAdvancedSearchOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 };

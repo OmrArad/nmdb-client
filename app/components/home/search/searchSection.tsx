@@ -2,14 +2,12 @@
 import { useState, useRef, useEffect } from "react";
 import SearchBar from "./searchBar";
 import SearchResults from "./searchResults";
-import AdvancedSearchModal from "./advancedSearchModal";
 import { apiClient } from "@/app/api/auth/auth";
 import { AiOutlineClose } from "react-icons/ai";
 
 const SearchSection = () => {
   const [results, setResults] = useState<any[]>([]);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
-  const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
 
@@ -36,19 +34,6 @@ const SearchSection = () => {
       setSearchHistory(updatedHistory);
     } catch (error: any) {
       console.error(error.message); // Consider adding user feedback here
-    }
-  };
-
-  const handleAdvancedSearch = async (criteria: Record<string, string | string[]>) => {
-    try {
-      const response = await apiClient.post("/api/advanced_search",criteria);
-      console.log("criteria",criteria);
-      const data = await response.data;
-      setResults(data);
-      setIsOverlayOpen(true);
-    } catch (error: any) {
-      console.error("Advanced search failed:", error);
-      // Consider adding user feedback here
     }
   };
 
@@ -84,13 +69,6 @@ const SearchSection = () => {
       <h2 className="text-xl mb-7">Explore your favorite movies and TV shows</h2>
 
       <SearchBar onSearch={handleSearch} />
-
-      <button
-        onClick={() => setIsAdvancedSearchOpen(true)}
-        className="mt-4 bg-blue-600 text-white py-2 px-4 rounded"
-      >
-        Advanced Search
-      </button>
 
       <div className="mt-4">
         <div className="mt-4" style={{ height: searchHistory.length > 0 ? "auto" : "48px" }}>
@@ -141,13 +119,6 @@ const SearchSection = () => {
             </div>
           </div>
         </div>
-      )}
-
-      {isAdvancedSearchOpen && (
-        <AdvancedSearchModal
-          onClose={() => setIsAdvancedSearchOpen(false)}
-          onAdvancedSearch={handleAdvancedSearch}
-        />
       )}
     </div>
   );

@@ -241,7 +241,7 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
         value={releaseYear}
         onChange={(e) => setReleaseYear(e.target.value)}
         className="w-full mb-3 p-2 rounded text-gray-700"
-        placeholder="Enter release year"
+        placeholder="Enter latest release year"
       />
 
       {genres.length > 0 && (
