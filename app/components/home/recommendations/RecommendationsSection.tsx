@@ -1,12 +1,39 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import AdvancedSearchModal from "../search/advancedSearchModal";
+import { getDiscovery } from "@/app/api/discover/DiscoverServices";
+import { DiscoverResponse } from "@/app/types/discover";
+import {AiOutlineClose} from "react-icons/ai";
+import SearchResults from "../search/searchResults";
+import { SearchResponse } from "@/app/types/search";
 
 const RecommendationsSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+  const [discoveryResults, setDiscoveryResults] = useState<any[]>([]);
+  const modalRef  = useRef(null);
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+
+
+    // Fetch discovery data using criteria
+    const handleAdvancedSearch = async (criteria: { genres?: string[]; year?: string; vote_average?: string; region?: string; provider?: string; } | undefined) => {
+      try {
+        const data = await getDiscovery(criteria);
+        setDiscoveryResults(data);
+        setIsOverlayOpen(true);
+        console.log("Discovery results as saved by client:", discoveryResults);
+      } catch (error) {
+        console.error("Error fetching discovery data:", error);
+      }
+      setIsAdvancedSearchOpen(false); // Close modal after search
+    };
+
+    const clearResults = () => {
+      setDiscoveryResults([]); // Clear the results
+      setIsOverlayOpen(false); // Close the modal
+    };
 
   const recommendations = [
     {
@@ -142,11 +169,33 @@ const RecommendationsSection = () => {
       {isAdvancedSearchOpen && (
         <AdvancedSearchModal
           onClose={() => setIsAdvancedSearchOpen(false)}
-          onAdvancedSearch={(criteria) => {
-            console.log("Advanced search criteria:", criteria);
-            setIsAdvancedSearchOpen(false);
-          }}
+          onAdvancedSearch={handleAdvancedSearch}
         />
+      )}
+            {isOverlayOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+          <div
+            ref={modalRef}
+            className="w-11/12 max-w-7xl bg-gray-900 bg-opacity-80 pb-6 pt-0 rounded-lg overflow-y-auto"
+          >
+            <div className="flex flex-row justify-end sticky top-0 backdrop-blur-md p-4 pr-5 bg-gray-900 bg-opacity-30">
+              <button
+                onClick={clearResults}
+                className="text-white bg-gray-800 bg-opacity-60 hover:bg-gray-700 font-bold p-1.5 rounded-full hover:bg-opacity-100"
+              >
+                <AiOutlineClose size={20} />
+              </button>
+            </div>
+
+            <div className="h-[70vh] my-6 px-6">
+              {discoveryResults.length > 0 ? (
+                <SearchResults results={discoveryResults} />
+              ) : (
+                <h1 className="font-bold text-center">NO RESULTS FOUND</h1>
+              )}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

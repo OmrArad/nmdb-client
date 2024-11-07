@@ -3,9 +3,9 @@ import { AiOutlineClose } from "react-icons/ai";
 import regionsData from "@/app/utils/regions.json";
 import Providers from "@/app/utils/regions_providers.json";
 import ReactCountryFlag from "react-country-flag";
-import handleAdvancedSearch from "@/app/components/home/search/searchSection";
 import tvGenres from "@/app/utils/TVGenres.json"; // Import TV genres
 import movieGenres from "@/app/utils/MovieGenres.json"; // Import movie genres
+import { getDiscovery } from "@/app/api/discover/DiscoverServices";
 
 type Region = {
   country_code: string;
@@ -40,6 +40,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   return (
     <div className="relative">
       <button
+        type = "button"
         onClick={toggleDropdown}
         className="w-full p-2 rounded text-gray-700 bg-white flex items-center justify-between"
       >
@@ -101,7 +102,7 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
   onAdvancedSearch,
 }) => {
   const [providers, setProviders] = useState<any[]>([]);
-  const [selectedRegion, setSelectedRegion] = useState("AD"); // Default region set to Andorra
+  const [selectedRegion, setSelectedRegion] = useState(""); // Default region set to Andorra
   const [selectedProvider, setSelectedProvider] = useState("");
   const [releaseYear, setReleaseYear] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]); // Modified to handle multiple genres
@@ -143,6 +144,7 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
     if (voteAverage) criteria.vote_average = voteAverage;
 
     if (selectedRegion && !selectedProvider) {
+      alert("Please select a provider");
       return;
     }
 
@@ -276,7 +278,7 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
       <button
         type="submit"
         className="w-full p-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
-        onClick = {handleAdvancedSearch}
+        onClick = {handleSearch}
       >
         Search
       </button>
