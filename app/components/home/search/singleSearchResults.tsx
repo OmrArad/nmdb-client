@@ -7,18 +7,10 @@ import { useWatchlist } from "@/app/context/watchlistContext";
 import { usePathname } from "next/navigation";
 import { SearchResult } from "@/app/types/search";
 import { FaStar } from "react-icons/fa";
+import { FaFilm, FaTv } from "react-icons/fa"; // Importing movie and TV icons
 import UserRating from "../../rating/listRating/userRating";
 
 type SearchResultProps = { result: SearchResult };
-// result: {
-//   id: string;
-//   poster_path: string | null;
-//   title?: string;
-//   name?: string;
-//   release_date?: string;
-//   first_air_date?: string;
-//   vote_average: number | null;
-// };
 
 const getHref = (pathname: string, result: SearchResult) =>
   result.media_kind === "movie"
@@ -46,6 +38,7 @@ const SingleSearchResult: React.FC<SearchResultProps> = ({ result }) => {
     release_date,
     first_air_date,
     vote_average,
+    media_kind, // Added media_kind here
   } = result;
 
   const pathname = usePathname();
@@ -92,13 +85,12 @@ const SingleSearchResult: React.FC<SearchResultProps> = ({ result }) => {
           {release_date || first_air_date}
         </p>
       </Link>
-      <div className="flex gap-2 items-center justify-between bottom-0 rounded-br-md  py-1 px-2 text-sm font-bold cursor-default">
+      <div className="flex gap-2 items-center justify-between bottom-0 rounded-br-md py-1 px-2 text-sm font-bold cursor-default w-full">
         <div className="flex items-center text-neutral-300 gap-1">
           <span className="cursor-text">{vote_average.toFixed(1)}</span>
           <FaStar className="text-yellow-400" />
         </div>
         <UserRating
-          // media={media}
           mediaId={id.toString()}
           title={title || name!}
           isMovie={title ? true : false}
@@ -106,6 +98,14 @@ const SingleSearchResult: React.FC<SearchResultProps> = ({ result }) => {
           darkTheme={true}
           classname="border-hidden"
         />
+        {/* Add the TV or Movie icon */}
+        <div className="flex items-center gap-1">
+          {media_kind === "movie" ? (
+            <FaFilm className="text-yellow-400" />
+          ) : (
+            <FaTv className="text-blue-400" />
+          )}
+        </div>
       </div>
     </div>
   );
