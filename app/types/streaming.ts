@@ -25,6 +25,6 @@ export interface StreamingService {
 export interface StreamingServiceData {
   display_priority: number;
   logo_path: string;
-  name: string;
+  provider_name: string;
   provider_id: number;
 }
