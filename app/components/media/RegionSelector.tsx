@@ -1,34 +1,48 @@
 "use client";
-import { useState } from "react";
+import { useEffect } from "react";
 import CustomDropdown from "@/app/utils/CustomDropdown";
 import regionsData from "@/app/utils/regions.json";
+import { useRegion } from "@/app/context/RegionProvider";
 
 type RegionSelectorProps = {
   initialRegion: string;
-  onRegionChange: (region: string) => void;
+  onRegionChange?: (region: string) => void;  // Made optional since we're using context
 };
 
 const RegionSelector: React.FC<RegionSelectorProps> = ({ 
   initialRegion, 
   onRegionChange 
 }) => {
-  const [selectedRegion, setSelectedRegion] = useState(initialRegion);
+  const { region, updateRegion } = useRegion();
 
-  const handleRegionChange = (region: string) => {
-    setSelectedRegion(region);
-    onRegionChange(region);
+  // Set initial region when component mounts
+  useEffect(() => {
+    if (initialRegion && region !== initialRegion) {
+      updateRegion(initialRegion);
+    }
+  }, [initialRegion, region, updateRegion]);
+
+
+  useEffect(() => {
+    console.log("Updated region state:", region);
+  }, [region]);
+
+  const handleRegionChange = (newRegion: string) => {
+    updateRegion(newRegion);
   };
 
   const clearRegion = () => {
-    setSelectedRegion("");
-    onRegionChange("");
+    updateRegion("");
+    if (onRegionChange) {
+      onRegionChange("");
+    }
   };
 
   return (
     <div>
       <CustomDropdown
         regions={regionsData.regions}
-        selectedRegion={selectedRegion}
+        selectedRegion={region}  // Use context region instead of local state
         setSelectedRegion={(value) => handleRegionChange(value as string)}
         clearRegion={clearRegion}
       />

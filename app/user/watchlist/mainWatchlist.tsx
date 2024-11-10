@@ -8,14 +8,13 @@ import { redirect } from "next/navigation";
 import WatchlistStreamingServices from "@/app/components/streamingServices/watchlistStreamingServices";
 import { IWatchlistItem } from "@/app/types/watchlist";
 import RegionSelector from "@/app/components/media/RegionSelector";
+import { useRegion } from "@/app/context/RegionProvider";
 
 const MainWatchlist = () => {
   const { watchlist } = useWatchlist();
-  const [filteredWatchlist, setFilteredWatchlist] = useState<IWatchlistItem[]>(
-    []
-  );
+  const [filteredWatchlist, setFilteredWatchlist] = useState<IWatchlistItem[]>([]);
   const { data: session, status } = useSession();
-  const [selectedRegion, setSelectedRegion] = useState('US');
+  const { region, updateRegion } = useRegion(); // Get both region and updateRegion
   
   const filteredWatchlistItems =
     filteredWatchlist.length > 0 ? filteredWatchlist : watchlist?.Content || [];
@@ -43,7 +42,13 @@ const MainWatchlist = () => {
     if (watchlist) {
       setFilteredWatchlist([]);
     }
-  }, [selectedRegion, watchlist]);
+  }, [region, watchlist]);
+
+  const handleRegionChange = (newRegion: string) => {
+    updateRegion(newRegion); // Update the global region state
+    console.log("Region changed to: ", newRegion);
+    console.log("Region state: ", region);
+  };
 
   if (!watchlist) {
     return <p>Loading watchlist...</p>;
@@ -58,14 +63,14 @@ const MainWatchlist = () => {
         <div className="mb-2">
           <h3 className="text-lg font-semibold">Check Streaming Availability by Region:</h3>
           <RegionSelector 
-            initialRegion={selectedRegion} 
-            onRegionChange={setSelectedRegion}
+            initialRegion={region}
+            onRegionChange={handleRegionChange}  // Add the change handler
           />
         </div>
         <div className="container mx-auto px-4 py-6 md:h-[calc(100vh-254px)] overflow-scroll">
           <WatchlistStreamingServices
             setFilteredWatchlist={setFilteredWatchlist}
-            region={selectedRegion}
+            region={region}
           />
           {filteredWatchlistItems.map((media) => (
             <WatchlistItem key={media.watchlist_item_id} media={media} />

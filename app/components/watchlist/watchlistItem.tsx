@@ -47,7 +47,7 @@ const WatchlistItem = ({
   );
   const router = useRouter();
 
-  console.log(isMediaInWatchlist(watchlist, tmdb_id));
+  
   const navLink = is_movie ? `/movies/${tmdb_id}` : `/tv/${tmdb_id}`;
 
   const handleNavigate = () => router.push(navLink);

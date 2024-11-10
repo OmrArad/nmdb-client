@@ -7,6 +7,7 @@ import tvGenres from "@/app/utils/TVGenres.json";
 import movieGenres from "@/app/utils/MovieGenres.json";
 import { getDiscovery } from "@/app/api/discover/DiscoverServices";
 import CustomDropdown from "@/app/utils/CustomDropdown";
+import { useRegion } from "@/app/context/RegionProvider";
 
 type Genre = {
   id: number;
@@ -23,14 +24,14 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
   onAdvancedSearch,
 }) => {
   const [providers, setProviders] = useState<any[]>([]);
-  const [selectedRegion, setSelectedRegion] = useState("");
+  const { region, updateRegion } = useRegion(); // Use global region context
   const [selectedProvider, setSelectedProvider] = useState("");
   const [releaseYear, setReleaseYear] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [voteAverage, setVoteAverage] = useState("");
   const [mediaType, setMediaType] = useState("mixed");
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [isLoading, setIsLoading] = useState(false); // Currently unused, might be used later to show a loading spinner
+  const [isLoading, setIsLoading] = useState(false);
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
@@ -61,7 +62,7 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
   };
 
   const clearRegion = () => {
-    setSelectedRegion("");
+    updateRegion(""); // Use updateRegion from context
     setSelectedProvider("");
   };
 
@@ -69,15 +70,15 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
     e.preventDefault();
 
     const criteria: Record<string, string | string[]> = {};
-    if (selectedRegion && selectedProvider) {
-      criteria.region = selectedRegion;
+    if (region && selectedProvider) {
+      criteria.region = region;
       criteria.provider = selectedProvider;
     }
     if (releaseYear) criteria.year = releaseYear;
     if (selectedGenres.length > 0) criteria.genres = selectedGenres;
     if (voteAverage) criteria.vote_average = voteAverage;
 
-    if (selectedRegion && !selectedProvider) {
+    if (region && !selectedProvider) {
       alert("Please select a provider");
       return;
     }
@@ -147,8 +148,8 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
                 <label className="block text-white mb-1">Select Region:</label>
                 <CustomDropdown
                   regions={regionsData.regions}
-                  selectedRegion={selectedRegion}
-                  setSelectedRegion={setSelectedRegion}
+                  selectedRegion={region}
+                  setSelectedRegion={(value) => updateRegion(typeof value === 'function' ? value(region) : value)}
                   clearRegion={clearRegion}
                 />
               </div>
@@ -156,24 +157,23 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
               <div className="w-1/2 pl-2">
                 <label className="block text-white mb-1">Select Provider:</label>
                 <select
-  value={selectedProvider}
-  onChange={(e) => setSelectedProvider(e.target.value)}
-  className="w-full p-2 rounded text-gray-700"
->
-  <option value="">Select a provider</option>
-  {Object.entries(
-    (Providers as Record<string, Record<string, string>>)[selectedRegion] || {}
-  )
-    .sort(([providerIdA, providerNameA], [providerIdB, providerNameB]) =>
-      providerNameA.localeCompare(providerNameB)
-    ) // Sort providers alphabetically
-    .map(([provider_id, provider_name]) => (
-      <option key={provider_id} value={provider_id}>
-        {provider_name}
-      </option>
-    ))}
-</select>
-
+                  value={selectedProvider}
+                  onChange={(e) => setSelectedProvider(e.target.value)}
+                  className="w-full p-2 rounded text-gray-700"
+                >
+                  <option value="">Select a provider</option>
+                  {Object.entries(
+                    (Providers as Record<string, Record<string, string>>)[region] || {}
+                  )
+                    .sort(([providerIdA, providerNameA], [providerIdB, providerNameB]) =>
+                      providerNameA.localeCompare(providerNameB)
+                    )
+                    .map(([provider_id, provider_name]) => (
+                      <option key={provider_id} value={provider_id}>
+                        {provider_name}
+                      </option>
+                    ))}
+                </select>
               </div>
             </div>
           </div>

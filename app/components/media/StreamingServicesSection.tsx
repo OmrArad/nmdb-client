@@ -1,6 +1,6 @@
 "use client";
-import { useState } from 'react';
 import RegionSelector from './RegionSelector';
+import { useRegion } from "@/app/context/RegionProvider";
 
 interface StreamingService {
   provider_id?: string;
@@ -17,26 +17,22 @@ interface StreamingServicesSectionProps {
 }
 
 const StreamingServicesSection: React.FC<StreamingServicesSectionProps> = ({ services }) => {
-  const [selectedRegion, setSelectedRegion] = useState('US');
+  const { region } = useRegion(); // Use global region state
   
-  const servicesForRegion = services[selectedRegion] || [];
-  console.log("services for region are" , servicesForRegion);
+  const servicesForRegion = services[region] || [];
   
   return (
     <div className="mt-4">
       <div className="mb-2">
         <h3 className="text-lg font-semibold">Check Streaming Availability:</h3>
-        <RegionSelector 
-          initialRegion={selectedRegion} 
-          onRegionChange={setSelectedRegion}
-        />
+        <RegionSelector initialRegion={region} />
       </div>
       
-      {selectedRegion && (
+      {region && (
         servicesForRegion.length > 0 ? (
-          <div className="flex items-start mt-4"> {/* Changed from items-center to items-start */}
+          <div className="flex items-start mt-4">
             <p className="font-bold mr-2 text-lg">Available on:</p>
-            <div className="flex overflow-x-auto whitespace-nowrap space-x-4 scrollbar-hide"> {/* Increased space-x */}
+            <div className="flex overflow-x-auto whitespace-nowrap space-x-4 scrollbar-hide">
               {servicesForRegion.map((service) => (
                 <div 
                   key={service.provider_id} 
@@ -46,21 +42,15 @@ const StreamingServicesSection: React.FC<StreamingServicesSectionProps> = ({ ser
                     src={`https://image.tmdb.org/t/p/w200${service.logo_path}`} 
                     alt={service.provider_name} 
                     title={service.provider_name}
-                    className="h-8 w-auto mb-1" /* Added margin bottom */
+                    className="h-8 w-auto mb-1"
                   />
-                  {/* Added provider name, currently unused due to bad design */}
-                  {/*                   
-                  <span className="text-xs text-center text-gray-600">
-                    {service.provider_name}
-                  </span>
-                  */}
                 </div>
               ))}
             </div>
           </div>
         ) : (
           <p className="mt-4 text-gray-600">
-            No streaming services available in {selectedRegion}
+            No streaming services available in {region}
           </p>
         )
       )}

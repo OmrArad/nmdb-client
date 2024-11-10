@@ -14,10 +14,6 @@ import { UserData } from "@/app/types/auth";
 
 const links = [
   {
-    name: "Profile",
-    href: "/user",
-  },
-  {
     name: "Watchlist",
     href: "/user/watchlist",
   },
