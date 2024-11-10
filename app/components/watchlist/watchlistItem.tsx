@@ -11,6 +11,7 @@ import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
 import { RatedContentItem } from "@/app/types/ratings";
 import { isMediaInWatchlist } from "@/app/utils/watchlistUtils";
 import {FaFilm, FaTv } from "react-icons/fa";
+import RegionSelector from "../media/RegionSelector";
 import {
   IRecommendedItem,
   IRecommendedWatchlistItem,
@@ -35,6 +36,7 @@ const WatchlistItem = ({
     tmdb_id,
     video_links,
     is_movie,
+    streaming_services
   } = media;
 
   const { watchlist, updateWatchlist } = useWatchlist();

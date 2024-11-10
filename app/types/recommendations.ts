@@ -44,7 +44,7 @@ export interface IRecommendedItem {
   poster_path: string;
   release_date: string;
   small_poster_path: string;
-  streaming_services: string | null;
+  streaming_services: string[] | null;
   title: string;
   tmdb_rating: number;
   trailer: string | null;
@@ -70,6 +70,7 @@ export interface IRecommendedWatchlistItem {
   user_rating: number | null;
   video_links: string[];
   watchlist_item_id: string;
+  streaming_services: string[]; 
 }
 
 export interface RecommendationFeedbackResponse {
