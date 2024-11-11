@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useState, useEffect, useRef} from "react";
+import { useRouter } from "next/navigation";
 import AdvancedSearchModal from "../search/advancedSearchModal";
 import { getDiscovery } from "@/app/api/discover/DiscoverServices";
 import { DiscoverResponse } from "@/app/types/discover";
@@ -10,30 +11,30 @@ import SearchResults from "../search/searchResults";
 import { SearchResponse } from "@/app/types/search";
 
 const RecommendationsSection = () => {
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
   const [discoveryResults, setDiscoveryResults] = useState<any[]>([]);
-  const modalRef  = useRef(null);
+  const modalRef = useRef(null);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
+  // Fetch discovery data using criteria
+  const handleAdvancedSearch = async (criteria: { genres?: string[]; year?: string; vote_average?: string; region?: string; provider?: string; } | undefined) => {
+    try {
+      const data = await getDiscovery(criteria);
+      setDiscoveryResults(data);
+      setIsOverlayOpen(true);
+      console.log("Discovery results as saved by client:", discoveryResults);
+    } catch (error) {
+      console.error("Error fetching discovery data:", error);
+    }
+    setIsAdvancedSearchOpen(false); // Close modal after search
+  };
 
-    // Fetch discovery data using criteria
-    const handleAdvancedSearch = async (criteria: { genres?: string[]; year?: string; vote_average?: string; region?: string; provider?: string; } | undefined) => {
-      try {
-        const data = await getDiscovery(criteria);
-        setDiscoveryResults(data);
-        setIsOverlayOpen(true);
-        console.log("Discovery results as saved by client:", discoveryResults);
-      } catch (error) {
-        console.error("Error fetching discovery data:", error);
-      }
-      setIsAdvancedSearchOpen(false); // Close modal after search
-    };
-
-    const clearResults = () => {
-      setDiscoveryResults([]); // Clear the results
-      setIsOverlayOpen(false); // Close the modal
-    };
+  const clearResults = () => {
+    setDiscoveryResults([]); // Clear the results
+    setIsOverlayOpen(false); // Close the modal
+  };
 
   const recommendations = [
     {
@@ -64,24 +65,6 @@ const RecommendationsSection = () => {
       // Special flag to open modal
       openModal: true,
     },
-    {
-      title: "DUMMY New Movie Releases",
-      label: "Discover New Movies",
-      href: "user/new-movies",
-      text: [
-        "Find out what new movies are being released this month!",
-        "Don't miss out on the latest hits!",
-      ],
-    },
-    {
-      title: "DUMMY Top Trending Series",
-      label: "Check Trending Series",
-      href: "user/trending-series",
-      text: [
-        "Catch up on the trending series everyone's talking about!",
-        "Join the conversation with your friends!",
-      ],
-    },
   ];
 
   const nextSlide = () => {
@@ -101,6 +84,8 @@ const RecommendationsSection = () => {
   const handleButtonClick = (item: any) => {
     if (item.openModal) {
       setIsAdvancedSearchOpen(true);
+    } else if (item.href) {
+      router.push(`/${item.href}`); // Add leading slash for absolute path
     }
   };
 
@@ -126,7 +111,7 @@ const RecommendationsSection = () => {
               </div>
               <button
                 className="w-full hover:bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 mt-2 h-12 hover:text-black font-medium py-3 px-4 rounded-2xl transition duration-300 border hover:border-2 bg-custom-gradient-1 inline-flex items-center justify-center"
-                onClick={() => handleButtonClick(item)} // Trigger modal open on click
+                onClick={() => handleButtonClick(item)}
               >
                 {item.label}
               </button>
@@ -134,14 +119,20 @@ const RecommendationsSection = () => {
               {/* Transparent arrow buttons for navigation */}
               <button
                 className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-transparent border-none cursor-pointer opacity-50 hover:opacity-100 transition-opacity duration-300"
-                onClick={prevSlide}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevSlide();
+                }}
                 aria-label="Previous Slide"
               >
                 &#9664; {/* Left arrow */}
               </button>
               <button
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-none cursor-pointer opacity-50 hover:opacity-100 transition-opacity duration-300"
-                onClick={nextSlide}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextSlide();
+                }}
                 aria-label="Next Slide"
               >
                 &#9654; {/* Right arrow */}
@@ -172,7 +163,8 @@ const RecommendationsSection = () => {
           onAdvancedSearch={handleAdvancedSearch}
         />
       )}
-            {isOverlayOpen && (
+
+      {isOverlayOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
           <div
             ref={modalRef}

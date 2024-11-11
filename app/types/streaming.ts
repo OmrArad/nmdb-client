@@ -19,6 +19,8 @@ export type Services = {
 export interface StreamingService {
   count: number;
   tmdb_ids: TMDBItem[]; // Adjust types as necessary
+  logo_path: string;
+
 }
 
 // Define the structure of the streaming service data
