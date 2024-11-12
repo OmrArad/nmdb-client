@@ -36,7 +36,7 @@ export function RecommendationsSlider({
         {recommendations.map((item, index) => {
           const mediaType = isMovie ? "Movie" : "TVShow";
           const kind = isMovie ? "movie" : "tv";
-
+          console.log(item)
           return (
             <div key={index} className="min-w-[20%]" style={{ flex: '0 0 20%', scrollSnapAlign: 'start' }}>
               <MediaCard

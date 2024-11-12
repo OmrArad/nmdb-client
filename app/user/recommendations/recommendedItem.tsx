@@ -47,10 +47,10 @@ const RecommendedItem = ({
         is_movie,
         media.tmdb_id,
         isLiked,
-        media.recommended_by
+        media.Recommended_by
       );
 
-      console.log("recommendationWatchlist: ", recommendationWatchlist);
+      //console.log("recommendationWatchlist: ", recommendationWatchlist);
 
       setFeedbackGiven(isLiked);
     } catch (error) {
@@ -65,8 +65,8 @@ const RecommendedItem = ({
       setFeedbackGiven(null);
     }
   }, [resetFeedbackOnRefresh, media]);
-
-  return (
+  if (feedbackGiven !== null) return null;
+  return (   
     <div className="bg-gray-100 border border-gray-300 rounded-xl overflow-hidden shadow-lg mb-4 relative">
       <div className="md:flex items-start p-4 relative">
         <Image
@@ -107,6 +107,10 @@ const RecommendedItem = ({
             </div>
           </div>
           <p className="text-sm mt-2">{overview}</p>
+          
+          <div className="absolute bottom-2 right-2 text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded">
+         Recommended by: {media.Recommended_by}
+          </div>
 
           {video_links?.length > 0 && (
             <TrailerButtonClientWrapper videoKey={media.video_links} />
