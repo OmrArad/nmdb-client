@@ -1,10 +1,12 @@
 "use client";
 import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
+import { updateServerRegion } from "../api/region/regionServices";
 
 // Create an interface for the region context
 interface RegionContextProps {
   region: string;
   updateRegion: (newRegion: string) => void;
+  updateRegionLocally: (newRegion: string) => void;
 }
 
 // Export the context for direct access if needed
@@ -23,14 +25,31 @@ export const RegionProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const updateRegion = (newRegion: string) => {
-    setRegion(newRegion);
-    // Save to localStorage when region is updated
-    localStorage.setItem('userRegion', newRegion);
+  const updateRegion = async (newRegion: string) => {
+    try {
+      setRegion(newRegion);
+      // Save to localStorage when region is updated
+      localStorage.setItem('userRegion', newRegion);
+      const res = await updateServerRegion({ region: newRegion });
+    } catch (error) {
+      console.error("Failed to update region:", error);
+    }
   };
 
+
+  const updateRegionLocally = (newRegion: string) => {
+    try {
+      setRegion(newRegion);
+      // Save to localStorage when region is updated
+      localStorage.setItem('userRegion', newRegion);
+    } catch (error) {
+      console.error("Failed to update region:", error);
+    }
+  };
+  
+
   return (
-    <RegionContext.Provider value={{ region, updateRegion }}>
+    <RegionContext.Provider value={{ region, updateRegion, updateRegionLocally }}>
       {children}
     </RegionContext.Provider>
   );

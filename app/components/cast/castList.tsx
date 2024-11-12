@@ -28,17 +28,21 @@ export function CastList({ cast }: CastListProps) {
             className="flex flex-col items-center min-w-[100px] sm:min-w-[150px]"
           >
             <Image
-              src={`https://image.tmdb.org/t/p/w500${member.profile_path}`}
-              alt={member.name}
+              src={
+                member?.profile_path
+                  ? `https://image.tmdb.org/t/p/w500${member.profile_path}`
+                  : "https://i.postimg.cc/g0mp1XPz/istockphoto-870832662-612x612.jpg" // Fallback image path
+              }
+              alt={member?.name || "Unknown Actor"} // Fallback alt text
               width={150}
               height={225}
               className="rounded-md"
             />
             <h3 className="mt-2 text-sm sm:text-lg font-medium text-center">
-              {member.name}
+              {member?.name || "Unknown Actor"} {/* Fallback name */}
             </h3>
             <p className="text-xs sm:text-sm text-gray-500 text-center">
-              {member.character}
+              {member?.character || "Unknown Character"} {/* Fallback character */}
             </p>
           </Link>
         ))}
@@ -51,4 +55,4 @@ export function CastList({ cast }: CastListProps) {
       </button>
     </div>
   );
-}
+}  

@@ -19,6 +19,7 @@ export interface SearchResult {
   vote_average: number; // Average vote rating
   vote_count: number; // Number of votes
   origin_country?: string[]; // Only for TV shows, country of origin
+  streaming_services: string[]; // Array of streaming services
 }
 
 // Type for the API response which contains an array of content (SearchResults)

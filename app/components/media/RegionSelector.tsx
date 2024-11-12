@@ -13,7 +13,7 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({
   initialRegion, 
   onRegionChange 
 }) => {
-  const { region, updateRegion } = useRegion();
+  const { region, updateRegion, updateRegionLocally } = useRegion();
 
   // Set initial region when component mounts
   useEffect(() => {
@@ -32,10 +32,8 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({
   };
 
   const clearRegion = () => {
-    updateRegion("");
-    if (onRegionChange) {
-      onRegionChange("");
-    }
+    updateRegionLocally("")
+
   };
 
   return (

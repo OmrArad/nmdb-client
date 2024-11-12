@@ -28,17 +28,23 @@ const ActorDetails = ({ actor, mediaAppearances }: ActorDetailsProps) => {
       <div className="flex flex-col items-center sm:flex-row">
         <div className="flex-shrink-0">
           <Image
-            src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
-            alt={actor.name}
+            src={
+              actor?.profile_path
+                ? `https://image.tmdb.org/t/p/w500${actor.profile_path}`
+                : "https://i.postimg.cc/g0mp1XPz/istockphoto-870832662-612x612.jpg" // Fallback image path
+            }
+            alt={actor?.name || "Unknown Actor"} // Fallback alt text
             width={300}
             height={450}
             className="rounded-md"
           />
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-6 overflow-hidden">
-          <h1 className="text-3xl font-bold">{actor.name}</h1>
+          <h1 className="text-3xl font-bold">
+            {actor?.name || "Unknown Actor"} {/* Fallback name */}
+          </h1>
           <p className="text-sm text-gray-500 mt-2">
-            {actor.known_for_department}
+            {actor?.known_for_department || "Unknown Department"} {/* Fallback text */}
           </p>
 
           <TextExpander text={actor.biography} initialClampLines={5} />
