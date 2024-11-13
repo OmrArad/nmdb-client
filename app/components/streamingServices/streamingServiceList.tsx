@@ -42,6 +42,7 @@ const StreamingServiceList: React.FC<StreamingServiceListProps> = ({
             gradientColor={gradientColor}
             logoSrc={"https://image.tmdb.org/t/p/original/" + service.logo_path}
             isActive={isActive}
+            price = {service.price}
             onClick={() => handleFilterByService(serviceName)}
           />
         );

@@ -8,6 +8,7 @@ interface StreamingServiceCardProps {
   gradientColor: string;
   isActive: boolean;
   logoSrc?: string;
+  price: string | null;  // Price is optional
   onClick: () => void;
 }
 
@@ -17,6 +18,7 @@ const StreamingServiceCard: React.FC<StreamingServiceCardProps> = ({
   gradientColor,
   isActive,
   logoSrc,
+  price,
   onClick,
 }) => {
   const logo = getLogoForService(serviceName);
@@ -66,6 +68,13 @@ const StreamingServiceCard: React.FC<StreamingServiceCardProps> = ({
           {count}
         </div>
       </div>
+
+      {/* Conditionally display price */}
+      {price != null && (
+        <div className="mt-2 text-sm text-gray-700">
+          Price: ${price}
+        </div>
+      )}
     </div>
   );
 };

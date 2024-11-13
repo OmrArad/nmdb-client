@@ -14,7 +14,7 @@ const MainWatchlist = () => {
   const { watchlist } = useWatchlist();
   const [filteredWatchlist, setFilteredWatchlist] = useState<IWatchlistItem[]>([]);
   const { data: session, status } = useSession();
-  const { region, updateRegion } = useRegion(); // Get both region and updateRegion
+  const { region } = useRegion(); // Use the region context instead of local state
   
   const filteredWatchlistItems =
     filteredWatchlist.length > 0 ? filteredWatchlist : watchlist?.Content || [];
@@ -42,13 +42,7 @@ const MainWatchlist = () => {
     if (watchlist) {
       setFilteredWatchlist([]);
     }
-  }, [region, watchlist]);
-
-  const handleRegionChange = (newRegion: string) => {
-    updateRegion(newRegion); // Update the global region state
-    console.log("Region changed to: ", newRegion);
-    console.log("Region state: ", region);
-  };
+  }, [region, watchlist]); // Changed selectedRegion to region
 
   if (!watchlist) {
     return <p>Loading watchlist...</p>;
@@ -64,7 +58,6 @@ const MainWatchlist = () => {
           <h3 className="text-lg font-semibold">Check Streaming Availability by Region:</h3>
           <RegionSelector 
             initialRegion={region}
-            onRegionChange={handleRegionChange}  // Add the change handler
           />
         </div>
         <div className="container mx-auto px-4 py-6 md:h-[calc(100vh-254px)] overflow-scroll">

@@ -15,11 +15,11 @@ export type Services = {
   [providerName: string]: StreamingService;
 };
 
-// Adjust the StreamingService type if it's not used directly
 export interface StreamingService {
   count: number;
   tmdb_ids: TMDBItem[]; // Adjust types as necessary
   logo_path: string;
+  price: string | null;
 
 }
 

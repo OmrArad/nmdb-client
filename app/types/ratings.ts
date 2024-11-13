@@ -47,7 +47,6 @@ export interface RatedContentItem {
   user_id: string;
   user_rating: number;
   video_links: string[];
-  streaming_services: string[];
 }
 
 export interface UserRatingsListResponse {
