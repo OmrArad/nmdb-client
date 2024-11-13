@@ -46,9 +46,6 @@ export function CastList({ cast }: CastListProps) {
             </p>
           </Link>
         ))}
-        <button className="flex-shrink-0 min-w-[100px] h-full flex items-center justify-center text-blue-600 font-medium">
-          View More &rarr;
-        </button>
       </div>
       <button className="mt-4 text-blue-600 font-medium">
         Full Cast & Crew
