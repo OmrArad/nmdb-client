@@ -5,7 +5,7 @@ type SearchBarProps = {
   onSearch: (query: string) => void;
 };
 
-const searchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [query, setQuery] = React.useState("");
 
   // Update query state as the user types
@@ -41,4 +41,4 @@ const searchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   );
 };
 
-export default searchBar;
+export default SearchBar;
