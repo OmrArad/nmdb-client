@@ -5,14 +5,12 @@ import {
 import ActorDetails from "@/app/components/actors/actorDetails";
 
 export default async function ActorPage({
-  params,
+  params: { id },
 }: {
-  params: {
-    id: string;
-  };
+  params: { id: string };
 }) {
-  const actor = await getActorDetails(params.id);
-  const mediaAppearances = await fetchMediaAppearances(params.id);
+  const actor = await getActorDetails(id);
+  const mediaAppearances = await fetchMediaAppearances(id);
 
   return (
     <div className="container mx-auto my-8 p-4">
