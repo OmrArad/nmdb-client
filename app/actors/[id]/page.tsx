@@ -7,7 +7,9 @@ import ActorDetails from "@/app/components/actors/actorDetails";
 export default async function ActorPage({
   params,
 }: {
-  params: { id: string };
+  params: {
+    id: string;
+  };
 }) {
   const actor = await getActorDetails(params.id);
   const mediaAppearances = await fetchMediaAppearances(params.id);
