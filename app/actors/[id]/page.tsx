@@ -4,11 +4,13 @@ import {
 } from "@/app/api/actor/actorServices";
 import ActorDetails from "@/app/components/actors/actorDetails";
 
-export default async function ActorPage({
-  params: { id },
-}: {
-  params: { id: string };
-}) {
+type ActorPageProps = {
+  params: {
+    id: string;
+  };
+};
+
+export default async function ActorPage({ params: { id } }: ActorPageProps) {
   const actor = await getActorDetails(id);
   const mediaAppearances = await fetchMediaAppearances(id);
 
