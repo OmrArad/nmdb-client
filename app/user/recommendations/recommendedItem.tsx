@@ -13,6 +13,7 @@ import { FaThumbsUp, FaThumbsDown, FaFilm, FaTv } from "react-icons/fa";
 import { sendRecommendationFeedback } from "@/app/api/recommendations/recommendationFeedbackServices";
 import StreamingServicesSection from "./StreamingServicesSection";
 
+
 const RecommendedItem = ({
   media,
   resetFeedbackOnRefresh,
