@@ -53,7 +53,7 @@ export interface IRecommendedItem {
   user_rating: number;
   video_links: string[];
   vote_average: number;
-  recommended_by: string;
+  Recommended_by: string;
 }
 
 export type GetRecommendationResponse = IRecommendedItem[];

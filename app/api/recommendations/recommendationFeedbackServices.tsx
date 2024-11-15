@@ -5,7 +5,7 @@ export const sendRecommendationFeedback = async (
   isMovie: boolean,
   mediaId: string,
   isLiked: boolean,
-  algorithm: string
+  algorithm2: string
 ): Promise<RecommendationFeedbackResponse> => {
   try {
     const response = await apiClient.post<RecommendationFeedbackResponse>(
@@ -14,7 +14,7 @@ export const sendRecommendationFeedback = async (
         is_movie: isMovie ? 1 : 0,
         media_id: mediaId,
         is_liked: isLiked ? 1 : 0,
-        algorithm,
+        algorithm :algorithm2,
       }
     );
 
