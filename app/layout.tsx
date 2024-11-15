@@ -8,6 +8,7 @@ import Script from "next/script";
 import { WatchlistProvider } from "@/app/context/watchlistContext";
 import { RatingsProvider } from "./context/userRatingContext";
 import { SessionProvider } from "next-auth/react";
+import { RegionProvider } from "./context/RegionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider>
+          <RegionProvider>
           <WatchlistProvider>
             <RatingsProvider>
               <Toaster position="top-right" />
@@ -40,6 +42,7 @@ export default function RootLayout({
               </div>
             </RatingsProvider>
           </WatchlistProvider>
+          </RegionProvider>
         </SessionProvider>
       </body>
       <Script src="../path/to/flowbite/dist/flowbite.min.js"></Script>

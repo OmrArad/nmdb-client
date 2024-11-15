@@ -26,4 +26,5 @@ export interface UserData {
   main_watchlist_id: string;
   ratings_list: UserDataRatings;
   watchlist_streaming_data: Record<string, any> | null; // Streaming data can be extended with more structure if needed
+  region: string
 }

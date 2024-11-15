@@ -59,12 +59,14 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
     setIsInWatchlist(mediaExistsInWatchlist || false);
   }, [watchlist, id]);
 
+
+
   return (
     <div className="min-w-[calc(150px)] w-[calc(150px)] min-h-[calc(21rem)] bg-white rounded-sm overflow-hidden relative">
       <Link href={mediaHref}>
         {isMediaAppearence(type, media) && (
           <div className="absolute top-0 right-0 bg-yellow-400 rounded-bl-lg py-1 px-2 text-sm font-bold cursor-default">
-            {vote_average.toFixed(1)}
+            {vote_average? vote_average.toFixed(1): "NR"}
           </div>
         )}
 
@@ -92,7 +94,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ type, kind, media }) => {
       {!isMediaAppearence(type, media) && (
         <div className="flex items-center justify-between bottom-0 rounded-br-md  py-1 px-2 text-sm font-bold cursor-default bg-neutral-800">
           <div className="flex items-center text-neutral-300 gap-1">
-            <span className="cursor-text">{vote_average.toFixed(1)}</span>
+            <span className="cursor-text">{vote_average? vote_average.toFixed(1): "NR"}</span>
             <FaStar className="text-yellow-400" />
           </div>
           <UserRating

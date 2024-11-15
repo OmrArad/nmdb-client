@@ -28,27 +28,28 @@ export function CastList({ cast }: CastListProps) {
             className="flex flex-col items-center min-w-[100px] sm:min-w-[150px]"
           >
             <Image
-              src={`https://image.tmdb.org/t/p/w500${member.profile_path}`}
-              alt={member.name}
+              src={
+                member?.profile_path
+                  ? `https://image.tmdb.org/t/p/w500${member.profile_path}`
+                  : "https://i.postimg.cc/g0mp1XPz/istockphoto-870832662-612x612.jpg" // Fallback image path
+              }
+              alt={member?.name || "Unknown Actor"} // Fallback alt text
               width={150}
               height={225}
               className="rounded-md"
             />
             <h3 className="mt-2 text-sm sm:text-lg font-medium text-center">
-              {member.name}
+              {member?.name || "Unknown Actor"} {/* Fallback name */}
             </h3>
             <p className="text-xs sm:text-sm text-gray-500 text-center">
-              {member.character}
+              {member?.character || "Unknown Character"} {/* Fallback character */}
             </p>
           </Link>
         ))}
-        <button className="flex-shrink-0 min-w-[100px] h-full flex items-center justify-center text-blue-600 font-medium">
-          View More &rarr;
-        </button>
       </div>
       <button className="mt-4 text-blue-600 font-medium">
         Full Cast & Crew
       </button>
     </div>
   );
-}
+}  

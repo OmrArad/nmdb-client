@@ -11,12 +11,9 @@ import { useRatings } from "@/app/context/userRatingContext";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
 import { UserData } from "@/app/types/auth";
+import { useRegion } from "@/app/context/RegionProvider";
 
 const links = [
-  {
-    name: "Profile",
-    href: "/user",
-  },
   {
     name: "Watchlist",
     href: "/user/watchlist",
@@ -49,6 +46,7 @@ const UserDropdown = ({
 }) => {
   const { updateWatchlist } = useWatchlist();
   const { updateRatings } = useRatings();
+  const {updateRegionLocally} = useRegion();
   const { data: session, status } = useSession();
   const [isUpdated, setIsUpdated] = useState(false);
   React.useEffect(() => {
@@ -56,6 +54,8 @@ const UserDropdown = ({
       console.log("ratings: ", userData.ratings_list);
       updateWatchlist(userData.main_watchlist.Content);
       updateRatings(userData.ratings_list.Content);
+      // We only need the local update here (e.g. not updating it on the server, cause we're just now getting it from the server!)
+      updateRegionLocally(userData.region)
     };
 
     if (status === "authenticated") {

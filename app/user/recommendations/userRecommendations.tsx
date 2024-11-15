@@ -37,7 +37,6 @@ const UserRecommendations = () => {
 
   useEffect(() => {
     // Trigger the initial recommendation fetch on component mount
-    handleGetRecommendations();
   }, []); // Empty dependency array means it runs once on mount
 
   if (!ratings) {
@@ -97,7 +96,7 @@ const UserRecommendations = () => {
 
                 {recommendations.map((media) => (
                   <RecommendedItem
-                    key={media.item_id}
+                    key={media.tmdb_id}
                     media={media}
                     resetFeedbackOnRefresh
                   />

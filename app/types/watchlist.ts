@@ -13,6 +13,7 @@ export type IWatchlistItem = {
   user_rating: number | null;
   video_links: string[];
   is_movie: boolean;
+  streaming_services: string[];
 };
 
 // Do not change to lower case

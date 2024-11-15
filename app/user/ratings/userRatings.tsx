@@ -42,17 +42,11 @@ const UserRatings = () => {
           <h1 className="text-2xl font-bold container mx-auto px-4">
             My Ratings
           </h1>
-          <button
-            onClick={handleGetRecommendations}
-            className="ml-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
-            Get Recommendations
-          </button>
         </div>
         <div className="container mx-auto px-4 py-6 md:h-[calc(100vh-254px)] overflow-scroll">
           {filteredRatingsItems.map((media) => (
             <WatchlistItem
-              key={media.item_id}
+              key={media.tmdb_id}
               media={media}
               shouldCheckisInWatchlistStatus={true}
             />

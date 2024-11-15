@@ -13,6 +13,7 @@ import {
   RecommendationWatchlistResponse,
 } from "@/app/types/recommendations";
 import { getRecommendationWatchlist } from "@/app/api/recommendations/recommendationsServices";
+import { FaThumbsUp, FaThumbsDown, FaFilm, FaTv } from "react-icons/fa";
 
 const RecommendationWatchlistItem = ({
   media,
@@ -68,6 +69,10 @@ const RecommendationWatchlistItem = ({
           <div className="flex-col justify-between mt-4">
             <div className="flex justify-between items-center">
               <div className="flex flex-col">
+              <span className="text-sm font-semibold text-gray-500 flex items-center gap-1">
+                {is_movie ? <FaFilm /> : <FaTv />} {/* Icon */}
+                {is_movie ? "Movie" : "TV Show"}
+              </span>
                 <Link
                   href={navLink}
                   className="text-xl font-bold transition-transform transform hover:scale-105"

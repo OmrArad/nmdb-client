@@ -1,5 +1,5 @@
 import React from "react";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline"; // Ensure you have @heroicons/react installed
 
 type SearchBarProps = {
   onSearch: (query: string) => void;
@@ -8,13 +8,17 @@ type SearchBarProps = {
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [query, setQuery] = React.useState("");
 
+  // Update query state as the user types
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
+  // Handle search submission
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSearch(query);
+    if (query.trim()) {
+      onSearch(query);
+    }
   };
 
   return (
@@ -24,10 +28,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         placeholder="Search for a movie, or a TV show..."
         value={query}
         onChange={handleInputChange}
-        className="w-full h-12 pl-4 pr-12 rounded-full text-gray-700 focus:outline-none"
+        className="w-full h-12 pl-4 pr-12 rounded-full text-gray-700 focus:outline-none border border-gray-300 focus:border-blue-500"
       />
-      <button type="submit" className="absolute top-0 right-0 mt-3 mr-4">
-        <MagnifyingGlassIcon stroke="#888" className="h-6 w-5" />
+      <button
+        type="submit"
+        className="absolute top-0 right-0 mt-3 mr-4"
+        aria-label="Search"
+      >
+        <MagnifyingGlassIcon stroke="#888" className="h-6 w-6" />
       </button>
     </form>
   );

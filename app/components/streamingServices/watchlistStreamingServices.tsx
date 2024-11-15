@@ -7,98 +7,49 @@ import { Services } from "@/app/types/streaming";
 import { useWatchlist } from "@/app/context/watchlistContext";
 import { IWatchlistItem } from "@/app/types/watchlist";
 
-const mockServicesData = {
-  providers: {
-    "Amazon Prime Video": {
-      count: 1,
-      tmdb_ids: [{ is_movie: 0, tmdb_id: "62017" }],
-    },
-    "Apple TV Plus": {
-      count: 1,
-      tmdb_ids: [{ is_movie: 0, tmdb_id: "95396" }],
-    },
-    "Disney Plus": {
-      count: 1,
-      tmdb_ids: [{ is_movie: 1, tmdb_id: "1022789" }],
-    },
-    Hulu: {
-      count: 2,
-      tmdb_ids: [
-        { is_movie: 1, tmdb_id: "550" },
-        { is_movie: 0, tmdb_id: "111800" },
-      ],
-    },
-    Netflix: {
-      count: 3,
-      tmdb_ids: [
-        { is_movie: 1, tmdb_id: "704239" },
-        { is_movie: 1, tmdb_id: "646097" },
-        { is_movie: 1, tmdb_id: "569547" },
-      ],
-    },
-    Max: {
-      count: 3,
-      tmdb_ids: [
-        { is_movie: 1, tmdb_id: "704239" },
-        { is_movie: 1, tmdb_id: "646097" },
-        { is_movie: 1, tmdb_id: "569547" },
-      ],
-    },
-    "Paramount Plus": {
-      count: 3,
-      tmdb_ids: [
-        { is_movie: 1, tmdb_id: "704239" },
-        { is_movie: 1, tmdb_id: "646097" },
-        { is_movie: 1, tmdb_id: "569547" },
-      ],
-    },
-    fuboTV: {
-      count: 3,
-      tmdb_ids: [
-        { is_movie: 1, tmdb_id: "704239" },
-        { is_movie: 1, tmdb_id: "646097" },
-        { is_movie: 1, tmdb_id: "569547" },
-      ],
-    },
-    Other: {
-      count: 3,
-      tmdb_ids: [
-        { is_movie: 1, tmdb_id: "704239" },
-        { is_movie: 1, tmdb_id: "646097" },
-        { is_movie: 1, tmdb_id: "569547" },
-      ],
-    },
-  },
-};
-
 const WatchlistStreamingServices = ({
   setFilteredWatchlist,
+  region,
 }: {
   setFilteredWatchlist: (filteredWatchlist: IWatchlistItem[]) => void;
+  region: string;
 }) => {
   const { watchlist } = useWatchlist();
   const [activeServices, setActiveServices] = useState<string[]>([]);
   const [services, setServices] = useState<Services | null>(null);
   const [minCount, setMinCount] = useState<number>(1);
   const [maxCount, setMaxCount] = useState<number>(3);
+  const [allServices, setAllServices] = useState<Record<string, { providers: Services }> | null>(null);
 
-  // Fetch watchlist using the working API
   useEffect(() => {
     const fetchStreamingServicesForWatchlist = async () => {
       try {
-        const streamingServices = await getWatchlistStreamingServices();
-        setServices(streamingServices.providers);
+        const streamingServices: Record<string, { providers: Services }> = await getWatchlistStreamingServices();
+        setAllServices(streamingServices);
+        // Get services for current region
+        const regionServices: Services = streamingServices[region]?.providers || {};
+        setServices(regionServices);
+        // Reset active services when region changes
+        setActiveServices([]);
       } catch (error) {
         console.error(
           "Failed to fetch Streaming Services For watchlist",
           error
         );
+        setServices(null);
       }
     };
 
-    if (watchlist && !services) fetchStreamingServicesForWatchlist();
+    if (watchlist && !allServices) {
+      fetchStreamingServicesForWatchlist();
+    } else if (allServices) {
+      // If we already have all services, just update for the new region
+      const regionServices: Services = allServices[region]?.providers || {};
+      setServices(regionServices);
+      setActiveServices([]);
+    }
 
-    // Calculate the minimum and maximum counts
+    // Calculate the minimum and maximum counts for current region's services
     if (services) {
       const counts = Object.values(services).map(
         (service: any) => service.count
@@ -106,7 +57,7 @@ const WatchlistStreamingServices = ({
       setMinCount(Math.min(...counts));
       setMaxCount(Math.max(...counts));
     }
-  }, [services, watchlist]);
+  }, [watchlist, region, allServices]);
 
   const handleFilterByService = (serviceName: string) => {
     const isAlreadyActive = activeServices.includes(serviceName);
@@ -151,13 +102,12 @@ const WatchlistStreamingServices = ({
   return watchlist && services ? (
     <div className="streaming-services pb-1">
       <div className="flex justify-between mb-2">
-        <h2 className="text-lg font-bold">Where to watch:</h2>
-        {/* Remove filter button */}
+        <h2 className="text-lg font-bold">Where to watch in {region}:</h2>
         {activeServices.length > 0 && (
           <button
             onClick={() => {
               setActiveServices([]);
-              setFilteredWatchlist(watchlist.Content); // Show full watchlist when filter is removed
+              setFilteredWatchlist(watchlist.Content);
             }}
             className="text-red-500 font-bold hover:underline"
           >
@@ -179,7 +129,7 @@ const WatchlistStreamingServices = ({
     <div className="streaming-services pb-1">
       <div className="flex justify-between mb-2">
         <h2 className="text-lg text-gray-500">
-          We did not find any relevant streaming services for your watchlist
+          We did not find any streaming services for your watchlist in {region}
         </h2>
       </div>
     </div>

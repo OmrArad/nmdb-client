@@ -1,5 +1,6 @@
 import { DetailedTVSeries } from "./tvShow";
 import { DetailedMovie } from "./movie";
+import { StreamingServiceData } from "./streaming";
 
 export interface TVRecommendations extends DetailedTVSeries {
   recommended_by: string;
@@ -44,7 +45,7 @@ export interface IRecommendedItem {
   poster_path: string;
   release_date: string;
   small_poster_path: string;
-  streaming_services: string | null;
+  streaming_services: { [countryCode: string]: StreamingServiceData[] };
   title: string;
   tmdb_rating: number;
   trailer: string | null;
@@ -70,6 +71,7 @@ export interface IRecommendedWatchlistItem {
   user_rating: number | null;
   video_links: string[];
   watchlist_item_id: string;
+  streaming_services: { [countryCode: string]: StreamingServiceData[] };
 }
 
 export interface RecommendationFeedbackResponse {
