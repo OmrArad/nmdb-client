@@ -62,7 +62,7 @@ export async function MediaDetails({
         <Image
           className="mb-3 rounded"
           alt="poster"
-          src={`${urlPrefixOriginal}/${media.poster_path}`}
+          src={`${media.poster_path}`}
           width={300}
           height={450}
         />

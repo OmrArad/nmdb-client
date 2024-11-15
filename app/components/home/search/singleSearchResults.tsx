@@ -60,7 +60,7 @@ const SingleSearchResult: React.FC<SearchResultProps> = ({ result }) => {
           <Image
             src={
               poster_path
-                ? `https://image.tmdb.org/t/p/w200${poster_path}`
+                ? poster_path
                 : fallbackImage
             }
             alt={title || name || "No Title"}

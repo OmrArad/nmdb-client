@@ -13,7 +13,6 @@ import { FaThumbsUp, FaThumbsDown, FaFilm, FaTv } from "react-icons/fa";
 import { sendRecommendationFeedback } from "@/app/api/recommendations/recommendationFeedbackServices";
 import StreamingServicesSection from "./StreamingServicesSection";
 
-
 const RecommendedItem = ({
   media,
   resetFeedbackOnRefresh,
@@ -65,29 +64,6 @@ const RecommendedItem = ({
   }, [resetFeedbackOnRefresh, media]);
 
   return (
-    <div className="bg-gray-100 border border-gray-300 rounded-xl overflow-hidden shadow-lg mb-4">
-      <div className="md:flex items-start p-4">
-        <div className="relative flex-shrink-0">
-          <Image
-            src={poster_path || "/images/no-image-available.png"}
-            alt={title}
-            className="w-24 h-36 mr-4 cursor-pointer transition-transform rounded-lg hover:brightness-105 hover:scale-105 duration-300 ease-in-out"
-            width={96}
-            height={144}
-            onClick={handleNavigate}
-          />
-          <WatchlistBookmark
-            mediaId={tmdb_id}
-            setIsInWatchlist={setIsInWatchlist}
-            updateWatchlist={updateWatchlist}
-            watchlist={watchlist}
-            isInWatchlist={isInWatchlist}
-            shouldShowIcon={false}
-            isMovie={is_movie}
-          />
-        </div>
-  if (feedbackGiven !== null) return null;
-  return (   
     <div className="bg-gray-100 border border-gray-300 rounded-xl overflow-hidden shadow-lg mb-4 relative">
       <div className="md:flex items-start p-4 relative">
         <Image
@@ -140,7 +116,6 @@ const RecommendedItem = ({
           <p className="text-sm mt-2 text-gray-700 line-clamp-2 hover:line-clamp-none">
             {overview}
           </p>
-          <p className="text-sm mt-2">{overview}</p>
           
           <div className="absolute bottom-2 right-2 text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded">
          Recommended by: {media.Recommended_by}
