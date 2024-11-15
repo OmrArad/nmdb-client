@@ -4,11 +4,14 @@ import TrendingSection from "./components/home/trending/trendingSection";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 import { RatingsProvider } from "./context/userRatingContext";
-export default function Home({
-  params: { session },
-}: {
-  params: { session: Session };
+
+type Params = Promise<{ session: Session }>
+
+export default async function Home(porps: {
+  params: Params,
 }) {
+  const params = await porps.params;
+  const session = params.session;
   return (
     <>
       <div className="flex md:flex-row flex-col">
