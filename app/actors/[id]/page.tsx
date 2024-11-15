@@ -4,19 +4,10 @@ import {
 } from "@/app/api/actor/actorServices";
 import ActorDetails from "@/app/components/actors/actorDetails";
 
-type Params = Promise<{ slug: string }>
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
-
 export default async function ActorPage(props: {
-  params: Params
-  searchParams: SearchParams
+  params: Promise<{ id: string }>,
 }) {
-  const params = await props.params
-  const searchParams = await props.searchParams
-  const slug = params.slug
-  const query = searchParams.query
-  console.log (slug, query)
-  const id = params.slug
+  const id = (await props.params).id
   const actor = await getActorDetails(id);
   const mediaAppearances = await fetchMediaAppearances(id);
 
