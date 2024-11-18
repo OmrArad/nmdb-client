@@ -1,6 +1,7 @@
 "use client";
 import { getLogoForService } from "@/app/utils/serviceLogoUtils";
 import Image from "next/image";
+import { BanknotesIcon } from "@heroicons/react/24/outline";
 
 interface StreamingServiceCardProps {
   serviceName: string;
@@ -8,7 +9,7 @@ interface StreamingServiceCardProps {
   gradientColor: string;
   isActive: boolean;
   logoSrc?: string;
-  price: string | null;
+  netflix_price: string | null;
   onClick: () => void;
 }
 
@@ -18,19 +19,17 @@ const StreamingServiceCard: React.FC<StreamingServiceCardProps> = ({
   gradientColor,
   isActive,
   logoSrc,
-  price,
+  netflix_price,
   onClick,
 }) => {
   const logo = getLogoForService(serviceName);
   const finalLogoSrc = logo ?? logoSrc;
   const isDefaultLogo = !logo && logoSrc;
 
-  console.log("price is" , price)
-
   return (
     <div
       onClick={onClick}
-      className={`flex justify-around cursor-pointer p-4 border rounded-lg transition transform duration-300 group ${
+      className={`flex justify-around cursor-pointer p-4 border rounded-lg transition transform duration-300 group relative ${
         isActive
           ? "bg-blue-500 text-white hover:bg-gray-400"
           : "bg-gray-100 hover:border-blue-500 hover:shadow-lg"
@@ -80,13 +79,15 @@ const StreamingServiceCard: React.FC<StreamingServiceCardProps> = ({
         >
           {count}
         </div>
-      </div>
 
-      {serviceName.toLowerCase() === "Netflix" && price != null && (
-        <div className="mt-2 text-sm text-gray-700">
-          Price: ${price}
-        </div>
-      )}
+        {/* netflix_price for Netflix */}
+        { netflix_price && (
+          <div className="absolute bottom-2 left-2 flex items-center bg-gray-200/70 rounded-full px-2 py-1 text-sm">
+            <BanknotesIcon className="mr-1 h-4 w-4 text-gray-600" />
+            <span className="font-medium text-gray-700">{netflix_price}/mo</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

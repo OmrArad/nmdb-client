@@ -28,6 +28,7 @@ const WatchlistStreamingServices = ({
         const [servicesResponse, pricesResponse] = await getWatchlistStreamingServices();
         const streamingServices: Record<string, { providers: Services }> = servicesResponse;
         setAllServices(streamingServices);
+        console.log("before prices")
         setPrices(pricesResponse);
         console.log("prices is" , pricesResponse)
         
@@ -108,14 +109,6 @@ const WatchlistStreamingServices = ({
   return watchlist && services ? (
     <div className="streaming-services pb-1">
       <div className="flex justify-between mb-2">
-        <div>
-          <h2 className="text-lg font-bold">Where to watch in {region}:</h2>
-          {prices && prices[region] && (
-            <p className="text-sm text-gray-600">
-              Netflix subscription: {prices[region]}
-            </p>
-          )}
-        </div>
         {activeServices.length > 0 && (
           <button
             onClick={() => {
@@ -136,6 +129,7 @@ const WatchlistStreamingServices = ({
         handleFilterByService={handleFilterByService}
         minCount={minCount}
         maxCount={maxCount}
+        netflix_price = {prices ? prices[region] : "N/A"}
       />
     </div>
   ) : (
