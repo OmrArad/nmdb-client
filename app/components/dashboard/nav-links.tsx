@@ -1,44 +1,39 @@
 "use client";
 
 import { UserGroupIcon, TvIcon, FilmIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import clsx from "clsx";
-import styles from "@/app/styles/NavButton.module.css";
 
 const links = [
   {
     name: "Movies",
-    href: "/movies",
     icon: FilmIcon,
   },
   {
-    name: "Tv-Shows",
-    href: "/tv",
+    name: "TV",
     icon: TvIcon,
   },
-  { name: "Actors", href: "/actors", icon: UserGroupIcon },
+  { 
+    name: "Streaming", 
+    icon: UserGroupIcon 
+  },
 ];
 
-export default function NavLinks() {
-  const pathname = usePathname();
+export default function NavDesignElements() {
   return (
-    <>
+    <div className="flex items-center space-x-6">
       {links.map((link) => {
         const LinkIcon = link.icon;
         return (
-          <Link
-            key={link.name}
-            href={link.href}
-            className={clsx(styles.base_button, {
-              [styles.active_nav]: pathname === link.href,
-            })}
+          <div 
+            key={link.name} 
+            className="flex items-center"
           >
-            <LinkIcon className="w-6" />
-            <p className="hidden lg:block">{link.name}</p>
-          </Link>
+            <LinkIcon className="w-5 h-5 mr-2 opacity-60" color = "#78f3d6" />
+            <span className="text-lg tracking-tight font-medium bg-clip-text text-transparent bg-gradient-to-r from-[#78f3d6] to-[#424daf] bg-gradient-to-r">
+              {link.name}
+            </span>
+          </div>
         );
       })}
-    </>
+    </div>
   );
 }

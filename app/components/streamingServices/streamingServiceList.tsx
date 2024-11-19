@@ -31,6 +31,7 @@ const StreamingServiceList: React.FC<StreamingServiceListProps> = ({
     <div className="grid grid-flow-col gap-4 overflow-x-auto pb-3 no-scrollbar">
       {Object.keys(services).map((serviceName) => {
         const service = services[serviceName];
+        console.log("services received in list are" , services)
         const isActive = activeServices.includes(serviceName);
         const gradientColor = getGradientColor(
           service.count,

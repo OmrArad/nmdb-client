@@ -96,16 +96,16 @@ const StreamingServiceCard: React.FC<StreamingServiceCardProps> = ({
   const normalizedServiceName = serviceName.replace(/\bPlus\b/i, "+");
 
   // Check if a matching price exists in `usa_prices`
-        if (usa_prices[normalizedServiceName]) {
-          return (
-            <div className="absolute bottom-2 left-2 flex items-center bg-gray-200/70 rounded-full px-2 py-1 text-xs">
-              <BanknotesIcon className="mr-1 h-4 w-4 text-gray-600" />
-              <span className="font-medium text-gray-700">${usa_prices[normalizedServiceName]}/mo</span>
-            </div>
-          );
-        }
-        return null; // Return nothing if no price is found
-      })()}
+      if (usa_prices[normalizedServiceName]) {
+        return (
+          <div className="absolute bottom-2 left-2 flex items-center bg-gray-200/70 rounded-full px-2 py-1 text-xs">
+            <BanknotesIcon className="mr-1 h-4 w-4 text-gray-600" />
+            <span className="font-medium text-gray-700">${usa_prices[normalizedServiceName]}/mo</span>
+          </div>
+        );
+      }
+      return null; // Return nothing if no price is found
+    })()}
       </div>
     </div>
   );
