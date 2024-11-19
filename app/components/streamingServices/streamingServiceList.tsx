@@ -6,6 +6,7 @@ interface StreamingServiceListProps {
   services: Services;
   activeServices: string[];
   netflix_price: string
+  usa_prices: Record<string, string> | null;
   getGradientColor: (
     count: number,
     minCount: number,
@@ -20,6 +21,7 @@ const StreamingServiceList: React.FC<StreamingServiceListProps> = ({
   services,
   activeServices,
   netflix_price,
+  usa_prices,
   getGradientColor,
   handleFilterByService,
   minCount,
@@ -45,6 +47,7 @@ const StreamingServiceList: React.FC<StreamingServiceListProps> = ({
             logoSrc={"https://image.tmdb.org/t/p/original/" + service.logo_path}
             isActive={isActive}
             netflix_price = {netflix_price}
+            usa_prices = {usa_prices}
             onClick={() => handleFilterByService(serviceName)}
           />
         );

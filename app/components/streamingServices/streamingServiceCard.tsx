@@ -10,6 +10,7 @@ interface StreamingServiceCardProps {
   isActive: boolean;
   logoSrc?: string;
   netflix_price: string | null;
+  usa_prices: Record<string, string> | null;
   onClick: () => void;
 }
 
@@ -20,6 +21,7 @@ const StreamingServiceCard: React.FC<StreamingServiceCardProps> = ({
   isActive,
   logoSrc,
   netflix_price,
+  usa_prices,
   onClick,
 }) => {
   const logo = getLogoForService(serviceName);
@@ -81,12 +83,29 @@ const StreamingServiceCard: React.FC<StreamingServiceCardProps> = ({
         </div>
 
         {/* netflix_price for Netflix */}
-        { netflix_price && (
-          <div className="absolute bottom-2 left-2 flex items-center bg-gray-200/70 rounded-full px-2 py-1 text-sm">
+        { serviceName == "Netflix" && netflix_price && (
+          <div className="absolute bottom-2 left-2 flex items-center bg-gray-200/70 rounded-full px-2 py-1 text-xs">
             <BanknotesIcon className="mr-1 h-4 w-4 text-gray-600" />
             <span className="font-medium text-gray-700">{netflix_price}/mo</span>
           </div>
         )}
+
+        {/* USA Prices. Only display if the region is 'US' (if not US then usa_prices will be null) */}
+        {serviceName !== "Netflix" && usa_prices && (() => {
+  // Normalize the serviceName to match the key format in `usa_prices`
+  const normalizedServiceName = serviceName.replace(/\bPlus\b/i, "+");
+
+  // Check if a matching price exists in `usa_prices`
+        if (usa_prices[normalizedServiceName]) {
+          return (
+            <div className="absolute bottom-2 left-2 flex items-center bg-gray-200/70 rounded-full px-2 py-1 text-xs">
+              <BanknotesIcon className="mr-1 h-4 w-4 text-gray-600" />
+              <span className="font-medium text-gray-700">${usa_prices[normalizedServiceName]}/mo</span>
+            </div>
+          );
+        }
+        return null; // Return nothing if no price is found
+      })()}
       </div>
     </div>
   );

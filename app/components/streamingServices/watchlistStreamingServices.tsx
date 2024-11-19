@@ -17,7 +17,8 @@ const WatchlistStreamingServices = ({
   const { watchlist } = useWatchlist();
   const [activeServices, setActiveServices] = useState<string[]>([]);
   const [services, setServices] = useState<Services | null>(null);
-  const [prices, setPrices] = useState<Record<string, string> | null>(null);
+  const [netflix_prices, setNetflixPrices] = useState<Record<string, string> | null>(null);
+  const [usa_prices, setUSAPrices] = useState<Record<string, string> | null>(null);
   const [minCount, setMinCount] = useState<number>(1);
   const [maxCount, setMaxCount] = useState<number>(3);
   const [allServices, setAllServices] = useState<Record<string, { providers: Services }> | null>(null);
@@ -25,13 +26,14 @@ const WatchlistStreamingServices = ({
   useEffect(() => {
     const fetchStreamingServicesForWatchlist = async () => {
       try {
-        const [servicesResponse, pricesResponse] = await getWatchlistStreamingServices();
+        const [servicesResponse, netflixPricesResponse, usaResponse ] = await getWatchlistStreamingServices();
         const streamingServices: Record<string, { providers: Services }> = servicesResponse;
         setAllServices(streamingServices);
-        console.log("before prices")
-        setPrices(pricesResponse);
-        console.log("prices is" , pricesResponse)
-        
+        //console.log("before prices")
+        setNetflixPrices(netflixPricesResponse);
+        //console.log("prices is" , pricesResponse)
+        console.log("usa prices" ,  usaResponse)
+        setUSAPrices(usaResponse);
         // Get services for current region
         const regionServices: Services = streamingServices[region]?.providers || {};
         setServices(regionServices);
@@ -43,7 +45,7 @@ const WatchlistStreamingServices = ({
           error
         );
         setServices(null);
-        setPrices(null);
+        setNetflixPrices(null);
       }
     };
 
@@ -129,7 +131,8 @@ const WatchlistStreamingServices = ({
         handleFilterByService={handleFilterByService}
         minCount={minCount}
         maxCount={maxCount}
-        netflix_price = {prices ? prices[region] : "N/A"}
+        netflix_price = {netflix_prices ? netflix_prices[region] : "N/A"}
+        usa_prices = {region == 'US' ? usa_prices : null }
       />
     </div>
   ) : (
