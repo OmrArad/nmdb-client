@@ -48,7 +48,7 @@ export const getRatingsByUser = async (
   return response.data;
 };
 
-export const removeRating = async (contentId: string, isMovie = true) => {
+export const removeRating = async (contentId: string, isMovie : boolean) => {
   const response = await apiClient.delete("/api/ratings", {
     data: { content_id: contentId, is_movie: isMovie },
   });
