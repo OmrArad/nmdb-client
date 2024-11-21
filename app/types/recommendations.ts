@@ -54,6 +54,7 @@ export interface IRecommendedItem {
   video_links: string[];
   vote_average: number;
   Recommended_by: string;
+  is_liked: boolean;
 }
 
 export type GetRecommendationResponse = IRecommendedItem[];
@@ -72,6 +73,7 @@ export interface IRecommendedWatchlistItem {
   video_links: string[];
   watchlist_item_id: string;
   streaming_services: { [countryCode: string]: StreamingServiceData[] };
+  is_liked: boolean;
 }
 
 export interface RecommendationFeedbackResponse {

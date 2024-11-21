@@ -10,7 +10,6 @@ const UserDashboard = () => {
     { name: "Watchlist", path: "/user/watchlist" },
     { name: "Ratings", path: "/user/ratings" },
     { name: "Recommendations", path: "/user/recommendations" },
-    { name: "Liked Recommendations", path: "/user/likedRecommendations" },
   ];
 
   return (
