@@ -58,7 +58,7 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
   };
 
   const handleRemoveRateClick = async () => {
-    await handleRemoveRatingSubmit(contentId, updateRatings, setUserRating);
+    await handleRemoveRatingSubmit(contentId, isMovie,updateRatings, setUserRating);
     onClose();
   };
 

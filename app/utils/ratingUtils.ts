@@ -40,11 +40,12 @@ export const handleRatingSubmit = async (
  */
 export const handleRemoveRatingSubmit = async (
   contentId: string,
+  is_movie: boolean,
   updateRatings: (SetStateAction: RatedContentItem[]) => void,
   setUserRating: (rating: number) => void
 ) => {
   try {
-    const ratingsResponse = await removeRating(contentId);
+    const ratingsResponse = await removeRating(contentId,is_movie);
     console.log("new ratings are", ratingsResponse)
     // setUserRating(0);
     updateRatings(ratingsResponse.new_ratings[0].Content);

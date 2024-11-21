@@ -12,6 +12,7 @@ import TrailerButtonClientWrapper from "@/app/components/trailer/trailerButtonCl
 import { FaThumbsUp, FaThumbsDown, FaFilm, FaTv } from "react-icons/fa";
 import { sendRecommendationFeedback } from "@/app/api/recommendations/recommendationFeedbackServices";
 import StreamingServicesSection from "./StreamingServicesSection";
+import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
 
 const RecommendedItem = ({
   media,
@@ -28,7 +29,8 @@ const RecommendedItem = ({
     tmdb_id,
     video_links,
     is_movie,
-    streaming_services
+    streaming_services,
+    is_liked
   } = media;
 
   const [feedbackGiven, setFeedbackGiven] = useState<boolean | null>(null);
@@ -51,6 +53,8 @@ const RecommendedItem = ({
         media.Recommended_by
       );
       setFeedbackGiven(isLiked);
+      const updatedWatchlist = await getWatchlist();
+      updateWatchlist(updatedWatchlist);
     } catch (error) {
       console.error("Error sending feedback", error);
       setFeedbackGiven(null);

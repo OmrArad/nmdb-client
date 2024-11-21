@@ -26,10 +26,6 @@ const links = [
     name: "Recommendations",
     href: "/user/recommendations",
   },
-  {
-    name: "Liked",
-    href: "/user/likedRecommendations",
-  },
 ];
 
 const style =

@@ -10,7 +10,7 @@ import Ratings from "@/app/components/rating/listRating/ratings";
 import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
 import { RatedContentItem } from "@/app/types/ratings";
 import { isMediaInWatchlist } from "@/app/utils/watchlistUtils";
-import {FaFilm, FaTv } from "react-icons/fa";
+import {FaFilm, FaTv, FaThumbsUp } from "react-icons/fa";
 import RegionSelector from "../media/RegionSelector";
 import {
   IRecommendedItem,
@@ -37,6 +37,7 @@ const WatchlistItem = ({
     video_links,
     is_movie,
     streaming_services
+    
   } = media;
 
   const { watchlist, updateWatchlist } = useWatchlist();
@@ -46,7 +47,7 @@ const WatchlistItem = ({
       : true
   );
   const router = useRouter();
-
+  console.log("watchlist item is" , media)
   
   const navLink = is_movie ? `/movies/${tmdb_id}` : `/tv/${tmdb_id}`;
 
@@ -96,9 +97,17 @@ const WatchlistItem = ({
             {video_links?.length > 0 && (
               <TrailerButtonClientWrapper videoKey={media.video_links} />
             )}
+            {/* Recommended Label */}
+{ media.is_liked == true && (
+  <div className="absolute bottom-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+    Liked Recommendation
+    <FaThumbsUp />
+  </div>
+)}
           </div>
         </div>
       </div>
+
     </div>
   );
 };
