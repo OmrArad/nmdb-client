@@ -58,7 +58,7 @@ const StreamingServiceCard: React.FC<StreamingServiceCardProps> = ({
               />
             )}
             {isDefaultLogo && (
-              <div className="absolute inset-0 border-2 border-gray-300" />
+              <div className="absolute inset-0 border-3 border-gray-300" />
             )}
             <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity z-10">
               {serviceName}
@@ -95,12 +95,14 @@ const StreamingServiceCard: React.FC<StreamingServiceCardProps> = ({
   // Normalize the serviceName to match the key format in `usa_prices`
   const normalizedServiceName = serviceName.replace(/\bPlus\b/i, "+");
 
+  const price = usa_prices[normalizedServiceName] || usa_prices[serviceName];
+
   // Check if a matching price exists in `usa_prices`
-      if (usa_prices[normalizedServiceName]) {
+      if (price) {
         return (
           <div className="absolute bottom-2 left-2 flex items-center bg-gray-200/70 rounded-full px-2 py-1 text-xs">
             <BanknotesIcon className="mr-1 h-4 w-4 text-gray-600" />
-            <span className="font-medium text-gray-700">${usa_prices[normalizedServiceName]}/mo</span>
+            <span className="font-medium text-gray-700">${price}/mo</span>
           </div>
         );
       }

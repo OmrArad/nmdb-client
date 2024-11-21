@@ -27,11 +27,15 @@ const StreamingServiceList: React.FC<StreamingServiceListProps> = ({
   minCount,
   maxCount,
 }) => {
+  // Sort service keys based on count in descending order
+  const sortedServiceNames = Object.keys(services).sort((a, b) => 
+    services[b].count - services[a].count
+  );
+
   return (
     <div className="grid grid-flow-col gap-4 overflow-x-auto pb-3 no-scrollbar">
-      {Object.keys(services).map((serviceName) => {
+      {sortedServiceNames.map((serviceName) => {
         const service = services[serviceName];
-        console.log("services received in list are" , services)
         const isActive = activeServices.includes(serviceName);
         const gradientColor = getGradientColor(
           service.count,
@@ -47,8 +51,8 @@ const StreamingServiceList: React.FC<StreamingServiceListProps> = ({
             gradientColor={gradientColor}
             logoSrc={"https://image.tmdb.org/t/p/original/" + service.logo_path}
             isActive={isActive}
-            netflix_price = {netflix_price}
-            usa_prices = {usa_prices}
+            netflix_price={netflix_price}
+            usa_prices={usa_prices}
             onClick={() => handleFilterByService(serviceName)}
           />
         );
