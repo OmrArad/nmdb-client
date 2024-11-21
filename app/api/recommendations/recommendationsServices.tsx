@@ -5,10 +5,18 @@ import {
 import { apiClient } from "../auth/auth";
 
 export const getRecommendations =
-  async (): Promise<GetRecommendationResponse> => {
+  async (
+    media_type: string,
+    algorithm_choice: string
+  ): Promise<GetRecommendationResponse> => {
     try {
-      const response = await apiClient.get<GetRecommendationResponse>(
-        "/api/Media_recommendation"
+      const response = await apiClient.post<GetRecommendationResponse>(
+        "/api/Media_recommendation",
+        {
+          media_type: media_type,
+          algorithm_choice: algorithm_choice
+
+        }
       );
 
       return response.data;

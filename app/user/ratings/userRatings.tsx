@@ -22,15 +22,6 @@ const UserRatings = () => {
     }
   }, [ratings, session, status]);
 
-  const handleGetRecommendations = async () => {
-    try {
-      const recommendations = await getRecommendations();
-      console.log("recommendations: ", recommendations); // Replace this with whatever you want to do with the recommendations
-    } catch (error) {
-      console.error("Error fetching recommendations:", error);
-    }
-  };
-
   if (!ratings) {
     return <p>Loading Ratings...</p>;
   }
