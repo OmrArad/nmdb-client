@@ -17,6 +17,8 @@ const WatchlistStreamingServices = ({
   const { watchlist } = useWatchlist();
   const [activeServices, setActiveServices] = useState<string[]>([]);
   const [services, setServices] = useState<Services | null>(null);
+  const [netflix_prices, setNetflixPrices] = useState<Record<string, string> | null>(null);
+  const [usa_prices, setUSAPrices] = useState<Record<string, string> | null>(null);
   const [minCount, setMinCount] = useState<number>(1);
   const [maxCount, setMaxCount] = useState<number>(3);
   const [allServices, setAllServices] = useState<Record<string, { providers: Services }> | null>(null);
@@ -24,8 +26,14 @@ const WatchlistStreamingServices = ({
   useEffect(() => {
     const fetchStreamingServicesForWatchlist = async () => {
       try {
-        const streamingServices: Record<string, { providers: Services }> = await getWatchlistStreamingServices();
+        const [servicesResponse, netflixPricesResponse, usaResponse ] = await getWatchlistStreamingServices();
+        const streamingServices: Record<string, { providers: Services }> = servicesResponse;
         setAllServices(streamingServices);
+        //console.log("before prices")
+        setNetflixPrices(netflixPricesResponse);
+        //console.log("prices is" , pricesResponse)
+        console.log("usa prices" ,  usaResponse)
+        setUSAPrices(usaResponse);
         // Get services for current region
         const regionServices: Services = streamingServices[region]?.providers || {};
         setServices(regionServices);
@@ -37,6 +45,7 @@ const WatchlistStreamingServices = ({
           error
         );
         setServices(null);
+        setNetflixPrices(null);
       }
     };
 
@@ -102,7 +111,6 @@ const WatchlistStreamingServices = ({
   return watchlist && services ? (
     <div className="streaming-services pb-1">
       <div className="flex justify-between mb-2">
-        <h2 className="text-lg font-bold">Where to watch in {region}:</h2>
         {activeServices.length > 0 && (
           <button
             onClick={() => {
@@ -123,6 +131,8 @@ const WatchlistStreamingServices = ({
         handleFilterByService={handleFilterByService}
         minCount={minCount}
         maxCount={maxCount}
+        netflix_price = {netflix_prices ? netflix_prices[region] : "N/A"}
+        usa_prices = {region == 'US' ? usa_prices : null }
       />
     </div>
   ) : (
