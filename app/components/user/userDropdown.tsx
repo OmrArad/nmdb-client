@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { Dropdown } from "flowbite-react";
 import { setAuthToken } from "@/app/api/auth/auth";
@@ -42,32 +42,50 @@ const UserDropdown = ({
 }) => {
   const { updateWatchlist } = useWatchlist();
   const { updateRatings } = useRatings();
-  const {updateRegionLocally} = useRegion();
+  const { updateRegionLocally } = useRegion();
   const { data: session, status } = useSession();
   const [isUpdated, setIsUpdated] = useState(false);
-  React.useEffect(() => {
-    const updateContext = async () => {
+
+  // Split the update logic into separate effects for better maintainability
+  const updateContext = useCallback(async () => {
+    if (!isUpdated) {
       console.log("ratings: ", userData.ratings_list);
       updateWatchlist(userData.main_watchlist.Content);
       updateRatings(userData.ratings_list.Content);
-      // We only need the local update here (e.g. not updating it on the server, cause we're just now getting it from the server!)
-      updateRegionLocally(userData.region)
-    };
-
-    if (status === "authenticated") {
-      setAuthToken(_session?.accessToken);
+      updateRegionLocally(userData.region);
       setIsUpdated(true);
-      if (!isUpdated) updateContext();
     }
-  }, [session, status, userData.main_watchlist.Content, userData.ratings_list]);
+  }, [
+    isUpdated,
+    userData.ratings_list,
+    userData.main_watchlist.Content,
+    userData.region,
+    updateWatchlist,
+    updateRatings,
+    updateRegionLocally,
+  ]);
 
-  const userDropdownTheme = () => {
+  // Handle authentication and token setting
+  useEffect(() => {
+    if (status === "authenticated" && _session?.accessToken) {
+      setAuthToken(_session.accessToken);
+    }
+  }, [status, _session?.accessToken]);
+
+  // Handle context updates
+  useEffect(() => {
+    if (status === "authenticated") {
+      updateContext();
+    }
+  }, [status, updateContext]);
+
+  const userDropdownTheme = useCallback(() => {
     return (
       <div className={clsx(styles.base_button, styles.user)}>
         <UserImage image={_session?.user?.image} />
       </div>
     );
-  };
+  }, [_session?.user?.image]);
 
   return (
     <Dropdown
@@ -77,21 +95,21 @@ const UserDropdown = ({
     >
       <div className="absolute -right-12 -mt-2 w-36 bg-gray-50 rounded-md overflow-hidden shadow-xl z-10 divide-y">
         <div>
-          {links.map((link) => {
-            return (
-              <Dropdown.Item
-                as={Link}
-                href={link.href}
-                key={link.name}
-                className={style}
-              >
-                {link.name}
-              </Dropdown.Item>
-            );
-          })}
+          {links.map((link) => (
+            <Dropdown.Item
+              as={Link}
+              href={link.href}
+              key={link.name}
+              className={style}
+            >
+              {link.name}
+            </Dropdown.Item>
+          ))}
         </div>
         <form action={onLogoutClick}>
-          <button className={style}>Logout</button>
+          <button type="submit" className={style}>
+            Logout
+          </button>
         </form>
       </div>
     </Dropdown>

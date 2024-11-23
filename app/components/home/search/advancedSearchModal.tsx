@@ -178,7 +178,7 @@ const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
             </div>
           </div>
 
-          <label className="block text-white mb-1">Release Year:</label>
+          <label className="block text-white mb-1">Earliest Release Year:</label>
           <select
             value={releaseYear}
             onChange={(e) => setReleaseYear(e.target.value)}

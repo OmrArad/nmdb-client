@@ -13,6 +13,7 @@ import { FaThumbsUp, FaThumbsDown, FaFilm, FaTv } from "react-icons/fa";
 import { sendRecommendationFeedback } from "@/app/api/recommendations/recommendationFeedbackServices";
 import StreamingServicesSection from "./StreamingServicesSection";
 import { getWatchlist } from "@/app/api/watchlist/watchlistServices";
+import { useRatings } from "@/app/context/userRatingContext";
 
 const RecommendedItem = ({
   media,
@@ -30,7 +31,8 @@ const RecommendedItem = ({
     video_links,
     is_movie,
     streaming_services,
-    is_liked
+    is_liked,
+    user_rating
   } = media;
 
   const [feedbackGiven, setFeedbackGiven] = useState<boolean | null>(null);
@@ -53,8 +55,8 @@ const RecommendedItem = ({
         media.Recommended_by
       );
       setFeedbackGiven(isLiked);
-      const updatedWatchlist = await getWatchlist();
-      updateWatchlist(updatedWatchlist);
+      const newWatchlist = await getWatchlist();
+      updateWatchlist(newWatchlist);
     } catch (error) {
       console.error("Error sending feedback", error);
       setFeedbackGiven(null);
@@ -71,6 +73,7 @@ const RecommendedItem = ({
     <div className="bg-gray-100 border border-gray-300 rounded-xl overflow-hidden shadow-lg mb-4 relative">
       <div className="md:flex items-start p-4 relative">
         <Image
+          priority = {true}
           src={poster_path || "/images/no-image-available.png"}
           alt={title}
           className="w-24 h-36 mr-4 cursor-pointer transition-transform transform rounded-lg hover:brightness-105 hover:scale-105 duration-300 ease-in-out"

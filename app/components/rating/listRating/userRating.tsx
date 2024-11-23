@@ -48,6 +48,7 @@ const UserRating: React.FC<UserRatingProps> = ({
     setUserRating(_userRatings);
   }, [userRating, ratings, tmdb_id]);
 
+
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };

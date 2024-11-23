@@ -1,14 +1,45 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import AdvancedSearchModal from "../search/advancedSearchModal";
 import { getDiscovery } from "@/app/api/discover/DiscoverServices";
 import { DiscoverResponse } from "@/app/types/discover";
-import {AiOutlineClose} from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 import SearchResults from "../search/searchResults";
 import { SearchResponse } from "@/app/types/search";
+
+// Move recommendations outside the component
+const recommendations = [
+  {
+    title: "Best Go-To Streaming Service",
+    label: "Let's Look At Your Watchlist!",
+    href: "user/watchlist",
+    text: [
+      "Interested to see what we think is your best go-to streaming service?",
+    ],
+  },
+  {
+    title: "Content Recommendations",
+    label: "Let's Go!",
+    href: "user/recommendations",
+    text: [
+      "Looking for something new to watch?",
+      "Check out your personalized recommendations!",
+    ],
+  },
+  {
+    title: "Use our Discovery Wizard",
+    label: "Discover Content",
+    href: "user/popular-shows",
+    text: [
+      "Discover content according to multiple filters!",
+      "Find your next favorite series or movie!",
+    ],
+    openModal: true,
+  },
+];
 
 const RecommendationsSection = () => {
   const router = useRouter();
@@ -18,7 +49,21 @@ const RecommendationsSection = () => {
   const modalRef = useRef(null);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
-  // Fetch discovery data using criteria
+  // Now recommendations.length won't change between renders
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % recommendations.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) =>
+      prev === 0 ? recommendations.length - 1 : prev - 1
+    );
+  }, []);
+
+  const goToSlide = useCallback((index: number) => {
+    setCurrentSlide(index);
+  }, []);
+
   const handleAdvancedSearch = async (criteria: { genres?: string[]; year?: string; vote_average?: string; region?: string; provider?: string; } | undefined) => {
     try {
       const data = await getDiscovery(criteria);
@@ -28,71 +73,26 @@ const RecommendationsSection = () => {
     } catch (error) {
       console.error("Error fetching discovery data:", error);
     }
-    setIsAdvancedSearchOpen(false); // Close modal after search
+    setIsAdvancedSearchOpen(false);
   };
 
   const clearResults = () => {
-    setDiscoveryResults([]); // Clear the results
-    setIsOverlayOpen(false); // Close the modal
+    setDiscoveryResults([]);
+    setIsOverlayOpen(false);
   };
 
-  const recommendations = [
-    {
-      title: "Best Go-To Streaming Service",
-      label: "Let's Look At Your Watchlist!",
-      href: "user/watchlist",
-      text: [
-        "Interested to see what we think is your best go-to streaming service?",
-      ],
-    },
-    {
-      title: "Content Recommendations",
-      label: "Let's Go!",
-      href: "user/recommendations",
-      text: [
-        "Looking for something new to watch?",
-        "Check out your personalized recommendations!",
-      ],
-    },
-    {
-      title: "Use our Discovery Wizard",
-      label: "Discover Content",
-      href: "user/popular-shows", // Keep this for reference, but we won't use it
-      text: [
-        "Discover content according to multiple filters!",
-        "Find your next favorite series or movie!",
-      ],
-      // Special flag to open modal
-      openModal: true,
-    },
-  ];
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % recommendations.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) =>
-      prev === 0 ? recommendations.length - 1 : prev - 1
-    );
-  };
-
-  const goToSlide = (index: React.SetStateAction<number>) => {
-    setCurrentSlide(index);
-  };
-
-  const handleButtonClick = (item: any) => {
+  const handleButtonClick = useCallback((item: any) => {
     if (item.openModal) {
       setIsAdvancedSearchOpen(true);
     } else if (item.href) {
-      router.push(`/${item.href}`); // Add leading slash for absolute path
+      router.push(`/${item.href}`);
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [nextSlide]);
 
   return (
     <div className="text-center p-8 py-2 text-white flex-1">

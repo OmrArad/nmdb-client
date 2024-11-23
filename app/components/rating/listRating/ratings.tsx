@@ -37,7 +37,8 @@ const Ratings: React.FC<RatingComponentProps> = ({ isMovie, media }) => {
           isMovie={isMovie}
           setLoading={setLoading}
         />
-      )}
+      )
+      }
     </div>
   );
 };
