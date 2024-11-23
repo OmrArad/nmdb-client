@@ -43,6 +43,8 @@ const StreamingServicesSection: React.FC<StreamingServicesSectionProps> = ({ ser
                     src={`https://image.tmdb.org/t/p/w200${service.logo_path}`} 
                     alt={service.provider_name ? service.provider_name: "Streaming"} 
                     title={service.provider_name}
+                    width={32}
+                    height={32}
                     className="h-8 w-auto mb-1"
                   />
                 </div>

@@ -38,6 +38,8 @@ const StreamingServicesSection: React.FC<StreamingServicesSectionProps> = ({ ser
               src={`https://image.tmdb.org/t/p/w200${service.logo_path}`} 
               alt={service.provider_name ? service.provider_name : "Streaming"} 
               className="h-6 w-auto rounded transition-transform hover:scale-110"
+              width={24}
+              height={24}
             />
             <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity z-10">
               {service.provider_name}
