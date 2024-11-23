@@ -1,6 +1,7 @@
 "use client";
 import RegionSelector from './RegionSelector';
 import { useRegion } from "@/app/context/RegionProvider";
+import Image from 'next/image';
 
 interface StreamingService {
   provider_id?: string;
@@ -38,9 +39,9 @@ const StreamingServicesSection: React.FC<StreamingServicesSectionProps> = ({ ser
                   key={service.provider_id} 
                   className="inline-block flex flex-col items-center"
                 >
-                  <img 
+                  <Image
                     src={`https://image.tmdb.org/t/p/w200${service.logo_path}`} 
-                    alt={service.provider_name} 
+                    alt={service.provider_name ? service.provider_name: "Streaming"} 
                     title={service.provider_name}
                     className="h-8 w-auto mb-1"
                   />

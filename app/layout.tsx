@@ -10,6 +10,7 @@ import { RatingsProvider } from "./context/userRatingContext";
 import { SessionProvider } from "next-auth/react";
 import { RegionProvider } from "./context/RegionProvider";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

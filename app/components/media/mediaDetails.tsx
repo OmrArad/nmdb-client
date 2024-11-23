@@ -60,6 +60,7 @@ export async function MediaDetails({
     <div className="flex flex-col md:flex-row bg-white p-6 rounded-md shadow-md">
       <div className="w-full md:w-1/5">
         <Image
+          priority = {true}
           className="mb-3 rounded"
           alt="poster"
           src={`${media.poster_path}`}

@@ -66,7 +66,7 @@ const WatchlistStreamingServices = ({
       setMinCount(Math.min(...counts));
       setMaxCount(Math.max(...counts));
     }
-  }, [watchlist, region, allServices]);
+  }, [watchlist, region, allServices, services]);
 
   const handleFilterByService = (serviceName: string) => {
     const isAlreadyActive = activeServices.includes(serviceName);
