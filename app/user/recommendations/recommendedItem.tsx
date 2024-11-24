@@ -172,7 +172,7 @@ const RecommendedItem = ({
 
           <div className="mt-3 flex flex-col gap-3">
             {trailer!= null && (
-              <TrailerButtonClientWrapper videoKey={trailer} />
+              <TrailerButtonClientWrapper videoKey={[trailer]} />
             )}
 
             <div className="flex justify-between items-end">
