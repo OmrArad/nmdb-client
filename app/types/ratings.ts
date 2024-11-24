@@ -48,6 +48,7 @@ export interface RatedContentItem {
   user_rating: number;
   video_links: string[];
   is_liked: boolean;
+  is_rating:boolean |null;
 }
 
 export interface UserRatingsListResponse {
