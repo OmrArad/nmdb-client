@@ -36,6 +36,7 @@ const Ratings: React.FC<RatingComponentProps> = ({ isMovie, media }) => {
           title={media.title}
           isMovie={isMovie}
           setLoading={setLoading}
+          
         />
       )
       }

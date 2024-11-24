@@ -10,6 +10,7 @@ import Ratings from "@/app/components/rating/listRating/ratings";
 import TrailerButtonClientWrapper from "../trailer/trailerButtonClientWrapper";
 import { RatedContentItem } from "@/app/types/ratings";
 import { isMediaInWatchlist } from "@/app/utils/watchlistUtils";
+import {findRating} from "@/app/utils/ratingUtils"
 import {FaFilm, FaTv, FaThumbsUp } from "react-icons/fa";
 import RegionSelector from "../media/RegionSelector";
 import {
@@ -41,18 +42,28 @@ const WatchlistItem = ({
   } = media;
 
   const { watchlist, updateWatchlist } = useWatchlist();
+  const [isRatingFound, setIsRatingFound] = useState(false);
   const [isInWatchlist, setIsInWatchlist] = useState(
     shouldCheckisInWatchlistStatus
       ? isMediaInWatchlist(watchlist, tmdb_id)
       : true
   );
+  
+  
   const router = useRouter();
   console.log("watchlist item is" , media)
   
   const navLink = is_movie ? `/movies/${tmdb_id}` : `/tv/${tmdb_id}`;
 
   const handleNavigate = () => router.push(navLink);
-
+  if (!isInWatchlist && ("is_watchlistobject" in media))
+  {
+      return null
+  }
+  //if ("is_rating" in media  )
+ // {
+  //  return null
+ // }
   return (
     <div className="bg-gray-100 border border-gray-300 rounded-xl overflow-hidden shadow-lg mb-4 relative">
       <div className="md:flex items-start p-4 relative">
@@ -90,7 +101,7 @@ const WatchlistItem = ({
                 </Link>
                 <p className="text-gray-400">{release_date}</p>
               </div>
-              <Ratings isMovie={is_movie} media={media} />
+              <Ratings isMovie={is_movie} media={media}  />
             </div>
             <p className="text-sm mt-2">{overview}</p>
 

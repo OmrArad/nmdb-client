@@ -37,6 +37,7 @@ const UserRating: React.FC<UserRatingProps> = ({
   darkTheme = false,
   showText = true,
   classname = "",
+ 
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [userRating, setUserRating] = useState<number | null>(null);
@@ -87,6 +88,7 @@ const UserRating: React.FC<UserRatingProps> = ({
         userRating={userRating}
         setUserRating={setUserRating}
         setLoading={setLoading}
+        
       />
     </>
   );

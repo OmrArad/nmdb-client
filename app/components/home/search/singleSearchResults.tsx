@@ -58,6 +58,7 @@ const SingleSearchResult: React.FC<SearchResultProps> = ({ result }) => {
       <Link key={id} href={getHref(pathname, result)}>
         <div className="relative overflow-hidden rounded-sm">
           <Image
+            priority = {true}
             src={
               poster_path
                 ? poster_path

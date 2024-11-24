@@ -28,6 +28,7 @@ const RatingPopup: React.FC<RatingPopupProps> = ({
   userRating,
   setUserRating,
   setLoading,
+  
 }) => {
   const { ratings, updateRatings } = useRatings();
   const [rating, setRating] = useState<number>(0); // Manage the current rating

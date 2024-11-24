@@ -15,6 +15,7 @@ export type IWatchlistItem = {
   is_movie: boolean;
   streaming_services: string[];
   is_liked: boolean;
+  is_watchlistobject:boolean |null;
 };
 
 // Do not change to lower case

@@ -14,10 +14,12 @@ import RecommendedItem from "./recommendedItem";
 type MediaType = 'movies' | 'tvshows' | 'mixed';
 type AlgorithmType = 'algorithm1' | 'algorithm2' | 'mixed';
 
-const UserRecommendations = () => {
+ const UserRecommendations = () => {
   const { ratings } = useRatings();
   const [recommendations, setRecommendations] = useState<IRecommendedItem[]>([]);
+  
   const [loading, setLoading] = useState(false);
+  
   const { data: session, status } = useSession();
   
   // New state for recommendation preferences
@@ -31,6 +33,7 @@ const UserRecommendations = () => {
   }, [ratings, session, status]);
 
   const handleGetRecommendations = async () => {
+    setRecommendations([])
     setLoading(true);
     try {
       const fetchedRecommendations = await getRecommendations(
@@ -39,6 +42,7 @@ const UserRecommendations = () => {
       );
       console.log("recommendations: ", fetchedRecommendations);
       setRecommendations(fetchedRecommendations);
+      
     } catch (error) {
       console.error("Error fetching recommendations:", error);
     } finally {
@@ -137,14 +141,22 @@ const UserRecommendations = () => {
   }
 
   return (
-    <div className="flex flex-col items-center bg-gradient-to-br from-blue-50 to-purple-100 min-h-screen py-12 px-4">
-      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+    <div className="flex flex-col items-center bg-gradient-to-br from-blue-50 to-purple-100 min-h-screen py-12 px-4">      
+      <div
+      className={
+        recommendations.length ===0
+      ? "w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden"
+      : ""
+      }
+       >
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 text-center">
           <h1 className="text-3xl font-bold">My Recommendations</h1>
+          
+         
         </div>
 
         <div className="p-8">
-          {!recommendations.length && !loading && <RecommendationSelectionSection />}
+          {(recommendations.length ===0 && !loading && <RecommendationSelectionSection />)}
 
           {loading ? (
             <div className="flex flex-col justify-center items-center w-full h-48">
@@ -155,9 +167,9 @@ const UserRecommendations = () => {
             </div>
           ) : (
             recommendations.length > 0 && (
-              <div className="space-y-4">
+              <div className="container mx-auto flex justify-center">
                 {/* Recommendations with Options */}
-                <div className="mb-4">
+                <div className="w-1/3 bg-white rounded-lg p-4">
                   <RecommendationSelectionSection />
                 </div>
 
@@ -167,6 +179,9 @@ const UserRecommendations = () => {
                       key={media.tmdb_id}
                       media={media}
                       resetFeedbackOnRefresh
+                      recommendations={recommendations}
+                      setRecommendations={setRecommendations}
+                      
                     />
                   ))}
                 </div>

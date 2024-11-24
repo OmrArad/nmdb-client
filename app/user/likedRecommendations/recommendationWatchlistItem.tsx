@@ -13,7 +13,6 @@ import {
   RecommendationWatchlistResponse,
 } from "@/app/types/recommendations";
 import { getRecommendationWatchlist } from "@/app/api/recommendations/recommendationsServices";
-import { FaThumbsUp, FaThumbsDown, FaFilm, FaTv } from "react-icons/fa";
 
 const RecommendationWatchlistItem = ({
   media,
@@ -30,6 +29,7 @@ const RecommendationWatchlistItem = ({
     tmdb_id,
     video_links,
     is_movie,
+    
   } = media;
 
   // const [isInWatchlist, setIsInWatchlist] = useState(
@@ -69,10 +69,6 @@ const RecommendationWatchlistItem = ({
           <div className="flex-col justify-between mt-4">
             <div className="flex justify-between items-center">
               <div className="flex flex-col">
-              <span className="text-sm font-semibold text-gray-500 flex items-center gap-1">
-                {is_movie ? <FaFilm /> : <FaTv />} {/* Icon */}
-                {is_movie ? "Movie" : "TV Show"}
-              </span>
                 <Link
                   href={navLink}
                   className="text-xl font-bold transition-transform transform hover:scale-105"
@@ -82,7 +78,7 @@ const RecommendationWatchlistItem = ({
                 <p className="text-gray-400">{release_date}</p>
               </div>
               <Ratings isMovie={is_movie} media={media} />
-            </div>
+            
             <p className="text-sm mt-2">{overview}</p>
 
             {video_links?.length > 0 && (
@@ -91,6 +87,7 @@ const RecommendationWatchlistItem = ({
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
