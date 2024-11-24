@@ -10,6 +10,16 @@ import { AiOutlineClose } from "react-icons/ai";
 import SearchResults from "../search/searchResults";
 import { SearchResponse } from "@/app/types/search";
 
+// Define the SearchCriteria type
+type SearchCriteria = {
+  content_type: string;
+  genres?: string[];
+  year?: string;
+  vote_average?: string;
+  region?: string;
+  provider?: string;
+};
+
 // Move recommendations outside the component
 const recommendations = [
   {
@@ -49,7 +59,6 @@ const RecommendationsSection = () => {
   const modalRef = useRef(null);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
-  // Now recommendations.length won't change between renders
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % recommendations.length);
   }, []);
@@ -64,7 +73,7 @@ const RecommendationsSection = () => {
     setCurrentSlide(index);
   }, []);
 
-  const handleAdvancedSearch = async (criteria: { genres?: string[]; year?: string; vote_average?: string; region?: string; provider?: string; } | undefined) => {
+  const handleAdvancedSearch = async (criteria: SearchCriteria) => {
     try {
       const data = await getDiscovery(criteria);
       setDiscoveryResults(data);
@@ -81,7 +90,7 @@ const RecommendationsSection = () => {
     setIsOverlayOpen(false);
   };
 
-  const handleButtonClick = useCallback((item: any) => {
+  const handleButtonClick = useCallback((item: typeof recommendations[0]) => {
     if (item.openModal) {
       setIsAdvancedSearchOpen(true);
     } else if (item.href) {
@@ -96,6 +105,7 @@ const RecommendationsSection = () => {
 
   return (
     <div className="text-center p-8 py-2 text-white flex-1">
+      {/* Rest of your JSX remains the same */}
       <div className="relative overflow-hidden">
         <div
           className="flex transition-transform duration-300"
@@ -116,7 +126,6 @@ const RecommendationsSection = () => {
                 {item.label}
               </button>
 
-              {/* Transparent arrow buttons for navigation */}
               <button
                 className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-transparent border-none cursor-pointer opacity-50 hover:opacity-100 transition-opacity duration-300"
                 onClick={(e) => {
@@ -125,7 +134,7 @@ const RecommendationsSection = () => {
                 }}
                 aria-label="Previous Slide"
               >
-                &#9664; {/* Left arrow */}
+                &#9664;
               </button>
               <button
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-none cursor-pointer opacity-50 hover:opacity-100 transition-opacity duration-300"
@@ -135,13 +144,12 @@ const RecommendationsSection = () => {
                 }}
                 aria-label="Next Slide"
               >
-                &#9654; {/* Right arrow */}
+                &#9654;
               </button>
             </div>
           ))}
         </div>
 
-        {/* Dots Indicator */}
         <div className="flex justify-center mt-4">
           {recommendations.map((_, index) => (
             <button
@@ -156,7 +164,6 @@ const RecommendationsSection = () => {
         </div>
       </div>
 
-      {/* Render AdvancedSearchModal conditionally */}
       {isAdvancedSearchOpen && (
         <AdvancedSearchModal
           onClose={() => setIsAdvancedSearchOpen(false)}
