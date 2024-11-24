@@ -5,8 +5,6 @@ import Providers from "@/app/utils/regions_providers.json";
 import ReactCountryFlag from "react-country-flag";
 import tvGenres from "@/app/utils/TVGenres.json";
 import movieGenres from "@/app/utils/MovieGenres.json";
-import { getDiscovery } from "@/app/api/discover/DiscoverServices";
-
 type Region = {
     country_code: string;
     name: string;

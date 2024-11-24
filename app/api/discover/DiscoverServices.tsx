@@ -11,11 +11,12 @@ export const getDiscovery = async (
       vote_average?: string;
       region?: string;
       provider?: string;
+      content_type: string;
     }
   ): Promise<any> => {
     try {
       const payload: Record<string, any> = {};
-  
+      payload.content_type = filters?.content_type
       // Add filters to payload only if they exist
       if (filters?.genres) payload.genres = filters.genres;
       if (filters?.year) payload.year = filters.year;
@@ -26,7 +27,7 @@ export const getDiscovery = async (
         payload.region = filters.region;
         payload.provider = filters.provider;
       }
-  
+      console.log("payload")
       const res = await apiClient.post(`/api/discover`, payload);
       console.log("discovery returned" , res.data);
       return res.data;

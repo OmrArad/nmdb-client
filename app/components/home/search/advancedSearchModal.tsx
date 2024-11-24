@@ -12,9 +12,18 @@ type Genre = {
   name: string;
 };
 
+type SearchCriteria = {
+  content_type: string;
+  genres?: string[];
+  year?: string;
+  vote_average?: string;
+  region?: string;
+  provider?: string;
+};
+
 type AdvancedSearchModalProps = {
   onClose: () => void;
-  onAdvancedSearch: (criteria: Record<string, string | string[]>) => void;
+  onAdvancedSearch: (criteria: SearchCriteria) => void;
 };
 
 const AdvancedSearchWizard: React.FC<AdvancedSearchModalProps> = ({
@@ -48,9 +57,9 @@ const AdvancedSearchWizard: React.FC<AdvancedSearchModalProps> = ({
 
   const getGenresForMediaType = () => {
     switch (mediaType) {
-      case "tvseries":
+      case "tv":
         return tvGenres.genres;
-      case "movies":
+      case "movie":
         return movieGenres.genres;
       default:
         return [];
@@ -73,10 +82,9 @@ const AdvancedSearchWizard: React.FC<AdvancedSearchModalProps> = ({
   };
 
   const handleSearch = () => {
-    const criteria: Record<string, string | string[]> = {
-      mediaType
+    const criteria: SearchCriteria = {
+      content_type: mediaType,
     };
-    
     if (region && selectedProvider) {
       criteria.region = region;
       criteria.provider = selectedProvider;
@@ -84,7 +92,7 @@ const AdvancedSearchWizard: React.FC<AdvancedSearchModalProps> = ({
     if (releaseYear) criteria.year = releaseYear;
     if (selectedGenres.length > 0) criteria.genres = selectedGenres;
     if (voteAverage) criteria.vote_average = voteAverage;
-
+    console.log("criteria" , criteria)
     onAdvancedSearch(criteria);
     onClose();
   };
@@ -101,7 +109,15 @@ const AdvancedSearchWizard: React.FC<AdvancedSearchModalProps> = ({
                 <button
                   key={type}
                   onClick={() => {
-                    setMediaType(type.toLowerCase().replace(" ", ""));
+                    if (type == "Movies") {
+                      setMediaType("movie")
+                    }
+                    else if (type == "TV Series") {
+                      setMediaType("tv")
+                    }
+                    else {
+                      setMediaType("mixed")
+                    }
                     // If switching to mixed and currently on genres step, skip to rating
                     if (type.toLowerCase().replace(" ", "") === "mixed" && currentStep === 4) {
                       setCurrentStep(5);
@@ -188,7 +204,7 @@ const AdvancedSearchWizard: React.FC<AdvancedSearchModalProps> = ({
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <p className="text-gray-400">
-                Select one or more {mediaType === "tvseries" ? "TV" : "movie"} genres (optional)
+                Select one or more {mediaType === "tv" ? "TV" : "movie"} genres (optional)
               </p>
               {selectedGenres.length > 0 && (
                 <button 
