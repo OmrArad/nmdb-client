@@ -105,33 +105,36 @@ const AdvancedSearchWizard: React.FC<AdvancedSearchModalProps> = ({
           <div className="space-y-6">
             <p className="text-gray-400">Choose what type of content you want to search for</p>
             <div className="grid grid-cols-3 gap-4">
-              {["TV Series", "Movies", "Mixed"].map((type) => (
-                <button
-                  key={type}
-                  onClick={() => {
-                    if (type == "Movies") {
-                      setMediaType("movie")
-                    }
-                    else if (type == "TV Series") {
-                      setMediaType("tv")
-                    }
-                    else {
-                      setMediaType("mixed")
-                    }
-                    // If switching to mixed and currently on genres step, skip to rating
-                    if (type.toLowerCase().replace(" ", "") === "mixed" && currentStep === 4) {
-                      setCurrentStep(5);
-                    }
-                  }}
-                  className={`p-6 rounded-xl border-2 transition-all duration-200 ${
-                    mediaType === type.toLowerCase().replace(" ", "")
-                      ? "border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/20"
-                      : "border-gray-800 hover:border-gray-700 hover:bg-gray-800/50"
-                  }`}
-                >
-                  <div className="text-lg font-medium">{type}</div>
-                </button>
-              ))}
+              {["TV Series", "Movies", "Mixed"].map((type) => {
+                // Helper function to get the mediaType value
+                const getMediaTypeValue = (buttonType: string) => {
+                  if (buttonType === "TV Series") return "tv";
+                  if (buttonType === "Movies") return "movie";
+                  return "mixed";
+                };
+
+                const currentTypeValue = getMediaTypeValue(type);
+
+                return (
+                  <button
+                    key={type}
+                    onClick={() => {
+                      setMediaType(currentTypeValue);
+                      // If switching to mixed and currently on genres step, skip to rating
+                      if (currentTypeValue === "mixed" && currentStep === 4) {
+                        setCurrentStep(5);
+                      }
+                    }}
+                    className={`p-6 rounded-xl border-2 transition-all duration-200 ${
+                      mediaType === currentTypeValue
+                        ? "border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/20"
+                        : "border-gray-800 hover:border-gray-700 hover:bg-gray-800/50"
+                    }`}
+                  >
+                    <div className="text-lg font-medium">{type}</div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         ),
