@@ -162,7 +162,7 @@ const AdvancedSearchWizard: React.FC<AdvancedSearchModalProps> = ({
         title: "Year",
         content: (
           <div className="space-y-6">
-            <p className="text-gray-400">Filter by release year (optional)</p>
+            <p className="text-gray-400">Filter by earliest release year (optional)</p>
             <select
               value={releaseYear}
               onChange={(e) => setReleaseYear(e.target.value)}
